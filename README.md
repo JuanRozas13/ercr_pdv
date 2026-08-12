@@ -1,3 +1,3 @@
 # ercr_pdv
-Sistema destinado ao controle de estoque e ponto de venda para pequenos comércios (lojas físicas) de produtos não perecíveis, como papelarias, lojas de roupa, presentes e similares.
+Sistema destinado ao controle de estoque e ponto de venda para revenda de produtos de perfumaria.
 "Comércio de varejo não perecível"
