@@ -1,0 +1,369 @@
+package view;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EtchedBorder;
+import java.awt.SystemColor;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.awt.event.ActionEvent;
+import java.awt.Cursor;
+
+public class Main extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JLabel lblData;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+
+		// Uso da biblioteca flatlaf (swing moderno)
+		FlatLightLaf.setup();
+
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Main frame = new Main();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Main() {
+		setResizable(false);
+		setTitle("JOSI-PDV");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panelLeft = new JPanel();
+		panelLeft.setBackground(new Color(18, 59, 74));
+		panelLeft.setBounds(0, 0, 177, 518);
+		contentPane.add(panelLeft);
+		panelLeft.setLayout(null);
+		
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setBounds(10, 11, 64, 64);
+		panelLeft.add(lblLogo);
+		lblLogo.setIcon(new ImageIcon(Main.class.getResource("/img/perfume.png")));
+		
+		JLabel lblName = new JLabel("ErCr-PDV");
+		lblName.setFont(new Font("Yu Gothic UI", Font.PLAIN, 21));
+		lblName.setForeground(new Color(255, 255, 255));
+		lblName.setBounds(70, 26, 97, 23);
+		panelLeft.add(lblName);
+		
+		JLabel lblSistemaPdv = new JLabel("Sistema de PDV");
+		lblSistemaPdv.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
+		lblSistemaPdv.setForeground(new Color(255, 255, 255));
+		lblSistemaPdv.setBounds(70, 49, 91, 14);
+		panelLeft.add(lblSistemaPdv);
+		
+		JButton btnClientes = new JButton("Clientes");
+		btnClientes.setBorderPainted(false);
+		btnClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnClientes.setForeground(Color.BLACK);
+		btnClientes.setBackground(Color.WHITE);
+		btnClientes.setIconTextGap(12);
+		btnClientes.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnClientes.setHorizontalAlignment(SwingConstants.LEFT);
+		btnClientes.setIcon(new ImageIcon(Main.class.getResource("/img/fornecedor.png")));
+		btnClientes.setBounds(10, 86, 158, 54);
+		panelLeft.add(btnClientes);
+		
+		JButton btnProdutos = new JButton("Produtos");
+		btnProdutos.setBorderPainted(false);
+		btnProdutos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnProdutos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnProdutos.setIconTextGap(12);
+		btnProdutos.setIcon(new ImageIcon(Main.class.getResource("/img/shipping.png")));
+		btnProdutos.setHorizontalAlignment(SwingConstants.LEFT);
+		btnProdutos.setForeground(Color.BLACK);
+		btnProdutos.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnProdutos.setBackground(Color.WHITE);
+		btnProdutos.setBounds(10, 151, 158, 54);
+		panelLeft.add(btnProdutos);
+		
+		JButton btnPdv = new JButton("PDV");
+		btnPdv.setBorderPainted(false);
+		btnPdv.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnPdv.setIconTextGap(12);
+		btnPdv.setIcon(new ImageIcon(Main.class.getResource("/img/cash-machin.png")));
+		btnPdv.setHorizontalAlignment(SwingConstants.LEFT);
+		btnPdv.setForeground(Color.BLACK);
+		btnPdv.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnPdv.setBackground(Color.WHITE);
+		btnPdv.setBounds(10, 216, 158, 54);
+		panelLeft.add(btnPdv);
+		
+		JButton btnVendas = new JButton("Vendas");
+		btnVendas.setBorderPainted(false);
+		btnVendas.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnVendas.setIconTextGap(12);
+		btnVendas.setIcon(new ImageIcon(Main.class.getResource("/img/delivery-box.png")));
+		btnVendas.setHorizontalAlignment(SwingConstants.LEFT);
+		btnVendas.setForeground(Color.BLACK);
+		btnVendas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnVendas.setBackground(Color.WHITE);
+		btnVendas.setBounds(10, 281, 158, 54);
+		panelLeft.add(btnVendas);
+		
+		JButton btnExit = new JButton("Sair");
+		btnExit.setBorderPainted(false);
+		btnExit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnExit.addActionListener(new ActionListener() {
+			// Quando clicar no botão
+			public void actionPerformed(ActionEvent e) {
+				int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente dair do sistema?", "Confirmar saida", JOptionPane.YES_NO_OPTION);
+				// apoio ao entendimento da logica
+				System.out.println(resposta);
+				if (resposta == 0) {
+					System.exit(0);// encerra o sistema
+				}
+					
+			}
+		});
+		
+		 
+		btnExit.setIconTextGap(12);
+		btnExit.setIcon(new ImageIcon(Main.class.getResource("/img/logout.png")));
+		btnExit.setHorizontalAlignment(SwingConstants.LEFT);
+		btnExit.setForeground(Color.BLACK);
+		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnExit.setBackground(Color.WHITE);
+		btnExit.setBounds(10, 346, 158, 54);
+		panelLeft.add(btnExit);
+		
+		JButton btnSobre = new JButton("Sobre PDV");
+		btnSobre.addActionListener(new ActionListener() {
+			// Ativar a tela sobre
+			public void actionPerformed(ActionEvent e) {
+				Sobre sobre = new Sobre();
+				sobre.setVisible(true);
+			}
+		});
+		btnSobre.setBorderPainted(false);
+		btnSobre.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnSobre.setIconTextGap(12);
+		btnSobre.setIcon(new ImageIcon(Main.class.getResource("/img/information.png")));
+		btnSobre.setHorizontalAlignment(SwingConstants.LEFT);
+		btnSobre.setForeground(Color.BLACK);
+		btnSobre.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnSobre.setBackground(Color.WHITE);
+		btnSobre.setBounds(10, 445, 158, 54);
+		panelLeft.add(btnSobre);
+		
+		JLabel lblNewLabel_2 = new JLabel("------------------------");
+		lblNewLabel_2.setForeground(Color.WHITE);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_2.setBounds(13, 420, 177, 14);
+		panelLeft.add(lblNewLabel_2);
+		
+		JPanel panelRodape = new JPanel();
+		panelRodape.setBackground(Color.WHITE);
+		panelRodape.setBounds(0, 522, 784, 39);
+		contentPane.add(panelRodape);
+		panelRodape.setLayout(null);
+		
+		JLabel lblDatabase = new JLabel("");
+		lblDatabase.setIcon(new ImageIcon(Main.class.getResource("/img/database.png")));
+		lblDatabase.setBounds(10, 0, 36, 39);
+		panelRodape.add(lblDatabase);
+		
+		JLabel lblMysql = new JLabel("Mysql Desconectado");
+		lblMysql.setFont(new Font("Yu Gothic UI", Font.PLAIN, 13));
+		lblMysql.setBounds(38, 11, 151, 14);
+		panelRodape.add(lblMysql);
+		
+		JLabel lblConect = new JLabel("●");
+		lblConect.setForeground(Color.RED);
+		lblConect.setToolTipText("");
+		lblConect.setBounds(165, 12, 12, 14);
+		panelRodape.add(lblConect);
+		
+		JPanel panelCard1 = new JPanel();
+		panelCard1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panelCard1.setBackground(Color.WHITE);
+		panelCard1.setForeground(new Color(0, 0, 0));
+		panelCard1.setBounds(195, 47, 189, 131);
+		contentPane.add(panelCard1);
+		panelCard1.setLayout(null);
+		
+		JLabel lblProduto = new JLabel("");
+		lblProduto.setIcon(new ImageIcon(Main.class.getResource("/img/boX.png")));
+		lblProduto.setBounds(10, 11, 64, 64);
+		panelCard1.add(lblProduto);
+		
+		JLabel lblTxtProduto = new JLabel("Produtos");
+		lblTxtProduto.setForeground(new Color(43, 101, 243));
+		lblTxtProduto.setFont(new Font("Yu Gothic UI", Font.BOLD, 13));
+		lblTxtProduto.setBounds(73, 22, 64, 14);
+		panelCard1.add(lblTxtProduto);
+		
+		JPanel panelCard2 = new JPanel();
+		panelCard2.setBackground(Color.WHITE);
+		panelCard2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panelCard2.setBounds(391, 47, 189, 131);
+		contentPane.add(panelCard2);
+		panelCard2.setLayout(null);
+		
+		JLabel lblLowEstoque = new JLabel("");
+		lblLowEstoque.setIcon(new ImageIcon(Main.class.getResource("/img/alerTa.png")));
+		lblLowEstoque.setBounds(10, 11, 64, 64);
+		panelCard2.add(lblLowEstoque);
+		
+		JLabel lblTxtLowEstoque = new JLabel("Estoque baixo");
+		lblTxtLowEstoque.setForeground(new Color(253, 129, 32));
+		lblTxtLowEstoque.setFont(new Font("Yu Gothic UI", Font.BOLD, 12));
+		lblTxtLowEstoque.setBounds(73, 22, 86, 14);
+		panelCard2.add(lblTxtLowEstoque);
+		
+		JPanel panelCard3 = new JPanel();
+		panelCard3.setBackground(Color.WHITE);
+		panelCard3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panelCard3.setBounds(583, 47, 189, 131);
+		contentPane.add(panelCard3);
+		panelCard3.setLayout(null);
+		
+		JLabel lblNoEstoque = new JLabel("");
+		lblNoEstoque.setIcon(new ImageIcon(Main.class.getResource("/img/failEd.png")));
+		lblNoEstoque.setBounds(10, 11, 64, 64);
+		panelCard3.add(lblNoEstoque);
+		
+		JLabel lblTxtSemEstoque = new JLabel("Sem estoque");
+		lblTxtSemEstoque.setForeground(new Color(243, 59, 58));
+		lblTxtSemEstoque.setFont(new Font("Yu Gothic UI", Font.BOLD, 12));
+		lblTxtSemEstoque.setBounds(73, 22, 86, 14);
+		panelCard3.add(lblTxtSemEstoque);
+		
+		JPanel panelCard4 = new JPanel();
+		panelCard4.setBackground(Color.WHITE);
+		panelCard4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panelCard4.setBounds(195, 189, 189, 131);
+		contentPane.add(panelCard4);
+		panelCard4.setLayout(null);
+		
+		JLabel lblVendas = new JLabel("");
+		lblVendas.setIcon(new ImageIcon(Main.class.getResource("/img/bag.png")));
+		lblVendas.setBounds(10, 11, 64, 64);
+		panelCard4.add(lblVendas);
+		
+		JLabel lblTxtVendas = new JLabel("Vendas hoje");
+		lblTxtVendas.setForeground(new Color(19, 146, 24));
+		lblTxtVendas.setFont(new Font("Yu Gothic UI", Font.BOLD, 12));
+		lblTxtVendas.setBounds(73, 22, 73, 14);
+		panelCard4.add(lblTxtVendas);
+		
+		JPanel panelCard5 = new JPanel();
+		panelCard5.setBackground(Color.WHITE);
+		panelCard5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panelCard5.setBounds(391, 189, 189, 131);
+		contentPane.add(panelCard5);
+		panelCard5.setLayout(null);
+		
+		JLabel lblItensVendidos = new JLabel("");
+		lblItensVendidos.setIcon(new ImageIcon(Main.class.getResource("/img/shopping-car.png")));
+		lblItensVendidos.setBounds(10, 11, 64, 64);
+		panelCard5.add(lblItensVendidos);
+		
+		JLabel lblTxtItensVnd = new JLabel("Itens vendidos hoje");
+		lblTxtItensVnd.setForeground(new Color(115, 68, 228));
+		lblTxtItensVnd.setFont(new Font("Yu Gothic UI", Font.BOLD, 12));
+		lblTxtItensVnd.setBounds(73, 22, 117, 14);
+		panelCard5.add(lblTxtItensVnd);
+		
+		JPanel panelCard6 = new JPanel();
+		panelCard6.setBackground(Color.WHITE);
+		panelCard6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panelCard6.setBounds(583, 189, 189, 131);
+		contentPane.add(panelCard6);
+		panelCard6.setLayout(null);
+		
+		JLabel lblFaturamentoHoje = new JLabel("");
+		lblFaturamentoHoje.setIcon(new ImageIcon(Main.class.getResource("/img/real.png")));
+		lblFaturamentoHoje.setBounds(10, 11, 64, 64);
+		panelCard6.add(lblFaturamentoHoje);
+		
+		JLabel lblNewLabel_3 = new JLabel("New label");
+		lblNewLabel_3.setBounds(70, 23, 46, 14);
+		panelCard6.add(lblNewLabel_3);
+		
+		JPanel panelCard7 = new JPanel();
+		panelCard7.setBackground(Color.WHITE);
+		panelCard7.setBounds(195, 330, 577, 188);
+		contentPane.add(panelCard7);
+		panelCard7.setLayout(null);
+		
+		JLabel lblIconDash = new JLabel("");
+		lblIconDash.setIcon(new ImageIcon(Main.class.getResource("/img/speedometer.png")));
+		lblIconDash.setBounds(207, 11, 32, 32);
+		contentPane.add(lblIconDash);
+		
+		JLabel lblDashboard = new JLabel("Dashboard");
+		lblDashboard.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
+		lblDashboard.setBounds(249, 8, 89, 21);
+		contentPane.add(lblDashboard);
+		
+		JLabel lblCalendar = new JLabel("");
+		lblCalendar.setToolTipText("");
+		lblCalendar.setIcon(new ImageIcon(Main.class.getResource("/img/calendario.png")));
+		lblCalendar.setBounds(647, 12, 24, 24);
+		contentPane.add(lblCalendar);
+		
+		lblData = new JLabel("");
+		lblData.setFont(new Font("Yu Gothic UI", Font.PLAIN, 11));
+		lblData.setBounds(686, 11, 73, 25);
+		contentPane.add(lblData);
+		
+		JLabel lblNewLabel_1 = new JLabel("Visão geral do negócio");
+		lblNewLabel_1.setBounds(249, 29, 136, 14);
+		contentPane.add(lblNewLabel_1);
+
+		// iniciar centralizado
+		setLocationRelativeTo(null);
+		
+		
+		// Atualizar data
+		atualizarData();		
+	} //Fim do construtor
+	
+	// Função (método) para atualizar data do sistema
+	private void atualizarData() {
+		//Obtem a data do sistema operacional
+		LocalDate hoje = LocalDate.now();
+		// Formatar data dia/mes/ano(4 digitos)
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		// Alterar o texto de lblData
+		lblData.setText(hoje.format(formato));
+	}
+} // Fim da classe Main(principal)
