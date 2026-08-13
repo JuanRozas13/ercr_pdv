@@ -55,9 +55,9 @@ public class Main extends JFrame {
 	 */
 	public Main() {
 		setResizable(false);
-		setTitle("JOSI-PDV");
+		setTitle("ErCr-PDV");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 873, 620);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -65,7 +65,7 @@ public class Main extends JFrame {
 		
 		JPanel panelLeft = new JPanel();
 		panelLeft.setBackground(new Color(18, 59, 74));
-		panelLeft.setBounds(0, 0, 177, 518);
+		panelLeft.setBounds(0, 0, 190, 543);
 		contentPane.add(panelLeft);
 		panelLeft.setLayout(null);
 		
@@ -95,7 +95,7 @@ public class Main extends JFrame {
 		btnClientes.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnClientes.setHorizontalAlignment(SwingConstants.LEFT);
 		btnClientes.setIcon(new ImageIcon(Main.class.getResource("/img/fornecedor.png")));
-		btnClientes.setBounds(10, 86, 158, 54);
+		btnClientes.setBounds(10, 86, 170, 54);
 		panelLeft.add(btnClientes);
 		
 		JButton btnProdutos = new JButton("Produtos");
@@ -111,7 +111,7 @@ public class Main extends JFrame {
 		btnProdutos.setForeground(Color.BLACK);
 		btnProdutos.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnProdutos.setBackground(Color.WHITE);
-		btnProdutos.setBounds(10, 151, 158, 54);
+		btnProdutos.setBounds(10, 151, 170, 54);
 		panelLeft.add(btnProdutos);
 		
 		JButton btnPdv = new JButton("PDV");
@@ -123,7 +123,7 @@ public class Main extends JFrame {
 		btnPdv.setForeground(Color.BLACK);
 		btnPdv.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnPdv.setBackground(Color.WHITE);
-		btnPdv.setBounds(10, 216, 158, 54);
+		btnPdv.setBounds(10, 216, 170, 54);
 		panelLeft.add(btnPdv);
 		
 		JButton btnVendas = new JButton("Vendas");
@@ -135,7 +135,7 @@ public class Main extends JFrame {
 		btnVendas.setForeground(Color.BLACK);
 		btnVendas.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnVendas.setBackground(Color.WHITE);
-		btnVendas.setBounds(10, 281, 158, 54);
+		btnVendas.setBounds(10, 281, 170, 54);
 		panelLeft.add(btnVendas);
 		
 		JButton btnExit = new JButton("Sair");
@@ -161,7 +161,7 @@ public class Main extends JFrame {
 		btnExit.setForeground(Color.BLACK);
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnExit.setBackground(Color.WHITE);
-		btnExit.setBounds(10, 346, 158, 54);
+		btnExit.setBounds(10, 346, 170, 54);
 		panelLeft.add(btnExit);
 		
 		JButton btnSobre = new JButton("Sobre PDV");
@@ -180,7 +180,7 @@ public class Main extends JFrame {
 		btnSobre.setForeground(Color.BLACK);
 		btnSobre.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnSobre.setBackground(Color.WHITE);
-		btnSobre.setBounds(10, 445, 158, 54);
+		btnSobre.setBounds(10, 455, 170, 54);
 		panelLeft.add(btnSobre);
 		
 		JLabel lblNewLabel_2 = new JLabel("------------------------");
@@ -191,7 +191,7 @@ public class Main extends JFrame {
 		
 		JPanel panelRodape = new JPanel();
 		panelRodape.setBackground(Color.WHITE);
-		panelRodape.setBounds(0, 522, 784, 39);
+		panelRodape.setBounds(0, 542, 857, 39);
 		contentPane.add(panelRodape);
 		panelRodape.setLayout(null);
 		
@@ -215,7 +215,7 @@ public class Main extends JFrame {
 		panelCard1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panelCard1.setBackground(Color.WHITE);
 		panelCard1.setForeground(new Color(0, 0, 0));
-		panelCard1.setBounds(195, 47, 189, 131);
+		panelCard1.setBounds(200, 59, 209, 131);
 		contentPane.add(panelCard1);
 		panelCard1.setLayout(null);
 		
@@ -233,7 +233,7 @@ public class Main extends JFrame {
 		JPanel panelCard2 = new JPanel();
 		panelCard2.setBackground(Color.WHITE);
 		panelCard2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panelCard2.setBounds(391, 47, 189, 131);
+		panelCard2.setBounds(419, 59, 209, 131);
 		contentPane.add(panelCard2);
 		panelCard2.setLayout(null);
 		
@@ -251,7 +251,7 @@ public class Main extends JFrame {
 		JPanel panelCard3 = new JPanel();
 		panelCard3.setBackground(Color.WHITE);
 		panelCard3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panelCard3.setBounds(583, 47, 189, 131);
+		panelCard3.setBounds(638, 59, 209, 131);
 		contentPane.add(panelCard3);
 		panelCard3.setLayout(null);
 		
@@ -269,7 +269,7 @@ public class Main extends JFrame {
 		JPanel panelCard4 = new JPanel();
 		panelCard4.setBackground(Color.WHITE);
 		panelCard4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panelCard4.setBounds(195, 189, 189, 131);
+		panelCard4.setBounds(200, 201, 209, 131);
 		contentPane.add(panelCard4);
 		panelCard4.setLayout(null);
 		
@@ -287,7 +287,7 @@ public class Main extends JFrame {
 		JPanel panelCard5 = new JPanel();
 		panelCard5.setBackground(Color.WHITE);
 		panelCard5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panelCard5.setBounds(391, 189, 189, 131);
+		panelCard5.setBounds(419, 201, 209, 131);
 		contentPane.add(panelCard5);
 		panelCard5.setLayout(null);
 		
@@ -305,7 +305,7 @@ public class Main extends JFrame {
 		JPanel panelCard6 = new JPanel();
 		panelCard6.setBackground(Color.WHITE);
 		panelCard6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panelCard6.setBounds(583, 189, 189, 131);
+		panelCard6.setBounds(638, 201, 209, 131);
 		contentPane.add(panelCard6);
 		panelCard6.setLayout(null);
 		
@@ -314,39 +314,41 @@ public class Main extends JFrame {
 		lblFaturamentoHoje.setBounds(10, 11, 64, 64);
 		panelCard6.add(lblFaturamentoHoje);
 		
-		JLabel lblNewLabel_3 = new JLabel("New label");
-		lblNewLabel_3.setBounds(70, 23, 46, 14);
+		JLabel lblNewLabel_3 = new JLabel("Faturamento Hoje");
+		lblNewLabel_3.setForeground(new Color(18, 148, 137));
+		lblNewLabel_3.setFont(new Font("Yu Gothic UI", Font.BOLD, 13));
+		lblNewLabel_3.setBounds(70, 23, 117, 14);
 		panelCard6.add(lblNewLabel_3);
 		
 		JPanel panelCard7 = new JPanel();
 		panelCard7.setBackground(Color.WHITE);
-		panelCard7.setBounds(195, 330, 577, 188);
+		panelCard7.setBounds(200, 343, 647, 188);
 		contentPane.add(panelCard7);
 		panelCard7.setLayout(null);
 		
 		JLabel lblIconDash = new JLabel("");
 		lblIconDash.setIcon(new ImageIcon(Main.class.getResource("/img/speedometer.png")));
-		lblIconDash.setBounds(207, 11, 32, 32);
+		lblIconDash.setBounds(207, 16, 32, 32);
 		contentPane.add(lblIconDash);
 		
 		JLabel lblDashboard = new JLabel("Dashboard");
 		lblDashboard.setFont(new Font("Yu Gothic UI", Font.BOLD, 15));
-		lblDashboard.setBounds(249, 8, 89, 21);
+		lblDashboard.setBounds(245, 10, 89, 21);
 		contentPane.add(lblDashboard);
 		
 		JLabel lblCalendar = new JLabel("");
 		lblCalendar.setToolTipText("");
 		lblCalendar.setIcon(new ImageIcon(Main.class.getResource("/img/calendario.png")));
-		lblCalendar.setBounds(647, 12, 24, 24);
+		lblCalendar.setBounds(652, 24, 24, 24);
 		contentPane.add(lblCalendar);
 		
 		lblData = new JLabel("");
 		lblData.setFont(new Font("Yu Gothic UI", Font.PLAIN, 11));
-		lblData.setBounds(686, 11, 73, 25);
+		lblData.setBounds(684, 23, 73, 25);
 		contentPane.add(lblData);
 		
 		JLabel lblNewLabel_1 = new JLabel("Visão geral do negócio");
-		lblNewLabel_1.setBounds(249, 29, 136, 14);
+		lblNewLabel_1.setBounds(245, 31, 136, 14);
 		contentPane.add(lblNewLabel_1);
 
 		// iniciar centralizado
