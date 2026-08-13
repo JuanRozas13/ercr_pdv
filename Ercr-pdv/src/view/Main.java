@@ -86,17 +86,24 @@ public class Main extends JFrame {
 		lblSistemaPdv.setBounds(70, 49, 91, 14);
 		panelLeft.add(lblSistemaPdv);
 		
-		JButton btnClientes = new JButton("Clientes");
-		btnClientes.setBorderPainted(false);
-		btnClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnClientes.setForeground(Color.BLACK);
-		btnClientes.setBackground(Color.WHITE);
-		btnClientes.setIconTextGap(12);
-		btnClientes.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnClientes.setHorizontalAlignment(SwingConstants.LEFT);
-		btnClientes.setIcon(new ImageIcon(Main.class.getResource("/img/fornecedor.png")));
-		btnClientes.setBounds(10, 86, 170, 54);
-		panelLeft.add(btnClientes);
+		JButton btnFornecedores = new JButton("Fornecedores");
+		// Acessar a classe fornecedor
+		btnFornecedores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmFornecedor fornecedor = new frmFornecedor();
+				fornecedor.setVisible(true);
+			}
+		});
+		btnFornecedores.setBorderPainted(false);
+		btnFornecedores.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnFornecedores.setForeground(Color.BLACK);
+		btnFornecedores.setBackground(Color.WHITE);
+		btnFornecedores.setIconTextGap(12);
+		btnFornecedores.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnFornecedores.setHorizontalAlignment(SwingConstants.LEFT);
+		btnFornecedores.setIcon(new ImageIcon(Main.class.getResource("/img/fornecedor.png")));
+		btnFornecedores.setBounds(10, 86, 170, 54);
+		panelLeft.add(btnFornecedores);
 		
 		JButton btnProdutos = new JButton("Produtos");
 		btnProdutos.setBorderPainted(false);
@@ -227,8 +234,14 @@ public class Main extends JFrame {
 		JLabel lblTxtProduto = new JLabel("Produtos");
 		lblTxtProduto.setForeground(new Color(43, 101, 243));
 		lblTxtProduto.setFont(new Font("Yu Gothic UI", Font.BOLD, 13));
-		lblTxtProduto.setBounds(73, 22, 64, 14);
+		lblTxtProduto.setBounds(77, 23, 64, 14);
 		panelCard1.add(lblTxtProduto);
+		
+		JLabel lblValuecart1 = new JLabel("4");
+		lblValuecart1.setForeground(new Color(43, 101, 243));
+		lblValuecart1.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 30));
+		lblValuecart1.setBounds(77, 43, 32, 32);
+		panelCard1.add(lblValuecart1);
 		
 		JPanel panelCard2 = new JPanel();
 		panelCard2.setBackground(Color.WHITE);
@@ -245,8 +258,14 @@ public class Main extends JFrame {
 		JLabel lblTxtLowEstoque = new JLabel("Estoque baixo");
 		lblTxtLowEstoque.setForeground(new Color(253, 129, 32));
 		lblTxtLowEstoque.setFont(new Font("Yu Gothic UI", Font.BOLD, 12));
-		lblTxtLowEstoque.setBounds(73, 22, 86, 14);
+		lblTxtLowEstoque.setBounds(77, 23, 86, 14);
 		panelCard2.add(lblTxtLowEstoque);
+		
+		JLabel lblValuecart2 = new JLabel("1");
+		lblValuecart2.setForeground(new Color(253, 129, 32));
+		lblValuecart2.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 30));
+		lblValuecart2.setBounds(77, 43, 32, 32);
+		panelCard2.add(lblValuecart2);
 		
 		JPanel panelCard3 = new JPanel();
 		panelCard3.setBackground(Color.WHITE);
@@ -263,8 +282,14 @@ public class Main extends JFrame {
 		JLabel lblTxtSemEstoque = new JLabel("Sem estoque");
 		lblTxtSemEstoque.setForeground(new Color(243, 59, 58));
 		lblTxtSemEstoque.setFont(new Font("Yu Gothic UI", Font.BOLD, 12));
-		lblTxtSemEstoque.setBounds(73, 22, 86, 14);
+		lblTxtSemEstoque.setBounds(77, 23, 86, 14);
 		panelCard3.add(lblTxtSemEstoque);
+		
+		JLabel lblValuecart3 = new JLabel("1");
+		lblValuecart3.setForeground(new Color(243, 59, 58));
+		lblValuecart3.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 30));
+		lblValuecart3.setBounds(77, 43, 32, 32);
+		panelCard3.add(lblValuecart3);
 		
 		JPanel panelCard4 = new JPanel();
 		panelCard4.setBackground(Color.WHITE);
@@ -284,6 +309,12 @@ public class Main extends JFrame {
 		lblTxtVendas.setBounds(73, 22, 73, 14);
 		panelCard4.add(lblTxtVendas);
 		
+		JLabel lblValuecart4 = new JLabel("3");
+		lblValuecart4.setForeground(new Color(19, 146, 24));
+		lblValuecart4.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 30));
+		lblValuecart4.setBounds(73, 43, 32, 32);
+		panelCard4.add(lblValuecart4);
+		
 		JPanel panelCard5 = new JPanel();
 		panelCard5.setBackground(Color.WHITE);
 		panelCard5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -302,6 +333,12 @@ public class Main extends JFrame {
 		lblTxtItensVnd.setBounds(73, 22, 117, 14);
 		panelCard5.add(lblTxtItensVnd);
 		
+		JLabel lblValuecart5 = new JLabel("11");
+		lblValuecart5.setForeground(new Color(115, 68, 228));
+		lblValuecart5.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 30));
+		lblValuecart5.setBounds(72, 35, 50, 50);
+		panelCard5.add(lblValuecart5);
+		
 		JPanel panelCard6 = new JPanel();
 		panelCard6.setBackground(Color.WHITE);
 		panelCard6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -319,6 +356,12 @@ public class Main extends JFrame {
 		lblNewLabel_3.setFont(new Font("Yu Gothic UI", Font.BOLD, 13));
 		lblNewLabel_3.setBounds(70, 23, 117, 14);
 		panelCard6.add(lblNewLabel_3);
+		
+		JLabel lblValuecart6 = new JLabel("4");
+		lblValuecart6.setForeground(new Color(18, 148, 137));
+		lblValuecart6.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 30));
+		lblValuecart6.setBounds(70, 43, 32, 32);
+		panelCard6.add(lblValuecart6);
 		
 		JPanel panelCard7 = new JPanel();
 		panelCard7.setBackground(Color.WHITE);
@@ -347,9 +390,9 @@ public class Main extends JFrame {
 		lblData.setBounds(684, 23, 73, 25);
 		contentPane.add(lblData);
 		
-		JLabel lblNewLabel_1 = new JLabel("Visão geral do negócio");
-		lblNewLabel_1.setBounds(245, 31, 136, 14);
-		contentPane.add(lblNewLabel_1);
+		JLabel lblDashText = new JLabel("Visão geral do negócio");
+		lblDashText.setBounds(245, 31, 136, 14);
+		contentPane.add(lblDashText);
 
 		// iniciar centralizado
 		setLocationRelativeTo(null);
