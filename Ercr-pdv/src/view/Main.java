@@ -24,16 +24,27 @@ import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.Cursor;
 
+//IMPORTAR A CLASSE DATABASE DO PACOTE DATABASE
+import database.Database;
+
+
+
 public class Main extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lblData;
 
+	// Criação de um objeto para lidar com a conexão
+	Database db = new Database();
+	private JLabel lblConect;
+	private JLabel lblMysql;
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 
 		// Uso da biblioteca flatlaf (swing moderno)
 		FlatLightLaf.setup();
@@ -207,12 +218,12 @@ public class Main extends JFrame {
 		lblDatabase.setBounds(10, 0, 36, 39);
 		panelRodape.add(lblDatabase);
 		
-		JLabel lblMysql = new JLabel("Mysql Desconectado");
+		lblMysql = new JLabel("");
 		lblMysql.setFont(new Font("Yu Gothic UI", Font.PLAIN, 13));
-		lblMysql.setBounds(38, 11, 151, 14);
+		lblMysql.setBounds(38, 12, 151, 14);
 		panelRodape.add(lblMysql);
 		
-		JLabel lblConect = new JLabel("●");
+		lblConect = new JLabel("●");
 		lblConect.setForeground(Color.RED);
 		lblConect.setToolTipText("");
 		lblConect.setBounds(165, 12, 12, 14);
@@ -397,9 +408,21 @@ public class Main extends JFrame {
 		// iniciar centralizado
 		setLocationRelativeTo(null);
 		
-		
 		// Atualizar data
-		atualizarData();		
+		atualizarData();
+		
+		// Status do banco (mudar testo e cor da bolinha)
+		if (db.testarConexao() == true) {
+			System.out.println("Banco conectado");
+			lblMysql.setText("MySql Conectado");
+			lblConect.setForeground(Color.green);
+		} else {
+			System.out.println("Erro na conexão");
+			lblMysql.setText("MySql Desconectado");
+			lblConect.setForeground(Color.red);
+		}
+		
+		
 	} //Fim do construtor
 	
 	// Função (método) para atualizar data do sistema
