@@ -97,24 +97,24 @@ public class Main extends JFrame {
 		lblSistemaPdv.setBounds(70, 49, 91, 14);
 		panelLeft.add(lblSistemaPdv);
 		
-		JButton btnFornecedores = new JButton("Fornecedores");
-		// Acessar a classe fornecedor
-		btnFornecedores.addActionListener(new ActionListener() {
+		JButton btnClientes = new JButton("Clientes");
+		// Acessar a classe cliente
+		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmFornecedor fornecedor = new frmFornecedor();
-				fornecedor.setVisible(true);
+				frmClientes cliente = new frmClientes();
+				cliente.setVisible(true);
 			}
 		});
-		btnFornecedores.setBorderPainted(false);
-		btnFornecedores.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnFornecedores.setForeground(Color.BLACK);
-		btnFornecedores.setBackground(Color.WHITE);
-		btnFornecedores.setIconTextGap(12);
-		btnFornecedores.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnFornecedores.setHorizontalAlignment(SwingConstants.LEFT);
-		btnFornecedores.setIcon(new ImageIcon(Main.class.getResource("/img/fornecedor.png")));
-		btnFornecedores.setBounds(10, 86, 170, 54);
-		panelLeft.add(btnFornecedores);
+		btnClientes.setBorderPainted(false);
+		btnClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnClientes.setForeground(Color.BLACK);
+		btnClientes.setBackground(Color.WHITE);
+		btnClientes.setIconTextGap(12);
+		btnClientes.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnClientes.setHorizontalAlignment(SwingConstants.LEFT);
+		btnClientes.setIcon(new ImageIcon(Main.class.getResource("/img/cliente.png")));
+		btnClientes.setBounds(10, 86, 170, 54);
+		panelLeft.add(btnClientes);
 		
 		JButton btnProdutos = new JButton("Produtos");
 		btnProdutos.setBorderPainted(false);

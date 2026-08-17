@@ -6,8 +6,10 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.Cursor;
 
-public class frmFornecedor extends JDialog {
+public class frmClientes extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
@@ -22,7 +24,7 @@ public class frmFornecedor extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frmFornecedor dialog = new frmFornecedor();
+					frmClientes dialog = new frmClientes();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -35,9 +37,9 @@ public class frmFornecedor extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public frmFornecedor() {
+	public frmClientes() {
 		setResizable(false);
-		setTitle("Fornecedores");
+		setTitle("Clientes");
 		setBounds(100, 100, 640, 480);
 		getContentPane().setLayout(null);
 		
@@ -68,20 +70,37 @@ public class frmFornecedor extends JDialog {
 		textField_2.setBounds(100, 242, 483, 20);
 		getContentPane().add(textField_2);
 		
-		JButton btnNewButton = new JButton("Adicionar");
-		btnNewButton.setBounds(103, 358, 89, 23);
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setBorderPainted(false);
+		btnNewButton.setDefaultCapable(false);
+		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewButton.setContentAreaFilled(false);
+		btnNewButton.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconadd.png")));
+		btnNewButton.setBounds(103, 358, 64, 64);
 		getContentPane().add(btnNewButton);
 		
-		JButton btnEditar = new JButton("Editar");
-		btnEditar.setBounds(239, 358, 89, 23);
+		JButton btnEditar = new JButton("");
+		btnEditar.setContentAreaFilled(false);
+		btnEditar.setBorderPainted(false);
+		btnEditar.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconedit.png")));
+		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnEditar.setBounds(239, 358, 64, 64);
 		getContentPane().add(btnEditar);
 		
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(369, 358, 89, 23);
+		JButton btnExcluir = new JButton("");
+		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnExcluir.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconremov.png")));
+		btnExcluir.setContentAreaFilled(false);
+		btnExcluir.setBorderPainted(false);
+		btnExcluir.setBounds(369, 358, 64, 64);
 		getContentPane().add(btnExcluir);
 		
-		JButton btnRelario = new JButton("Relatório");
-		btnRelario.setBounds(494, 358, 89, 23);
+		JButton btnRelario = new JButton("");
+		btnRelario.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconbuscar.png")));
+		btnRelario.setBorderPainted(false);
+		btnRelario.setContentAreaFilled(false);
+		btnRelario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnRelario.setBounds(494, 358, 64, 64);
 		getContentPane().add(btnRelario);
 		
 		JLabel lblNewLabel_3 = new JLabel("ID");
