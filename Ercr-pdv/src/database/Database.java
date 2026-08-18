@@ -7,9 +7,12 @@ public class Database {
 
 	// Informações do banco de dados
 	private String driver = "com.mysql.cj.jdbc.Driver";
-	private String url = "jdbc:mysql://localhost:3306/ercrPdv";
-	private String user = "dba";
-	private String password = "Mint2836";
+//	private String url = "jdbc:mysql://localhost:3306/ercrPdv";
+//	private String user = "dba";
+//	private String password = "Mint2836";
+	private String url = "jdbc:mysql://localhost:3306/eudPdv";
+	private String user = "root";
+	private String password = "";
 	
 	// método (FUnção) para conectar o  banco
 	public Connection conectar() {

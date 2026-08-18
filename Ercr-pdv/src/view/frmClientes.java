@@ -1,21 +1,32 @@
 package view;
 
+import java.awt.Cursor;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.Cursor;
+
+import controller.ClienteController;
+import model.Cliente;
+
 
 public class frmClientes extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtNome;
+	private JTextField txtFone;
+	private JTextField txtEmail;
+	private JTextField txtID;
+	//instanciado objeto controller
+	private ClienteController controller;
+	private Cliente cliente;
+
 
 	/**
 	 * Launch the application.
@@ -43,6 +54,11 @@ public class frmClientes extends JDialog {
 		setBounds(100, 100, 640, 480);
 		getContentPane().setLayout(null);
 		
+		//criar o objeto controller
+		controller = new ClienteController();
+		// criar um objeto cliente
+		cliente = new Cliente();
+		
 		JLabel lblNewLabel = new JLabel("Nome");
 		lblNewLabel.setBounds(52, 122, 46, 14);
 		getContentPane().add(lblNewLabel);
@@ -55,36 +71,54 @@ public class frmClientes extends JDialog {
 		lblNewLabel_2.setBounds(52, 245, 46, 14);
 		getContentPane().add(lblNewLabel_2);
 		
-		textField = new JTextField();
-		textField.setBounds(100, 119, 368, 20);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		txtNome = new JTextField();
+		txtNome.setBounds(100, 119, 368, 20);
+		getContentPane().add(txtNome);
+		txtNome.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(103, 180, 239, 20);
-		getContentPane().add(textField_1);
+		txtFone = new JTextField();
+		txtFone.setColumns(10);
+		txtFone.setBounds(103, 180, 239, 20);
+		getContentPane().add(txtFone);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(100, 242, 483, 20);
-		getContentPane().add(textField_2);
+		txtEmail = new JTextField();
+		txtEmail.setColumns(10);
+		txtEmail.setBounds(100, 242, 483, 20);
+		getContentPane().add(txtEmail);
 		
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setBorderPainted(false);
-		btnNewButton.setDefaultCapable(false);
-		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton.setContentAreaFilled(false);
-		btnNewButton.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconadd.png")));
-		btnNewButton.setBounds(103, 358, 64, 64);
-		getContentPane().add(btnNewButton);
+		JButton btnAdd = new JButton("");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			try {
+				// CRUD create
+				// transferir os dados da tela para o objeto
+				cliente.setNome(txtNome.getText());
+				cliente.setFone(txtFone.getText());
+				cliente.setEmail(txtEmail.getText());
+				// enviar o objeto para o controller
+				controller.adicionar(cliente);
+				// Mensagem de confirmação
+				JOptionPane.showMessageDialog(null, "Fornecedor adicionado com Sucesso!");
+			} catch (Exception e2) {
+				System.out.println(e2);
+			}
+					
+		}
+		});
+		btnAdd.setBorderPainted(false);
+		btnAdd.setDefaultCapable(false);
+		btnAdd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAdd.setContentAreaFilled(false);
+		btnAdd.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconadd.png")));
+		btnAdd.setBounds(88, 358, 64, 64);
+		getContentPane().add(btnAdd);
 		
 		JButton btnEditar = new JButton("");
 		btnEditar.setContentAreaFilled(false);
 		btnEditar.setBorderPainted(false);
 		btnEditar.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconedit.png")));
 		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnEditar.setBounds(239, 358, 64, 64);
+		btnEditar.setBounds(220, 358, 64, 64);
 		getContentPane().add(btnEditar);
 		
 		JButton btnExcluir = new JButton("");
@@ -92,7 +126,7 @@ public class frmClientes extends JDialog {
 		btnExcluir.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconremov.png")));
 		btnExcluir.setContentAreaFilled(false);
 		btnExcluir.setBorderPainted(false);
-		btnExcluir.setBounds(369, 358, 64, 64);
+		btnExcluir.setBounds(344, 358, 64, 64);
 		getContentPane().add(btnExcluir);
 		
 		JButton btnRelario = new JButton("");
@@ -100,21 +134,21 @@ public class frmClientes extends JDialog {
 		btnRelario.setBorderPainted(false);
 		btnRelario.setContentAreaFilled(false);
 		btnRelario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnRelario.setBounds(494, 358, 64, 64);
+		btnRelario.setBounds(474, 358, 64, 64);
 		getContentPane().add(btnRelario);
 		
 		JLabel lblNewLabel_3 = new JLabel("ID");
 		lblNewLabel_3.setBounds(52, 58, 46, 14);
 		getContentPane().add(lblNewLabel_3);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(100, 55, 92, 20);
-		getContentPane().add(textField_3);
+		txtID = new JTextField();
+		txtID.setColumns(10);
+		txtID.setBounds(100, 55, 92, 20);
+		getContentPane().add(txtID);
 		
-		JButton btnNewButton_1 = new JButton("Buscar");
-		btnNewButton_1.setBounds(494, 118, 89, 23);
-		getContentPane().add(btnNewButton_1);
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBounds(494, 118, 89, 23);
+		getContentPane().add(btnBuscar);
 		
 		// iniciar centralizado
 		setLocationRelativeTo(null);
