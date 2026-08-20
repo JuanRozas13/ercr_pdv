@@ -12,9 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import utils.Validador;
 import controller.ClienteController;
 import model.Cliente;
-
 
 public class frmClientes extends JDialog {
 
@@ -23,10 +23,9 @@ public class frmClientes extends JDialog {
 	private JTextField txtFone;
 	private JTextField txtEmail;
 	private JTextField txtID;
-	//instanciado objeto controller
+	// instanciado objeto controller
 	private ClienteController controller;
 	private Cliente cliente;
-
 
 	/**
 	 * Launch the application.
@@ -49,62 +48,87 @@ public class frmClientes extends JDialog {
 	 * Create the dialog.
 	 */
 	public frmClientes() {
+		setModal(true);
 		setResizable(false);
 		setTitle("Clientes");
 		setBounds(100, 100, 640, 480);
 		getContentPane().setLayout(null);
-		
-		//criar o objeto controller
+
+		// criar o objeto controller
 		controller = new ClienteController();
 		// criar um objeto cliente
 		cliente = new Cliente();
-		
+
 		JLabel lblNewLabel = new JLabel("Nome");
 		lblNewLabel.setBounds(52, 122, 46, 14);
 		getContentPane().add(lblNewLabel);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Fone");
 		lblNewLabel_1.setBounds(52, 183, 46, 14);
 		getContentPane().add(lblNewLabel_1);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("E-mail");
 		lblNewLabel_2.setBounds(52, 245, 46, 14);
 		getContentPane().add(lblNewLabel_2);
-		
+
 		txtNome = new JTextField();
 		txtNome.setBounds(100, 119, 368, 20);
 		getContentPane().add(txtNome);
 		txtNome.setColumns(10);
-		
+		// validação do número maxímo de caracacteres
+		txtNome.setDocument(new Validador(10));
+
 		txtFone = new JTextField();
 		txtFone.setColumns(10);
 		txtFone.setBounds(103, 180, 239, 20);
 		getContentPane().add(txtFone);
-		
+		// validação do número maxímo de caracacteres
+		txtFone.setDocument(new Validador(20));
+
 		txtEmail = new JTextField();
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(100, 242, 483, 20);
 		getContentPane().add(txtEmail);
-		
+
 		JButton btnAdd = new JButton("");
 		btnAdd.addActionListener(new ActionListener() {
+
+			// ==================================
+			// CRUD Create - Cadastrar cliente ==
+			// ==================================
 			public void actionPerformed(ActionEvent e) {
-			try {
-				// CRUD create
-				// transferir os dados da tela para o objeto
-				cliente.setNome(txtNome.getText());
-				cliente.setFone(txtFone.getText());
-				cliente.setEmail(txtEmail.getText());
-				// enviar o objeto para o controller
-				controller.adicionar(cliente);
-				// Mensagem de confirmação
-				JOptionPane.showMessageDialog(null, "Fornecedor adicionado com Sucesso!");
-			} catch (Exception e2) {
-				System.out.println(e2);
+				// Validação de campos obrigatórios
+				if (txtNome.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Preencha o nome do cliente");
+					txtNome.requestFocus();
+				} else if (txtFone.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Preencha o telefone do cliente");
+					txtFone.requestFocus();
+				} else {
+					// lógica principla se os campos obrigatorios estiverem preenchidos
+					try {
+						// CRUD create
+						// transferir os dados da tela para o objeto
+						cliente.setNome(txtNome.getText());
+						cliente.setFone(txtFone.getText());
+						cliente.setEmail(txtEmail.getText());
+						// enviar o objeto para o controller
+						controller.adicionar(cliente);
+						// Mensagem de confirmação
+						JOptionPane.showMessageDialog(null, "Fornecedor adicionado com Sucesso!");
+
+						// Limpar campos
+						limparCampos();
+					} catch (Exception e2) {
+						System.out.println(e2);
+					}
+
+				}
+
 			}
-					
-		}
+
 		});
+
 		btnAdd.setBorderPainted(false);
 		btnAdd.setDefaultCapable(false);
 		btnAdd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -112,7 +136,7 @@ public class frmClientes extends JDialog {
 		btnAdd.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconadd.png")));
 		btnAdd.setBounds(88, 358, 64, 64);
 		getContentPane().add(btnAdd);
-		
+
 		JButton btnEditar = new JButton("");
 		btnEditar.setContentAreaFilled(false);
 		btnEditar.setBorderPainted(false);
@@ -120,7 +144,7 @@ public class frmClientes extends JDialog {
 		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEditar.setBounds(220, 358, 64, 64);
 		getContentPane().add(btnEditar);
-		
+
 		JButton btnExcluir = new JButton("");
 		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExcluir.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconremov.png")));
@@ -128,7 +152,7 @@ public class frmClientes extends JDialog {
 		btnExcluir.setBorderPainted(false);
 		btnExcluir.setBounds(344, 358, 64, 64);
 		getContentPane().add(btnExcluir);
-		
+
 		JButton btnRelario = new JButton("");
 		btnRelario.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconbuscar.png")));
 		btnRelario.setBorderPainted(false);
@@ -136,22 +160,77 @@ public class frmClientes extends JDialog {
 		btnRelario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRelario.setBounds(474, 358, 64, 64);
 		getContentPane().add(btnRelario);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("ID");
 		lblNewLabel_3.setBounds(52, 58, 46, 14);
 		getContentPane().add(lblNewLabel_3);
-		
+
 		txtID = new JTextField();
+		txtID.setEnabled(false);
 		txtID.setColumns(10);
 		txtID.setBounds(100, 55, 92, 20);
 		getContentPane().add(txtID);
-		
+
+		// =============================
+		// CRUD Read - Buscar Cliente==
+		// =============================
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				// validação
+				if (txtNome.getText().isBlank()) {
+					JOptionPane.showConfirmDialog(null, "Informe o nome do Cliente");
+					txtNome.requestFocus();
+				} else {
+					// logica principal
+					try {
+						// capturar o nome para busca
+						String nome = txtNome.getText();
+						
+						//instanciar o cliente executando a busca atraves do controller
+						Cliente cliente = controller.buscar(nome);
+						
+						//se existir um cliente cadastrado
+						if (cliente != null) {
+							//setar os campos do formulario
+							txtID.setText(String.valueOf(cliente.getIdClientes()));
+							txtNome.setText(cliente.getNome());
+							txtFone.setText(cliente.getFone());
+							txtEmail.setText(cliente.getEmail());
+						} else {
+							JOptionPane.showConfirmDialog(null, "Cliente não cadastrado ");
+							//limpar campos
+//							limparCampos();
+						}
+
+					} catch (Exception e2) {
+						System.out.println(e2);
+					}
+				}
+
+			}
+		});
+		// fim CRUD Read ============
+
 		btnBuscar.setBounds(494, 118, 89, 23);
 		getContentPane().add(btnBuscar);
-		
+
 		// iniciar centralizado
 		setLocationRelativeTo(null);
 
 	}// Fim do construtor
+		// fim crud create
+
+	// ==================================
+	// Limpar campos
+	// ==================================
+
+	void limparCampos() {
+		txtID.setText(null);
+		txtNome.setText(null);
+		txtFone.setText(null);
+		txtEmail.setText(null);
+		txtNome.requestFocus(); // posicionar o cursor no nome
+	}
 }
