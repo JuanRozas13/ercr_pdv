@@ -23,14 +23,14 @@ public class ClienteController {
 	// métodos (funções)CRUD
 
 	// ==================================
-	// Adicionar cliente (CRUD create)
+	// Adicionar cliente (CRUD create)==
 	// ==================================
 
 	public void adicionar(Cliente cliente) throws SQLException {
 		// comando sql (passo1)
 		String sql = """
-				insert into clientes (nome, fone, email)
-				values(?,?,?)
+				insert into clientes (nome, fone, email, site)
+				values(?,?,?,?)
 				""";
 		
 		// abrir coxão com o banco (passo 2)
@@ -42,6 +42,7 @@ public class ClienteController {
 		stmt.setString(1, cliente.getNome());
 		stmt.setString(2, cliente.getFone());
 		stmt.setString(3, cliente.getEmail());
+		stmt.setString(4, cliente.getSite());
 		stmt.executeUpdate();
 		
 		// fechar a coxão (passo 4)
@@ -58,7 +59,7 @@ public class ClienteController {
 	public Cliente buscar(String nome) {
 		try {
 		String sql = """
-				select idClientes, nome, fone, email 
+				select idClientes, nome, fone, email, site
 				from clientes
 				where nome like ?; 
 				""";
@@ -83,6 +84,7 @@ public class ClienteController {
 			cliente.setNome(rs.getString("nome"));
 			cliente.setFone(rs.getString("fone"));
 			cliente.setEmail(rs.getString("email"));
+			cliente.setSite(rs.getString("site"));
 		}
 		
 		// fechar as conexões
@@ -97,5 +99,74 @@ public class ClienteController {
 			return null;
 		}
 	}
+	
+	// ===============================
+	// Editar dados (CRUD updates)===
+	// ===============================
+		
+	public void editarCliente(Cliente cliente) {
+		try {
+			String sql = """
+					update clientes
+					set nome = ?,
+					fone = ?,
+					email = ?,
+					site = ?
+					where idClientes = ?
+					""";
+			
+			//Estaberlecer a conexão com o banco
+			Connection con = database.conectar();
+			
+			//executar a instrução sql
+			PreparedStatement stmt = con.prepareStatement(sql);
+			
+			//obter os dados do cliente(model)
+			stmt.setString(1, cliente.getNome());
+			stmt.setString(2, cliente.getFone());
+			stmt.setString(3, cliente.getEmail());
+			stmt.setString(4, cliente.getSite());
+			stmt.setInt(5, cliente.getIdClientes());
+			
+			//executa a atualização no banco
+			stmt.executeUpdate();
+			//encerrar as conexões
+			stmt.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	// ======================================
+	// Excluir dados cliente (CRUD delete)===
+	// ======================================
 
+	public void excluirCliente(int idCliente) {
+		try {
+			String sql ="""
+					delete from clientes
+					where idClientes = ?
+					""";
+			
+			//Estaberlecer a conexão com o banco
+			Connection con = database.conectar();
+			
+			//executar a instrução sql
+			PreparedStatement stmt = con.prepareStatement(sql);
+			
+			//setar o id do cliente no (model)
+			stmt.setInt(1, idCliente);
+			
+			//executa a atualização no banco
+			stmt.executeUpdate();
+			//encerrar as conexões
+			stmt.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	
 }

@@ -1,6 +1,3 @@
-/Model/
-/model/
-/controller/
 /view/
-/database/
-/utils/
+/controller/
+/model/

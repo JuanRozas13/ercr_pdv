@@ -9,8 +9,10 @@ public class Cliente {
 	private String nome;
 	private String fone;
 	private String email;
+	private String site;
 	
 	
+
 	// gerar getters e setters de forma automática
 	// botão direito -> source -> generate getters e setters
 	public int getIdClientes() {
@@ -37,6 +39,11 @@ public class Cliente {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+	public String getSite() {
+		return site;
+	}
+	public void setSite(String site) {
+		this.site = site;
+	}
 	
 }
