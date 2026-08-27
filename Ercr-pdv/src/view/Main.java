@@ -68,7 +68,7 @@ public class Main extends JFrame {
 		setResizable(false);
 		setTitle("ErCr-PDV");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 873, 620);
+		setBounds(100, 100, 873, 706);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -76,25 +76,25 @@ public class Main extends JFrame {
 		
 		JPanel panelLeft = new JPanel();
 		panelLeft.setBackground(new Color(18, 59, 74));
-		panelLeft.setBounds(0, 0, 190, 543);
+		panelLeft.setBounds(0, 0, 190, 606);
 		contentPane.add(panelLeft);
 		panelLeft.setLayout(null);
 		
 		JLabel lblLogo = new JLabel("");
-		lblLogo.setBounds(10, 11, 64, 64);
+		lblLogo.setBounds(10, 48, 64, 64);
 		panelLeft.add(lblLogo);
 		lblLogo.setIcon(new ImageIcon(Main.class.getResource("/img/perfume.png")));
 		
 		JLabel lblName = new JLabel("ErCr-PDV");
 		lblName.setFont(new Font("Yu Gothic UI", Font.PLAIN, 21));
 		lblName.setForeground(new Color(255, 255, 255));
-		lblName.setBounds(70, 26, 97, 23);
+		lblName.setBounds(70, 64, 97, 23);
 		panelLeft.add(lblName);
 		
 		JLabel lblSistemaPdv = new JLabel("Sistema de PDV");
 		lblSistemaPdv.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		lblSistemaPdv.setForeground(new Color(255, 255, 255));
-		lblSistemaPdv.setBounds(70, 49, 91, 14);
+		lblSistemaPdv.setBounds(70, 87, 91, 14);
 		panelLeft.add(lblSistemaPdv);
 		
 		JButton btnClientes = new JButton("Clientes");
@@ -113,8 +113,25 @@ public class Main extends JFrame {
 		btnClientes.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnClientes.setHorizontalAlignment(SwingConstants.LEFT);
 		btnClientes.setIcon(new ImageIcon(Main.class.getResource("/img/cliente.png")));
-		btnClientes.setBounds(10, 86, 170, 54);
+		btnClientes.setBounds(10, 123, 170, 54);
 		panelLeft.add(btnClientes);
+		
+		JButton btnFornecedores = new JButton("Fornecedores");
+		btnFornecedores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmFornecedores fornecedor = new frmFornecedores();
+				fornecedor.setVisible(true);
+			}
+		});
+		btnFornecedores.setIconTextGap(12);
+		btnFornecedores.setBorderPainted(false);
+		btnFornecedores.setBackground(Color.WHITE);
+		btnFornecedores.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnFornecedores.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnFornecedores.setHorizontalAlignment(SwingConstants.LEFT);
+		btnFornecedores.setIcon(new ImageIcon(Main.class.getResource("/img/supplieR.png")));
+		btnFornecedores.setBounds(10, 188, 170, 57);
+		panelLeft.add(btnFornecedores);
 		
 		JButton btnProdutos = new JButton("Produtos");
 		btnProdutos.setBorderPainted(false);
@@ -129,7 +146,7 @@ public class Main extends JFrame {
 		btnProdutos.setForeground(Color.BLACK);
 		btnProdutos.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnProdutos.setBackground(Color.WHITE);
-		btnProdutos.setBounds(10, 151, 170, 54);
+		btnProdutos.setBounds(10, 256, 170, 54);
 		panelLeft.add(btnProdutos);
 		
 		JButton btnPdv = new JButton("PDV");
@@ -141,7 +158,7 @@ public class Main extends JFrame {
 		btnPdv.setForeground(Color.BLACK);
 		btnPdv.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnPdv.setBackground(Color.WHITE);
-		btnPdv.setBounds(10, 216, 170, 54);
+		btnPdv.setBounds(10, 321, 170, 54);
 		panelLeft.add(btnPdv);
 		
 		JButton btnVendas = new JButton("Vendas");
@@ -153,7 +170,7 @@ public class Main extends JFrame {
 		btnVendas.setForeground(Color.BLACK);
 		btnVendas.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnVendas.setBackground(Color.WHITE);
-		btnVendas.setBounds(10, 281, 170, 54);
+		btnVendas.setBounds(10, 386, 170, 54);
 		panelLeft.add(btnVendas);
 		
 		JButton btnExit = new JButton("Sair");
@@ -179,7 +196,7 @@ public class Main extends JFrame {
 		btnExit.setForeground(Color.BLACK);
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnExit.setBackground(Color.WHITE);
-		btnExit.setBounds(10, 346, 170, 54);
+		btnExit.setBounds(10, 451, 170, 54);
 		panelLeft.add(btnExit);
 		
 		JButton btnSobre = new JButton("Sobre PDV");
@@ -198,18 +215,19 @@ public class Main extends JFrame {
 		btnSobre.setForeground(Color.BLACK);
 		btnSobre.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnSobre.setBackground(Color.WHITE);
-		btnSobre.setBounds(10, 455, 170, 54);
+		btnSobre.setBounds(10, 541, 170, 54);
 		panelLeft.add(btnSobre);
 		
-		JLabel lblNewLabel_2 = new JLabel("------------------------");
-		lblNewLabel_2.setForeground(Color.WHITE);
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNewLabel_2.setBounds(13, 420, 177, 14);
-		panelLeft.add(lblNewLabel_2);
+		JLabel lblGap = new JLabel("------------------------");
+		lblGap.setForeground(Color.WHITE);
+		lblGap.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblGap.setBounds(10, 516, 177, 14);
+		panelLeft.add(lblGap);
+		
 		
 		JPanel panelRodape = new JPanel();
 		panelRodape.setBackground(Color.WHITE);
-		panelRodape.setBounds(0, 542, 857, 39);
+		panelRodape.setBounds(0, 617, 857, 39);
 		contentPane.add(panelRodape);
 		panelRodape.setLayout(null);
 		
@@ -376,7 +394,7 @@ public class Main extends JFrame {
 		
 		JPanel panelCard7 = new JPanel();
 		panelCard7.setBackground(Color.WHITE);
-		panelCard7.setBounds(200, 343, 647, 188);
+		panelCard7.setBounds(200, 343, 647, 263);
 		contentPane.add(panelCard7);
 		panelCard7.setLayout(null);
 		

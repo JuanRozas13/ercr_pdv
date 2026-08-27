@@ -85,7 +85,7 @@ public class frmClientes extends JDialog {
 
 		txtFone = new JTextField();
 		txtFone.setColumns(10);
-		txtFone.setBounds(103, 180, 239, 20);
+		txtFone.setBounds(103, 180, 239, 25);
 		getContentPane().add(txtFone);
 		// validação do número maxímo de caracacteres
 		txtFone.setDocument(new Validador(20));
@@ -149,7 +149,7 @@ public class frmClientes extends JDialog {
 		// ==================================
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (txtNome.getText().isBlank()) {
 					JOptionPane.showMessageDialog(null, "Preencha o nome do cliente");
 					txtNome.requestFocus();
@@ -158,23 +158,23 @@ public class frmClientes extends JDialog {
 					txtFone.requestFocus();
 				} else {
 					// lógica principla se os campos obrigatorios estiverem preenchidos
-					//transferir os dados da tela para o model
+					// transferir os dados da tela para o model
 					cliente.setIdClientes(Integer.parseInt(txtID.getText()));
 					cliente.setNome(txtNome.getText());
 					cliente.setFone(txtFone.getText());
 					cliente.setEmail(txtEmail.getText());
 					cliente.setSite(txtSite.getText());
-					
-					//enviar o objeto pora o controller
+
+					// enviar o objeto pora o controller
 					controller.editarCliente(cliente);
-					
-					//mensagem de sucesso para o usuario
+
+					// mensagem de sucesso para o usuario
 					JOptionPane.showMessageDialog(null, "Dados do cliente alterado");
-					
-					//limpar campos
-					limparCampos();				
-					}	
-				
+
+					// limpar campos
+					limparCampos();
+				}
+
 			}
 		});
 		btnEditar.setContentAreaFilled(false);
@@ -190,25 +190,26 @@ public class frmClientes extends JDialog {
 		// =============================
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//validação
+				// validação
 				if (txtNome.getText().isBlank()) {
 					JOptionPane.showMessageDialog(null, "Preencha o nome do cliente");
 					txtNome.requestFocus();
-				}else {
-					//capturar o id do fornecedor
+				} else {
+					// capturar o id do fornecedor
 					int idCliente = Integer.parseInt(txtID.getText());
-					//confirmação de exclusão
-					int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente exluir\neste cliente", "Atenção", JOptionPane.YES_OPTION);
+					// confirmação de exclusão
+					int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente exluir\neste cliente",
+							"Atenção", JOptionPane.YES_OPTION);
 					if (resposta == JOptionPane.YES_OPTION) {
-						//excluir atraves do controller
+						// excluir atraves do controller
 						controller.excluirCliente(idCliente);
-						//limpar campos
+						// limpar campos
 						limparCampos();
-						//mensagem para o usuario
+						// mensagem para o usuario
 						JOptionPane.showMessageDialog(null, "Fornecedor excluido com sucesso");
 					}
 				}
-			
+
 			}
 		});
 		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -236,7 +237,6 @@ public class frmClientes extends JDialog {
 		txtID.setBounds(100, 55, 92, 20);
 		getContentPane().add(txtID);
 
-	
 		JButton btnBuscar = new JButton("Buscar");
 		// =============================
 		// CRUD Read - Buscar Cliente==
@@ -250,28 +250,27 @@ public class frmClientes extends JDialog {
 					txtNome.requestFocus();
 				} else {
 					// logica principal
-					
-						// capturar o nome para busca
-						String nome = txtNome.getText();
-						
-						//instanciar o cliente executando a busca atraves do controller
-						Cliente cliente = controller.buscar(nome);
-						
-						//se existir um cliente cadastrado
-						if (cliente != null) {
-							//setar os campos do formulario
-							txtID.setText(String.valueOf(cliente.getIdClientes()));
-							txtNome.setText(cliente.getNome());
-							txtFone.setText(cliente.getFone());
-							txtEmail.setText(cliente.getEmail());
-							txtSite.setText(cliente.getSite());
-						} else {
-							JOptionPane.showConfirmDialog(null, "Cliente não cadastrado ");
-							//limpar campos
-							limparCampos();
-						}
 
-					 
+					// capturar o nome para busca
+					String nome = txtNome.getText();
+
+					// instanciar o cliente executando a busca atraves do controller
+					Cliente cliente = controller.buscar(nome);
+
+					// se existir um cliente cadastrado
+					if (cliente != null) {
+						// setar os campos do formulario
+						txtID.setText(String.valueOf(cliente.getIdClientes()));
+						txtNome.setText(cliente.getNome());
+						txtFone.setText(cliente.getFone());
+						txtEmail.setText(cliente.getEmail());
+						txtSite.setText(cliente.getSite());
+					} else {
+						JOptionPane.showConfirmDialog(null, "Cliente não cadastrado ");
+						// limpar campos
+						limparCampos();
+					}
+
 				}
 
 			}
@@ -280,22 +279,31 @@ public class frmClientes extends JDialog {
 
 		btnBuscar.setBounds(494, 118, 89, 23);
 		getContentPane().add(btnBuscar);
-		
+
 		JLabel lblSite = new JLabel("Site");
 		lblSite.setBounds(52, 301, 46, 14);
 		getContentPane().add(lblSite);
-		
+
 		txtSite = new JTextField();
 		txtSite.setBounds(103, 298, 368, 25);
 		getContentPane().add(txtSite);
 		txtSite.setColumns(10);
-		
+
 		JButton btnSite = new JButton("Acessar");
-		btnSite.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				link();
+		// acessar link externo ======================
+		btnSite.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String site = txtSite.getText();
+				if (site == null || site.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Nenhum site cadastrado para este cliente");
+					return;
+				}
+				link(site);
 			}
+		});
+		// =========================================
+		btnSite.addMouseListener(new MouseAdapter() {
+
 		});
 		btnSite.setBounds(494, 297, 89, 23);
 		getContentPane().add(btnSite);
@@ -318,21 +326,21 @@ public class frmClientes extends JDialog {
 		txtSite.setText(null);
 		txtNome.requestFocus(); // posicionar o cursor no nome
 	}
-	
-	// ===============================================
-	// função(método) para abrir um link no navegador=
-	// ===============================================
-	
+
+	// =================================================
+	// função(método) para abrir um link no navegador===
+	// =================================================
 	private void link(String url) {
-		cliente = new Cliente();
+
 		// alinha abaixo obtem o desktop do cliente
 		Desktop desktop = Desktop.getDesktop();
-		//uso do try catch(tratamento de exceções)
+		// uso do try catch(tratamento de exceções)
 		try {
-			
-			// objeto uri para acessar os métodos necessarios para estabelecer uma conexão com a url (link)
+
+			// objeto uri para acessar os métodos necessarios para estabelecer uma conexão
+			// com a url (link)
 			URI uri = new URI(url);
-			//abrir link no navegador padrao do clinte
+			// abrir link no navegador padrao do clinte
 			desktop.browse(uri);
 		} catch (Exception e) {
 			System.out.println(e);
