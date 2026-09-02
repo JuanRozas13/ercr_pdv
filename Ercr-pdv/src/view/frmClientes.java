@@ -31,6 +31,7 @@ public class frmClientes extends JDialog {
 	private ClienteController controller;
 	private Cliente cliente;
 	private JTextField txtSite;
+	private JButton btnAdd;
 
 	/**
 	 * Launch the application.
@@ -94,8 +95,18 @@ public class frmClientes extends JDialog {
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(103, 240, 483, 25);
 		getContentPane().add(txtEmail);
+		// validação do número maxímo de caracacteres
+		txtEmail.setDocument(new Validador(50));
 
-		JButton btnAdd = new JButton("");
+		txtSite = new JTextField();
+		txtSite.setBounds(103, 298, 368, 25);
+		getContentPane().add(txtSite);
+		txtSite.setColumns(10);
+		// validação do número maxímo de caracacteres
+		txtSite.setDocument(new Validador(200));
+		
+		btnAdd = new JButton("");
+		btnAdd.setToolTipText("Adicionar");
 		btnAdd.addActionListener(new ActionListener() {
 
 			// ==================================
@@ -140,10 +151,11 @@ public class frmClientes extends JDialog {
 		btnAdd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdd.setContentAreaFilled(false);
 		btnAdd.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconadd.png")));
-		btnAdd.setBounds(88, 358, 64, 64);
+		btnAdd.setBounds(103, 358, 64, 64);
 		getContentPane().add(btnAdd);
 
 		JButton btnEditar = new JButton("");
+		btnEditar.setToolTipText("Editar");
 		// ==================================
 		// CRUD update - Editar cliente =====
 		// ==================================
@@ -181,12 +193,13 @@ public class frmClientes extends JDialog {
 		btnEditar.setBorderPainted(false);
 		btnEditar.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconedit.png")));
 		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnEditar.setBounds(220, 358, 64, 64);
+		btnEditar.setBounds(206, 358, 64, 64);
 		getContentPane().add(btnEditar);
 
 		JButton btnExcluir = new JButton("");
+		btnExcluir.setToolTipText("Excluir");
 		// =============================
-		// CRUD Read - Buscar Cliente==
+		// CRUD Read - Excluir Cliente==
 		// =============================
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -216,16 +229,32 @@ public class frmClientes extends JDialog {
 		btnExcluir.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconremov.png")));
 		btnExcluir.setContentAreaFilled(false);
 		btnExcluir.setBorderPainted(false);
-		btnExcluir.setBounds(344, 358, 64, 64);
+		btnExcluir.setBounds(309, 358, 64, 64);
 		getContentPane().add(btnExcluir);
 
 		JButton btnRelario = new JButton("");
+		btnRelario.setToolTipText("Relatório");
 		btnRelario.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconbuscar.png")));
 		btnRelario.setBorderPainted(false);
 		btnRelario.setContentAreaFilled(false);
 		btnRelario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnRelario.setBounds(474, 358, 64, 64);
+		btnRelario.setBounds(407, 358, 64, 64);
 		getContentPane().add(btnRelario);
+		
+		JButton btnLimpar = new JButton("");
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limparCampos();
+			
+			}
+		});
+		btnLimpar.setContentAreaFilled(false);
+		btnLimpar.setBorderPainted(false);
+		btnLimpar.setIcon(new ImageIcon(frmClientes.class.getResource("/img/Clear.png")));
+		btnLimpar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnLimpar.setToolTipText("Limpar");
+		btnLimpar.setBounds(498, 358, 64, 64);
+		getContentPane().add(btnLimpar);
 
 		JLabel lblID = new JLabel("ID");
 		lblID.setBounds(52, 58, 46, 14);
@@ -265,10 +294,17 @@ public class frmClientes extends JDialog {
 						txtFone.setText(cliente.getFone());
 						txtEmail.setText(cliente.getEmail());
 						txtSite.setText(cliente.getSite());
+						
+						//desativar o botão adicionar
+						btnAdd.setEnabled(false);
 					} else {
-						JOptionPane.showConfirmDialog(null, "Cliente não cadastrado ");
-						// limpar campos
-						limparCampos();
+						JOptionPane.showMessageDialog(null, "Cliente não cadastrado ");
+						int resposta = JOptionPane.showConfirmDialog(null, "Deseja cadastrar esse cliente?",
+						"Atenção", JOptionPane.YES_OPTION);
+						if(resposta == JOptionPane.YES_OPTION) {
+							limparCampos();
+						txtNome.requestFocus();
+						}
 					}
 
 				}
@@ -284,10 +320,6 @@ public class frmClientes extends JDialog {
 		lblSite.setBounds(52, 301, 46, 14);
 		getContentPane().add(lblSite);
 
-		txtSite = new JTextField();
-		txtSite.setBounds(103, 298, 368, 25);
-		getContentPane().add(txtSite);
-		txtSite.setColumns(10);
 
 		JButton btnSite = new JButton("Acessar");
 		// acessar link externo ======================
@@ -311,8 +343,12 @@ public class frmClientes extends JDialog {
 		// iniciar centralizado
 		setLocationRelativeTo(null);
 
-	}// Fim do construtor
-		// fim crud create
+		//definir um botão padrão (Associar o enter a este botão)
+		getRootPane().setDefaultButton(btnBuscar);
+		
+	}// fim do construtor
+	
+		
 
 	// ==================================
 	// Limpar campos
@@ -325,6 +361,7 @@ public class frmClientes extends JDialog {
 		txtEmail.setText(null);
 		txtSite.setText(null);
 		txtNome.requestFocus(); // posicionar o cursor no nome
+		btnAdd.setEnabled(true);
 	}
 
 	// =================================================
@@ -343,7 +380,8 @@ public class frmClientes extends JDialog {
 			// abrir link no navegador padrao do clinte
 			desktop.browse(uri);
 		} catch (Exception e) {
-			System.out.println(e);
+			JOptionPane.showMessageDialog(null, "Digite uma Url valída\nExemplo: https://www.google.com");
+			txtNome.requestFocus();
 		}
 	}
 }

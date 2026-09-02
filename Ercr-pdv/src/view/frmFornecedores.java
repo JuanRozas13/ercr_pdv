@@ -36,6 +36,7 @@ public class frmFornecedores extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtSite;
+	private JButton btnAdicionar;
 
 	/**
 	 * Launch the application.
@@ -84,7 +85,7 @@ public class frmFornecedores extends JDialog {
 		getContentPane().add(lblEmail);
 
 		JLabel lblSite = new JLabel("Site");
-		lblSite.setBounds(52, 253, 46, 14);
+		lblSite.setBounds(52, 257, 46, 14);
 		getContentPane().add(lblSite);
 
 		txtNome = new JTextField();
@@ -119,10 +120,18 @@ public class frmFornecedores extends JDialog {
 						txtFone.setText(fornecedor.getFone());
 						txtEmail.setText(fornecedor.getEmail());
 						txtSite.setText(fornecedor.getSite());
+						
+						// esconder botão de adicionar
+						btnAdicionar.setEnabled(false);
 
 					} else {
 						JOptionPane.showMessageDialog(null, "Fornecedor não cadastrado");
-						limparCampos();
+						int resposta = JOptionPane.showConfirmDialog(null, "Deseja cadastrar esse fornecedor?",
+						"Atenção", JOptionPane.YES_OPTION);
+						if(resposta == JOptionPane.YES_OPTION) {
+							limparCampos();
+							txtNome.requestFocus();
+						}
 					}
 				}
 				
@@ -147,8 +156,9 @@ public class frmFornecedores extends JDialog {
 
 		txtSite = new JTextField();
 		txtSite.setColumns(10);
-		txtSite.setBounds(108, 246, 368, 25);
+		txtSite.setBounds(108, 252, 368, 25);
 		getContentPane().add(txtSite);
+		txtSite.setDocument(new Validador(200));
 		
 		JButton btnAcessar = new JButton("Acessar");
 		btnAcessar.addActionListener(new ActionListener() {
@@ -156,15 +166,18 @@ public class frmFornecedores extends JDialog {
 				String site = txtSite.getText();
 				if(site == null || site.isBlank()) {
 					JOptionPane.showMessageDialog(null, "Site não cadastrado para este cliente");
+					return;
 				}
+				
 				link(site);
 			}
 		});
-		btnAcessar.setBounds(486, 249, 89, 23);
+		btnAcessar.setBounds(489, 253, 89, 23);
 		getContentPane().add(btnAcessar);
 		
 
-		JButton btnAdicionar = new JButton("");
+		btnAdicionar = new JButton("");
+		btnAdicionar.setToolTipText("Adicionar");
 		btnAdicionar.setContentAreaFilled(false);
 		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdicionar.setBorderPainted(false);
@@ -204,10 +217,11 @@ public class frmFornecedores extends JDialog {
 		});
 		// Fim - CRUD Create ====================================
 
-		btnAdicionar.setBounds(69, 342, 64, 64);
+		btnAdicionar.setBounds(108, 342, 64, 64);
 		getContentPane().add(btnAdicionar);
 
 		JButton btnEditar = new JButton("");
+		btnEditar.setToolTipText("Editar");
 		btnEditar.setContentAreaFilled(false);
 		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEditar.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/iconedit.png")));
@@ -250,6 +264,7 @@ public class frmFornecedores extends JDialog {
 		btnEditar.setBounds(203, 342, 64, 64);
 		getContentPane().add(btnEditar);
 		JButton btnExcluir = new JButton("");
+		btnExcluir.setToolTipText("Excluir");
 		btnExcluir.setContentAreaFilled(false);
 		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExcluir.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/iconremov.png")));
@@ -285,17 +300,32 @@ public class frmFornecedores extends JDialog {
 		});
 		// ======================================================
 
-		btnExcluir.setBounds(334, 342, 64, 64);
+		btnExcluir.setBounds(297, 342, 64, 64);
 		getContentPane().add(btnExcluir);
 
 		JButton btnRelatorio = new JButton("");
+		btnRelatorio.setToolTipText("Relatório");
 		btnRelatorio.setContentAreaFilled(false);
 		btnRelatorio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRelatorio.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/iconbuscar.png")));
 		btnRelatorio.setBorderPainted(false);
-		btnRelatorio.setBounds(463, 342, 64, 64);
+		btnRelatorio.setBounds(390, 342, 64, 64);
 		getContentPane().add(btnRelatorio);
 
+		JButton btnLimpar = new JButton("");
+		btnLimpar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limparCampos();
+			}
+		});
+		btnLimpar.setContentAreaFilled(false);
+		btnLimpar.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/Clear.png")));
+		btnLimpar.setBorderPainted(false);
+		btnLimpar.setToolTipText("Limpar campo");
+		btnLimpar.setBounds(478, 342, 64, 64);
+		getContentPane().add(btnLimpar);
+		
 		JLabel lblID = new JLabel("ID");
 		lblID.setBounds(52, 46, 46, 14);
 		getContentPane().add(lblID);
@@ -306,6 +336,9 @@ public class frmFornecedores extends JDialog {
 		getContentPane().add(txtID);
 		txtID.setColumns(10);
 
+		//definir um botão padrão (Associar o enter a este botão)
+		getRootPane().setDefaultButton(btnBuscar);
+		
 
 	} // fim do construtor
 
@@ -319,6 +352,8 @@ public class frmFornecedores extends JDialog {
 		txtEmail.setText(null);
 		txtSite.setText(null);
 		txtNome.requestFocus(); // posicionar o cursor no nome
+		btnAdicionar.setEnabled(true);
+		
 	}
 
 	// =================================================
@@ -337,7 +372,8 @@ public class frmFornecedores extends JDialog {
 			// abrir link no navegador padrao do clinte
 			desktop.browse(uri);
 		} catch (Exception e) {
-			System.out.println(e);
+			JOptionPane.showMessageDialog(null, "Digite uma Url valída\\nExemplo: https://www.google.com");
+			txtNome.requestFocus();
 		}
 	}
 }
