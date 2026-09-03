@@ -1,9 +1,22 @@
 package controller;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfTable;
+import com.lowagie.text.pdf.PdfWriter;
 
 //importação de database
 import database.Database;
@@ -168,4 +181,146 @@ public class FornecedorController {
 		}
 	}
 	// =========================================
+	
+	
+	// =========================================
+	// =============== GERAR RELATORIOS DE FORNECEDORES (PDF) ================
+	// =========================================
+	public void gerarRelatorioFornecedores(){
+		try {
+			
+			String sql = """
+					select nome, fone, email, site
+					from fornecedores order by nome
+					""" ;
+			
+			//abrir conexão com o banco 
+			Connection con = database.conectar();
+			
+			//preparar o comando SQL
+			PreparedStatement stmt = con.prepareStatement(sql);
+			
+			//executar a conslta
+			ResultSet rs = stmt.executeQuery();
+			
+			//nome do arquivo
+			// Atenção importar da biblioteca com.lowagie.text
+			Document documento = new Document();
+			
+			// nome do aqrquivo pdf
+			String caminho = "relatorio_fornecedores.pdf";
+			
+			//criar o arquivo pdf
+			PdfWriter.getInstance(documento, new FileOutputStream(caminho));
+			
+			//abrir o documento >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+			documento.open();
+			
+			//titulo >>>>>>>>>>>>
+			Font fonteTitulo = new Font(
+				Font.HELVETICA,
+				18,
+				Font.BOLD
+			);
+			
+			Paragraph titulo = new Paragraph(
+				"RELATÓRIO DE FORNECEDORES",
+				fonteTitulo
+			);
+			
+			titulo.setAlignment(Element.ALIGN_CENTER);
+			documento.add(titulo);
+			//titulo <<<<<<<<<<
+			
+			//Data e hora >>>>>>>>>>
+			DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+			
+			String dataHora = LocalDateTime.now().format(formato);
+			
+			Paragraph data = new Paragraph(
+					"Data de emissão: " + dataHora
+			);
+			
+			data.setAlignment(Element.ALIGN_CENTER);
+			
+			documento.add(data);
+			
+			//Espaço
+			documento.add(new Paragraph(" "));
+			documento.add(new Paragraph(" "));
+			
+			//Data e hora <<<<<<<<<<<<
+			
+			//Tabela inicio --------
+			
+			//criar a tabela com 4 colunas
+			PdfPTable tabela = new PdfPTable(4);
+			
+			//definir largura das colunas
+			tabela.setWidths(new float[] {
+				2.5f, 2.0f, 3.0f, 4.0f	
+			});
+			
+			// ocupar toda a largura disponivel
+			tabela.setWidthPercentage(100);
+			
+			//cabeçalho da tabela
+			tabela.addCell("Nome");
+			tabela.addCell("Fone");
+			tabela.addCell("E-mail");
+			tabela.addCell("Site");
+			
+			//dados do fornecedor
+			int quantidade = 0; //variavel de apoio
+			
+			//enquanto existir fornecedores, adiconar a tabela
+			while (rs.next()) {
+				tabela.addCell(rs.getString("nome"));
+				tabela.addCell(rs.getString("fone"));
+				tabela.addCell(rs.getString("email"));
+				tabela.addCell(rs.getString("site"));
+				//somar a quantidade, atribuindo a variavel
+				quantidade++;
+			}			
+			
+			//adicionar a tabela ao documento
+			documento.add(tabela);
+			// tabela fim -------
+		
+			
+			documento.add(new Paragraph(" "));
+		
+			//total de fornecedores
+			Font fonteTotal = new Font(
+				Font.HELVETICA,
+				10,
+				Font.BOLD
+			);
+			
+			Paragraph total = new Paragraph(
+					"Total de fornecedores: " + quantidade,
+					fonteTotal
+			);
+			
+			total.setAlignment(Element.ALIGN_RIGHT);
+			
+			documento.add(total);
+			
+			//fechar o documento <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			documento.close();
+			
+			//fechar os recursos do banco de dados
+			rs.close();
+			stmt.close();
+			con.close();
+			
+			//abrir o pdf automaticamente no leitor padrão do pdf
+			File arquivo = new File(caminho);
+			Desktop.getDesktop().open(arquivo);;
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
 }

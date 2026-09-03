@@ -104,7 +104,7 @@ public class frmClientes extends JDialog {
 		txtSite.setColumns(10);
 		// validação do número maxímo de caracacteres
 		txtSite.setDocument(new Validador(200));
-		
+
 		btnAdd = new JButton("");
 		btnAdd.setToolTipText("Adicionar");
 		btnAdd.addActionListener(new ActionListener() {
@@ -129,13 +129,26 @@ public class frmClientes extends JDialog {
 						cliente.setFone(txtFone.getText());
 						cliente.setEmail(txtEmail.getText());
 						cliente.setSite(txtSite.getText());
-						// enviar o objeto para o controller
-						controller.adicionar(cliente);
-						// Mensagem de confirmação
-						JOptionPane.showMessageDialog(null, "Fornecedor adicionado com Sucesso!");
+						
+						
+						// ARRUMAR
 
-						// Limpar campos
-						limparCampos();
+						String st = txtSite.getText().trim();
+
+						if (!st.matches("^https://www\\..+")) {
+							JOptionPane.showMessageDialog(null,
+									"Digite um site válido no formato:\nhttps://www.exemplo.com");
+							txtSite.requestFocus();
+						}else {
+							// enviar o objeto para o controller
+							controller.adicionar(cliente);
+							// Mensagem de confirmação
+							JOptionPane.showMessageDialog(null, "Fornecedor adicionado com Sucesso!");
+							// Limpar campos
+							limparCampos();
+						}
+
+						
 					} catch (Exception e2) {
 						System.out.println(e2);
 					}
@@ -233,6 +246,11 @@ public class frmClientes extends JDialog {
 		getContentPane().add(btnExcluir);
 
 		JButton btnRelario = new JButton("");
+		btnRelario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.gerarRelatorioCliente();
+			}
+		});
 		btnRelario.setToolTipText("Relatório");
 		btnRelario.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconbuscar.png")));
 		btnRelario.setBorderPainted(false);
@@ -240,12 +258,12 @@ public class frmClientes extends JDialog {
 		btnRelario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRelario.setBounds(407, 358, 64, 64);
 		getContentPane().add(btnRelario);
-		
+
 		JButton btnLimpar = new JButton("");
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limparCampos();
-			
+
 			}
 		});
 		btnLimpar.setContentAreaFilled(false);
@@ -255,6 +273,31 @@ public class frmClientes extends JDialog {
 		btnLimpar.setToolTipText("Limpar");
 		btnLimpar.setBounds(498, 358, 64, 64);
 		getContentPane().add(btnLimpar);
+		
+		JLabel lblSite = new JLabel("Site");
+		lblSite.setBounds(52, 301, 46, 14);
+		getContentPane().add(lblSite);
+
+		JButton btnSite = new JButton("Acessar");
+		btnSite.setEnabled(false);
+		// acessar link externo ======================
+		btnSite.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String site = txtSite.getText();
+				if (site == null || site.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Nenhum site cadastrado para este cliente");
+					return;
+				}
+				link(site);
+
+			}
+		});
+		// =========================================
+		btnSite.addMouseListener(new MouseAdapter() {
+
+		});
+		btnSite.setBounds(494, 297, 89, 23);
+		getContentPane().add(btnSite);
 
 		JLabel lblID = new JLabel("ID");
 		lblID.setBounds(52, 58, 46, 14);
@@ -279,7 +322,7 @@ public class frmClientes extends JDialog {
 					txtNome.requestFocus();
 				} else {
 					// logica principal
-
+					
 					// capturar o nome para busca
 					String nome = txtNome.getText();
 
@@ -294,16 +337,18 @@ public class frmClientes extends JDialog {
 						txtFone.setText(cliente.getFone());
 						txtEmail.setText(cliente.getEmail());
 						txtSite.setText(cliente.getSite());
-						
-						//desativar o botão adicionar
+
+						// desativar o botão adicionar
 						btnAdd.setEnabled(false);
+						btnSite.setEnabled(true);
+						
 					} else {
 						JOptionPane.showMessageDialog(null, "Cliente não cadastrado ");
-						int resposta = JOptionPane.showConfirmDialog(null, "Deseja cadastrar esse cliente?",
-						"Atenção", JOptionPane.YES_OPTION);
-						if(resposta == JOptionPane.YES_OPTION) {
+						int resposta = JOptionPane.showConfirmDialog(null, "Deseja cadastrar esse cliente?", "Atenção",
+								JOptionPane.YES_OPTION);
+						if (resposta == JOptionPane.YES_OPTION) {
 							limparCampos();
-						txtNome.requestFocus();
+							txtNome.requestFocus();
 						}
 					}
 
@@ -316,39 +361,15 @@ public class frmClientes extends JDialog {
 		btnBuscar.setBounds(494, 118, 89, 23);
 		getContentPane().add(btnBuscar);
 
-		JLabel lblSite = new JLabel("Site");
-		lblSite.setBounds(52, 301, 46, 14);
-		getContentPane().add(lblSite);
-
-
-		JButton btnSite = new JButton("Acessar");
-		// acessar link externo ======================
-		btnSite.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String site = txtSite.getText();
-				if (site == null || site.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Nenhum site cadastrado para este cliente");
-					return;
-				}
-				link(site);
-			}
-		});
-		// =========================================
-		btnSite.addMouseListener(new MouseAdapter() {
-
-		});
-		btnSite.setBounds(494, 297, 89, 23);
-		getContentPane().add(btnSite);
+		
 
 		// iniciar centralizado
 		setLocationRelativeTo(null);
 
-		//definir um botão padrão (Associar o enter a este botão)
+		// definir um botão padrão (Associar o enter a este botão)
 		getRootPane().setDefaultButton(btnBuscar);
-		
+
 	}// fim do construtor
-	
-		
 
 	// ==================================
 	// Limpar campos

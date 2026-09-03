@@ -203,12 +203,21 @@ public class frmFornecedores extends JDialog {
 						fornecedor.setFone(txtFone.getText());
 						fornecedor.setEmail(txtEmail.getText());
 						fornecedor.setSite(txtSite.getText());
-						// Enviar o objeto para o controller
-						controller.adicionar(fornecedor);
-						// Mensagem de confirmação
-						JOptionPane.showMessageDialog(null, "Fornecedor adicionado com sucesso.");
-						// Limpar campos
-						limparCampos();
+						
+						String st = txtSite.getText().trim();
+
+						if (!st.matches("^https://www\\..+")) {
+							JOptionPane.showMessageDialog(null,
+									"Digite um site válido no formato:\nhttps://www.exemplo.com");
+							txtSite.requestFocus();
+						}else {
+							// enviar o objeto para o controller
+							controller.adicionar(fornecedor);
+							// Mensagem de confirmação
+							JOptionPane.showMessageDialog(null, "Fornecedor adicionado com Sucesso!");
+							// Limpar campos
+							limparCampos();
+						}
 					} catch (Exception e2) {
 						System.out.println(e2);
 					}
@@ -304,6 +313,14 @@ public class frmFornecedores extends JDialog {
 		getContentPane().add(btnExcluir);
 
 		JButton btnRelatorio = new JButton("");
+		//gerar relatorio de fornecedores
+		btnRelatorio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.gerarRelatorioFornecedores();
+			}
+		});
+		// ======================================================
+		
 		btnRelatorio.setToolTipText("Relatório");
 		btnRelatorio.setContentAreaFilled(false);
 		btnRelatorio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
