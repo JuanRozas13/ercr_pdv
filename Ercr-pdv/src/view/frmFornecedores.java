@@ -146,8 +146,8 @@ public class frmFornecedores extends JDialog {
 						int resposta = JOptionPane.showConfirmDialog(null, "Deseja cadastrar esse fornecedor?",
 						"Atenção", JOptionPane.YES_OPTION);
 						if(resposta == JOptionPane.YES_OPTION) {
-							limparCampos();
 							txtNome.requestFocus();
+							
 						}
 					}
 				}

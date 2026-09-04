@@ -299,7 +299,6 @@ public class frmClientes extends JDialog {
 						int resposta = JOptionPane.showConfirmDialog(null, "Deseja cadastrar esse cliente?", "Atenção",
 								JOptionPane.YES_OPTION);
 						if (resposta == JOptionPane.YES_OPTION) {
-							limparCampos();
 							txtNome.requestFocus();
 						}
 					}
