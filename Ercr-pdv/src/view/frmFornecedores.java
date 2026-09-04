@@ -95,6 +95,22 @@ public class frmFornecedores extends JDialog {
 		// validação do número máximo de caracteres
 		txtNome.setDocument(new Validador(50));
 		
+		JButton btnAcessar = new JButton("Acessar");
+		btnAcessar.setEnabled(false);
+		btnAcessar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String site = txtSite.getText();
+				if(site == null || site.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Site não cadastrado para este cliente");
+					return;
+				}
+				
+				link(site);
+			}
+		});
+		btnAcessar.setBounds(489, 253, 89, 23);
+		getContentPane().add(btnAcessar);
+		
 		JButton btnBuscar = new JButton("Buscar");
 		// =============================
 		// CRUD Read - Buscar Cliente==
@@ -123,7 +139,8 @@ public class frmFornecedores extends JDialog {
 						
 						// esconder botão de adicionar
 						btnAdicionar.setEnabled(false);
-
+						// mostrar o botão de acessar
+						btnAcessar.setEnabled(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "Fornecedor não cadastrado");
 						int resposta = JOptionPane.showConfirmDialog(null, "Deseja cadastrar esse fornecedor?",
@@ -159,22 +176,6 @@ public class frmFornecedores extends JDialog {
 		txtSite.setBounds(108, 252, 368, 25);
 		getContentPane().add(txtSite);
 		txtSite.setDocument(new Validador(200));
-		
-		JButton btnAcessar = new JButton("Acessar");
-		btnAcessar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String site = txtSite.getText();
-				if(site == null || site.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Site não cadastrado para este cliente");
-					return;
-				}
-				
-				link(site);
-			}
-		});
-		btnAcessar.setBounds(489, 253, 89, 23);
-		getContentPane().add(btnAcessar);
-		
 
 		btnAdicionar = new JButton("");
 		btnAdicionar.setToolTipText("Adicionar");
@@ -203,21 +204,14 @@ public class frmFornecedores extends JDialog {
 						fornecedor.setFone(txtFone.getText());
 						fornecedor.setEmail(txtEmail.getText());
 						fornecedor.setSite(txtSite.getText());
+				
+						// enviar o objeto para o controller
+						controller.adicionar(fornecedor);
+						// Mensagem de confirmação
+						JOptionPane.showMessageDialog(null, "Fornecedor adicionado com Sucesso!");
+						// Limpar campos
+						limparCampos();
 						
-						String st = txtSite.getText().trim();
-
-						if (!st.matches("^https://www\\..+")) {
-							JOptionPane.showMessageDialog(null,
-									"Digite um site válido no formato:\nhttps://www.exemplo.com");
-							txtSite.requestFocus();
-						}else {
-							// enviar o objeto para o controller
-							controller.adicionar(fornecedor);
-							// Mensagem de confirmação
-							JOptionPane.showMessageDialog(null, "Fornecedor adicionado com Sucesso!");
-							// Limpar campos
-							limparCampos();
-						}
 					} catch (Exception e2) {
 						System.out.println(e2);
 					}
@@ -265,6 +259,10 @@ public class frmFornecedores extends JDialog {
 
 					// limpar campos
 					limparCampos();
+					
+					// desativar o button acessar
+					btnAcessar.setEnabled(false);
+					
 				}
 			}
 		});
@@ -302,6 +300,9 @@ public class frmFornecedores extends JDialog {
 						limparCampos();
 						// mensagem para o usuário
 						JOptionPane.showMessageDialog(null, "Fornecedor excluído com sucesso.");
+						// desativar o button acessar
+						btnAcessar.setEnabled(false);
+						
 					}
 
 				}
@@ -334,6 +335,7 @@ public class frmFornecedores extends JDialog {
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limparCampos();
+				btnAcessar.setEnabled(false);
 			}
 		});
 		btnLimpar.setContentAreaFilled(false);

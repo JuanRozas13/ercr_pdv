@@ -133,7 +133,7 @@ public class FornecedorController {
 			stmt.setString(2, fornecedor.getFone());
 			stmt.setString(3, fornecedor.getEmail());
 			stmt.setString(4, fornecedor.getSite());
-			stmt.setInt(4, fornecedor.getIdFornecedor());
+			stmt.setInt(5, fornecedor.getIdFornecedor());
 			
 			//executa a atualização no banco
 			stmt.executeUpdate();

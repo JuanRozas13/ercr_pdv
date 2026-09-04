@@ -41,8 +41,8 @@ public class ClienteController {
 	public void adicionar(Cliente cliente) throws SQLException {
 		// comando sql (passo1)
 		String sql = """
-				insert into clientes (nome, fone, email, site)
-				values(?,?,?,?)
+				insert into clientes (nome, fone, email)
+				values(?,?,?)
 				""";
 		
 		// abrir coxão com o banco (passo 2)
@@ -54,7 +54,6 @@ public class ClienteController {
 		stmt.setString(1, cliente.getNome());
 		stmt.setString(2, cliente.getFone());
 		stmt.setString(3, cliente.getEmail());
-		stmt.setString(4, cliente.getSite());
 		stmt.executeUpdate();
 		
 		// fechar a coxão (passo 4)
@@ -71,7 +70,7 @@ public class ClienteController {
 	public Cliente buscar(String nome) {
 		try {
 		String sql = """
-				select idClientes, nome, fone, email, site
+				select idClientes, nome, fone, email
 				from clientes
 				where nome like ?; 
 				""";
@@ -96,7 +95,6 @@ public class ClienteController {
 			cliente.setNome(rs.getString("nome"));
 			cliente.setFone(rs.getString("fone"));
 			cliente.setEmail(rs.getString("email"));
-			cliente.setSite(rs.getString("site"));
 		}
 		
 		// fechar as conexões
@@ -122,8 +120,7 @@ public class ClienteController {
 					update clientes
 					set nome = ?,
 					fone = ?,
-					email = ?,
-					site = ?
+					email = ?
 					where idClientes = ?
 					""";
 			
@@ -137,8 +134,7 @@ public class ClienteController {
 			stmt.setString(1, cliente.getNome());
 			stmt.setString(2, cliente.getFone());
 			stmt.setString(3, cliente.getEmail());
-			stmt.setString(4, cliente.getSite());
-			stmt.setInt(5, cliente.getIdClientes());
+			stmt.setInt(4, cliente.getIdClientes());
 			
 			//executa a atualização no banco
 			stmt.executeUpdate();
@@ -188,7 +184,7 @@ public class ClienteController {
 		try {
 			
 			String sql = """
-					select nome, fone, email, site
+					select nome, fone, email
 					from clientes order by nome
 					""" ;
 			
@@ -251,12 +247,12 @@ public class ClienteController {
 			
 			//Tabela inicio --------
 			
-			//criar a tabela com 4 colunas
-			PdfPTable tabela = new PdfPTable(4);
+			//criar a tabela com 3 colunas
+			PdfPTable tabela = new PdfPTable(3);
 			
 			//definir largura das colunas
 			tabela.setWidths(new float[] {
-				2.5f, 2.0f, 3.0f, 4.0f	
+				2.5f, 2.0f, 3.0f
 			});
 			
 			// ocupar toda a largura disponivel
@@ -266,7 +262,6 @@ public class ClienteController {
 			tabela.addCell("Nome");
 			tabela.addCell("Fone");
 			tabela.addCell("E-mail");
-			tabela.addCell("Site");
 			
 			//dados do cliente
 			int quantidade = 0; //variavel de apoio
@@ -276,7 +271,6 @@ public class ClienteController {
 				tabela.addCell(rs.getString("nome"));
 				tabela.addCell(rs.getString("fone"));
 				tabela.addCell(rs.getString("email"));
-				tabela.addCell(rs.getString("site"));
 				//somar a quantidade, atribuindo a variavel
 				quantidade++;
 			}			

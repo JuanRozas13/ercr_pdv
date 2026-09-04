@@ -30,7 +30,6 @@ public class frmClientes extends JDialog {
 	// instanciado objeto controller
 	private ClienteController controller;
 	private Cliente cliente;
-	private JTextField txtSite;
 	private JButton btnAdd;
 
 	/**
@@ -64,6 +63,10 @@ public class frmClientes extends JDialog {
 		controller = new ClienteController();
 		// criar um objeto cliente
 		cliente = new Cliente();
+		
+		JLabel lblID = new JLabel("ID");
+		lblID.setBounds(52, 58, 46, 14);
+		getContentPane().add(lblID);
 
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setBounds(52, 122, 46, 14);
@@ -77,6 +80,12 @@ public class frmClientes extends JDialog {
 		lblEmail.setBounds(52, 245, 46, 14);
 		getContentPane().add(lblEmail);
 
+		txtID = new JTextField();
+		txtID.setEnabled(false);
+		txtID.setColumns(10);
+		txtID.setBounds(100, 55, 92, 20);
+		getContentPane().add(txtID);
+		
 		txtNome = new JTextField();
 		txtNome.setBounds(103, 117, 368, 25);
 		getContentPane().add(txtNome);
@@ -97,13 +106,6 @@ public class frmClientes extends JDialog {
 		getContentPane().add(txtEmail);
 		// validação do número maxímo de caracacteres
 		txtEmail.setDocument(new Validador(50));
-
-		txtSite = new JTextField();
-		txtSite.setBounds(103, 298, 368, 25);
-		getContentPane().add(txtSite);
-		txtSite.setColumns(10);
-		// validação do número maxímo de caracacteres
-		txtSite.setDocument(new Validador(200));
 
 		btnAdd = new JButton("");
 		btnAdd.setToolTipText("Adicionar");
@@ -128,26 +130,14 @@ public class frmClientes extends JDialog {
 						cliente.setNome(txtNome.getText());
 						cliente.setFone(txtFone.getText());
 						cliente.setEmail(txtEmail.getText());
-						cliente.setSite(txtSite.getText());
-						
-						
-						// ARRUMAR
-
-						String st = txtSite.getText().trim();
-
-						if (!st.matches("^https://www\\..+")) {
-							JOptionPane.showMessageDialog(null,
-									"Digite um site válido no formato:\nhttps://www.exemplo.com");
-							txtSite.requestFocus();
-						}else {
-							// enviar o objeto para o controller
-							controller.adicionar(cliente);
-							// Mensagem de confirmação
-							JOptionPane.showMessageDialog(null, "Fornecedor adicionado com Sucesso!");
-							// Limpar campos
-							limparCampos();
-						}
-
+	
+						// enviar o objeto para o controller
+						controller.adicionar(cliente);
+						// Mensagem de confirmação
+						JOptionPane.showMessageDialog(null, "Cliente adicionado com Sucesso!");
+						// Limpar campos
+						limparCampos();
+				
 						
 					} catch (Exception e2) {
 						System.out.println(e2);
@@ -188,7 +178,6 @@ public class frmClientes extends JDialog {
 					cliente.setNome(txtNome.getText());
 					cliente.setFone(txtFone.getText());
 					cliente.setEmail(txtEmail.getText());
-					cliente.setSite(txtSite.getText());
 
 					// enviar o objeto pora o controller
 					controller.editarCliente(cliente);
@@ -273,41 +262,6 @@ public class frmClientes extends JDialog {
 		btnLimpar.setToolTipText("Limpar");
 		btnLimpar.setBounds(498, 358, 64, 64);
 		getContentPane().add(btnLimpar);
-		
-		JLabel lblSite = new JLabel("Site");
-		lblSite.setBounds(52, 301, 46, 14);
-		getContentPane().add(lblSite);
-
-		JButton btnSite = new JButton("Acessar");
-		btnSite.setEnabled(false);
-		// acessar link externo ======================
-		btnSite.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String site = txtSite.getText();
-				if (site == null || site.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Nenhum site cadastrado para este cliente");
-					return;
-				}
-				link(site);
-
-			}
-		});
-		// =========================================
-		btnSite.addMouseListener(new MouseAdapter() {
-
-		});
-		btnSite.setBounds(494, 297, 89, 23);
-		getContentPane().add(btnSite);
-
-		JLabel lblID = new JLabel("ID");
-		lblID.setBounds(52, 58, 46, 14);
-		getContentPane().add(lblID);
-
-		txtID = new JTextField();
-		txtID.setEnabled(false);
-		txtID.setColumns(10);
-		txtID.setBounds(100, 55, 92, 20);
-		getContentPane().add(txtID);
 
 		JButton btnBuscar = new JButton("Buscar");
 		// =============================
@@ -336,11 +290,9 @@ public class frmClientes extends JDialog {
 						txtNome.setText(cliente.getNome());
 						txtFone.setText(cliente.getFone());
 						txtEmail.setText(cliente.getEmail());
-						txtSite.setText(cliente.getSite());
 
 						// desativar o botão adicionar
 						btnAdd.setEnabled(false);
-						btnSite.setEnabled(true);
 						
 					} else {
 						JOptionPane.showMessageDialog(null, "Cliente não cadastrado ");
@@ -380,7 +332,6 @@ public class frmClientes extends JDialog {
 		txtNome.setText(null);
 		txtFone.setText(null);
 		txtEmail.setText(null);
-		txtSite.setText(null);
 		txtNome.requestFocus(); // posicionar o cursor no nome
 		btnAdd.setEnabled(true);
 	}
