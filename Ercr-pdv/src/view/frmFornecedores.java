@@ -178,11 +178,11 @@ public class frmFornecedores extends JDialog {
 		txtSite.setDocument(new Validador(200));
 
 		btnAdicionar = new JButton("");
-		btnAdicionar.setToolTipText("Adicionar");
-		btnAdicionar.setContentAreaFilled(false);
-		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdicionar.setBorderPainted(false);
-		btnAdicionar.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/iconadd.png")));
+		btnAdicionar.setContentAreaFilled(false);
+		btnAdicionar.setToolTipText("Adicionar");
+		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAdicionar.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/boxadd.png")));
 
 		// ======================================================
 		// CRUD Create - Cadastrar fornecedor ===================
@@ -220,14 +220,14 @@ public class frmFornecedores extends JDialog {
 		});
 		// Fim - CRUD Create ====================================
 
-		btnAdicionar.setBounds(108, 342, 64, 64);
+		btnAdicionar.setBounds(51, 342, 64, 64);
 		getContentPane().add(btnAdicionar);
 
 		JButton btnEditar = new JButton("");
 		btnEditar.setToolTipText("Editar");
 		btnEditar.setContentAreaFilled(false);
 		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnEditar.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/iconedit.png")));
+		btnEditar.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/boxupdate.png")));
 		btnEditar.setBorderPainted(false);
 
 		// ======================================================
@@ -268,13 +268,13 @@ public class frmFornecedores extends JDialog {
 		});
 		// ======================================================
 
-		btnEditar.setBounds(203, 342, 64, 64);
+		btnEditar.setBounds(125, 342, 64, 64);
 		getContentPane().add(btnEditar);
 		JButton btnExcluir = new JButton("");
 		btnExcluir.setToolTipText("Excluir");
 		btnExcluir.setContentAreaFilled(false);
 		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnExcluir.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/iconremov.png")));
+		btnExcluir.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/boxdel.png")));
 		btnExcluir.setBorderPainted(false);
 
 		// ======================================================
@@ -310,10 +310,10 @@ public class frmFornecedores extends JDialog {
 		});
 		// ======================================================
 
-		btnExcluir.setBounds(297, 342, 64, 64);
+		btnExcluir.setBounds(199, 342, 64, 64);
 		getContentPane().add(btnExcluir);
 
-		JButton btnRelatorio = new JButton("");
+		JButton btnRelatorio = new JButton("Relatório");
 		//gerar relatorio de fornecedores
 		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -323,14 +323,12 @@ public class frmFornecedores extends JDialog {
 		// ======================================================
 		
 		btnRelatorio.setToolTipText("Relatório");
-		btnRelatorio.setContentAreaFilled(false);
 		btnRelatorio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnRelatorio.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/iconbuscar.png")));
-		btnRelatorio.setBorderPainted(false);
-		btnRelatorio.setBounds(390, 342, 64, 64);
+		btnRelatorio.setIcon(null);
+		btnRelatorio.setBounds(273, 342, 89, 32);
 		getContentPane().add(btnRelatorio);
 
-		JButton btnLimpar = new JButton("");
+		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -338,11 +336,9 @@ public class frmFornecedores extends JDialog {
 				btnAcessar.setEnabled(false);
 			}
 		});
-		btnLimpar.setContentAreaFilled(false);
-		btnLimpar.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/Clear.png")));
-		btnLimpar.setBorderPainted(false);
+		btnLimpar.setIcon(null);
 		btnLimpar.setToolTipText("Limpar campo");
-		btnLimpar.setBounds(478, 342, 64, 64);
+		btnLimpar.setBounds(372, 342, 89, 32);
 		getContentPane().add(btnLimpar);
 		
 		JLabel lblID = new JLabel("ID");

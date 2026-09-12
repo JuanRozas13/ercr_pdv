@@ -153,8 +153,8 @@ public class frmClientes extends JDialog {
 		btnAdd.setDefaultCapable(false);
 		btnAdd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdd.setContentAreaFilled(false);
-		btnAdd.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconadd.png")));
-		btnAdd.setBounds(103, 358, 64, 64);
+		btnAdd.setIcon(new ImageIcon(frmClientes.class.getResource("/img/boxadd.png")));
+		btnAdd.setBounds(52, 347, 64, 64);
 		getContentPane().add(btnAdd);
 
 		JButton btnEditar = new JButton("");
@@ -193,9 +193,9 @@ public class frmClientes extends JDialog {
 		});
 		btnEditar.setContentAreaFilled(false);
 		btnEditar.setBorderPainted(false);
-		btnEditar.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconedit.png")));
+		btnEditar.setIcon(new ImageIcon(frmClientes.class.getResource("/img/boxupdate.png")));
 		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnEditar.setBounds(206, 358, 64, 64);
+		btnEditar.setBounds(126, 347, 64, 64);
 		getContentPane().add(btnEditar);
 
 		JButton btnExcluir = new JButton("");
@@ -228,39 +228,35 @@ public class frmClientes extends JDialog {
 			}
 		});
 		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnExcluir.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconremov.png")));
+		btnExcluir.setIcon(new ImageIcon(frmClientes.class.getResource("/img/boxdel.png")));
 		btnExcluir.setContentAreaFilled(false);
 		btnExcluir.setBorderPainted(false);
-		btnExcluir.setBounds(309, 358, 64, 64);
+		btnExcluir.setBounds(200, 347, 64, 64);
 		getContentPane().add(btnExcluir);
 
-		JButton btnRelario = new JButton("");
+		JButton btnRelario = new JButton("Relatório");
 		btnRelario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.gerarRelatorioCliente();
 			}
 		});
 		btnRelario.setToolTipText("Relatório");
-		btnRelario.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconbuscar.png")));
-		btnRelario.setBorderPainted(false);
-		btnRelario.setContentAreaFilled(false);
+		btnRelario.setIcon(null);
 		btnRelario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnRelario.setBounds(407, 358, 64, 64);
+		btnRelario.setBounds(274, 347, 89, 32);
 		getContentPane().add(btnRelario);
 
-		JButton btnLimpar = new JButton("");
+		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limparCampos();
 
 			}
 		});
-		btnLimpar.setContentAreaFilled(false);
-		btnLimpar.setBorderPainted(false);
-		btnLimpar.setIcon(new ImageIcon(frmClientes.class.getResource("/img/Clear.png")));
+		btnLimpar.setIcon(null);
 		btnLimpar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLimpar.setToolTipText("Limpar");
-		btnLimpar.setBounds(498, 358, 64, 64);
+		btnLimpar.setBounds(373, 347, 89, 32);
 		getContentPane().add(btnLimpar);
 
 		JButton btnBuscar = new JButton("Buscar");
