@@ -138,6 +138,8 @@ public class Main extends JFrame {
 		btnProdutos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnProdutos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frmProdutos produto = new frmProdutos();
+				produto.setVisible(true);
 			}
 		});
 		btnProdutos.setIconTextGap(12);

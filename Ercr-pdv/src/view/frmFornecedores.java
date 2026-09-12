@@ -95,6 +95,22 @@ public class frmFornecedores extends JDialog {
 		// validação do número máximo de caracteres
 		txtNome.setDocument(new Validador(50));
 		
+		JButton btnAcessar = new JButton("Acessar");
+		btnAcessar.setEnabled(false);
+		btnAcessar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String site = txtSite.getText();
+				if(site == null || site.isBlank()) {
+					JOptionPane.showMessageDialog(null, "Site não cadastrado para este cliente");
+					return;
+				}
+				
+				link(site);
+			}
+		});
+		btnAcessar.setBounds(489, 253, 89, 23);
+		getContentPane().add(btnAcessar);
+		
 		JButton btnBuscar = new JButton("Buscar");
 		// =============================
 		// CRUD Read - Buscar Cliente==
@@ -123,14 +139,15 @@ public class frmFornecedores extends JDialog {
 						
 						// esconder botão de adicionar
 						btnAdicionar.setEnabled(false);
-
+						// mostrar o botão de acessar
+						btnAcessar.setEnabled(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "Fornecedor não cadastrado");
 						int resposta = JOptionPane.showConfirmDialog(null, "Deseja cadastrar esse fornecedor?",
 						"Atenção", JOptionPane.YES_OPTION);
 						if(resposta == JOptionPane.YES_OPTION) {
-							limparCampos();
 							txtNome.requestFocus();
+							
 						}
 					}
 				}
@@ -159,29 +176,13 @@ public class frmFornecedores extends JDialog {
 		txtSite.setBounds(108, 252, 368, 25);
 		getContentPane().add(txtSite);
 		txtSite.setDocument(new Validador(200));
-		
-		JButton btnAcessar = new JButton("Acessar");
-		btnAcessar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String site = txtSite.getText();
-				if(site == null || site.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Site não cadastrado para este cliente");
-					return;
-				}
-				
-				link(site);
-			}
-		});
-		btnAcessar.setBounds(489, 253, 89, 23);
-		getContentPane().add(btnAcessar);
-		
 
 		btnAdicionar = new JButton("");
-		btnAdicionar.setToolTipText("Adicionar");
-		btnAdicionar.setContentAreaFilled(false);
-		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdicionar.setBorderPainted(false);
-		btnAdicionar.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/iconadd.png")));
+		btnAdicionar.setContentAreaFilled(false);
+		btnAdicionar.setToolTipText("Adicionar");
+		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAdicionar.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/boxadd.png")));
 
 		// ======================================================
 		// CRUD Create - Cadastrar fornecedor ===================
@@ -203,12 +204,14 @@ public class frmFornecedores extends JDialog {
 						fornecedor.setFone(txtFone.getText());
 						fornecedor.setEmail(txtEmail.getText());
 						fornecedor.setSite(txtSite.getText());
-						// Enviar o objeto para o controller
+				
+						// enviar o objeto para o controller
 						controller.adicionar(fornecedor);
 						// Mensagem de confirmação
-						JOptionPane.showMessageDialog(null, "Fornecedor adicionado com sucesso.");
+						JOptionPane.showMessageDialog(null, "Fornecedor adicionado com Sucesso!");
 						// Limpar campos
 						limparCampos();
+						
 					} catch (Exception e2) {
 						System.out.println(e2);
 					}
@@ -217,14 +220,14 @@ public class frmFornecedores extends JDialog {
 		});
 		// Fim - CRUD Create ====================================
 
-		btnAdicionar.setBounds(108, 342, 64, 64);
+		btnAdicionar.setBounds(51, 342, 64, 64);
 		getContentPane().add(btnAdicionar);
 
 		JButton btnEditar = new JButton("");
 		btnEditar.setToolTipText("Editar");
 		btnEditar.setContentAreaFilled(false);
 		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnEditar.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/iconedit.png")));
+		btnEditar.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/boxupdate.png")));
 		btnEditar.setBorderPainted(false);
 
 		// ======================================================
@@ -256,18 +259,22 @@ public class frmFornecedores extends JDialog {
 
 					// limpar campos
 					limparCampos();
+					
+					// desativar o button acessar
+					btnAcessar.setEnabled(false);
+					
 				}
 			}
 		});
 		// ======================================================
 
-		btnEditar.setBounds(203, 342, 64, 64);
+		btnEditar.setBounds(125, 342, 64, 64);
 		getContentPane().add(btnEditar);
 		JButton btnExcluir = new JButton("");
 		btnExcluir.setToolTipText("Excluir");
 		btnExcluir.setContentAreaFilled(false);
 		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnExcluir.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/iconremov.png")));
+		btnExcluir.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/boxdel.png")));
 		btnExcluir.setBorderPainted(false);
 
 		// ======================================================
@@ -293,6 +300,9 @@ public class frmFornecedores extends JDialog {
 						limparCampos();
 						// mensagem para o usuário
 						JOptionPane.showMessageDialog(null, "Fornecedor excluído com sucesso.");
+						// desativar o button acessar
+						btnAcessar.setEnabled(false);
+						
 					}
 
 				}
@@ -300,30 +310,35 @@ public class frmFornecedores extends JDialog {
 		});
 		// ======================================================
 
-		btnExcluir.setBounds(297, 342, 64, 64);
+		btnExcluir.setBounds(199, 342, 64, 64);
 		getContentPane().add(btnExcluir);
 
-		JButton btnRelatorio = new JButton("");
+		JButton btnRelatorio = new JButton("Relatório");
+		//gerar relatorio de fornecedores
+		btnRelatorio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.gerarRelatorioFornecedores();
+			}
+		});
+		// ======================================================
+		
 		btnRelatorio.setToolTipText("Relatório");
-		btnRelatorio.setContentAreaFilled(false);
 		btnRelatorio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnRelatorio.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/iconbuscar.png")));
-		btnRelatorio.setBorderPainted(false);
-		btnRelatorio.setBounds(390, 342, 64, 64);
+		btnRelatorio.setIcon(null);
+		btnRelatorio.setBounds(273, 342, 89, 32);
 		getContentPane().add(btnRelatorio);
 
-		JButton btnLimpar = new JButton("");
+		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limparCampos();
+				btnAcessar.setEnabled(false);
 			}
 		});
-		btnLimpar.setContentAreaFilled(false);
-		btnLimpar.setIcon(new ImageIcon(frmFornecedores.class.getResource("/img/Clear.png")));
-		btnLimpar.setBorderPainted(false);
+		btnLimpar.setIcon(null);
 		btnLimpar.setToolTipText("Limpar campo");
-		btnLimpar.setBounds(478, 342, 64, 64);
+		btnLimpar.setBounds(372, 342, 89, 32);
 		getContentPane().add(btnLimpar);
 		
 		JLabel lblID = new JLabel("ID");

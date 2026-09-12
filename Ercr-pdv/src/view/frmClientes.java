@@ -30,7 +30,6 @@ public class frmClientes extends JDialog {
 	// instanciado objeto controller
 	private ClienteController controller;
 	private Cliente cliente;
-	private JTextField txtSite;
 	private JButton btnAdd;
 
 	/**
@@ -64,6 +63,10 @@ public class frmClientes extends JDialog {
 		controller = new ClienteController();
 		// criar um objeto cliente
 		cliente = new Cliente();
+		
+		JLabel lblID = new JLabel("ID");
+		lblID.setBounds(52, 58, 46, 14);
+		getContentPane().add(lblID);
 
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setBounds(52, 122, 46, 14);
@@ -77,6 +80,12 @@ public class frmClientes extends JDialog {
 		lblEmail.setBounds(52, 245, 46, 14);
 		getContentPane().add(lblEmail);
 
+		txtID = new JTextField();
+		txtID.setEnabled(false);
+		txtID.setColumns(10);
+		txtID.setBounds(100, 55, 92, 20);
+		getContentPane().add(txtID);
+		
 		txtNome = new JTextField();
 		txtNome.setBounds(103, 117, 368, 25);
 		getContentPane().add(txtNome);
@@ -98,13 +107,6 @@ public class frmClientes extends JDialog {
 		// validação do número maxímo de caracacteres
 		txtEmail.setDocument(new Validador(50));
 
-		txtSite = new JTextField();
-		txtSite.setBounds(103, 298, 368, 25);
-		getContentPane().add(txtSite);
-		txtSite.setColumns(10);
-		// validação do número maxímo de caracacteres
-		txtSite.setDocument(new Validador(200));
-		
 		btnAdd = new JButton("");
 		btnAdd.setToolTipText("Adicionar");
 		btnAdd.addActionListener(new ActionListener() {
@@ -128,14 +130,15 @@ public class frmClientes extends JDialog {
 						cliente.setNome(txtNome.getText());
 						cliente.setFone(txtFone.getText());
 						cliente.setEmail(txtEmail.getText());
-						cliente.setSite(txtSite.getText());
+	
 						// enviar o objeto para o controller
 						controller.adicionar(cliente);
 						// Mensagem de confirmação
-						JOptionPane.showMessageDialog(null, "Fornecedor adicionado com Sucesso!");
-
+						JOptionPane.showMessageDialog(null, "Cliente adicionado com Sucesso!");
 						// Limpar campos
 						limparCampos();
+				
+						
 					} catch (Exception e2) {
 						System.out.println(e2);
 					}
@@ -150,8 +153,8 @@ public class frmClientes extends JDialog {
 		btnAdd.setDefaultCapable(false);
 		btnAdd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdd.setContentAreaFilled(false);
-		btnAdd.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconadd.png")));
-		btnAdd.setBounds(103, 358, 64, 64);
+		btnAdd.setIcon(new ImageIcon(frmClientes.class.getResource("/img/boxadd.png")));
+		btnAdd.setBounds(52, 347, 64, 64);
 		getContentPane().add(btnAdd);
 
 		JButton btnEditar = new JButton("");
@@ -175,7 +178,6 @@ public class frmClientes extends JDialog {
 					cliente.setNome(txtNome.getText());
 					cliente.setFone(txtFone.getText());
 					cliente.setEmail(txtEmail.getText());
-					cliente.setSite(txtSite.getText());
 
 					// enviar o objeto pora o controller
 					controller.editarCliente(cliente);
@@ -191,9 +193,9 @@ public class frmClientes extends JDialog {
 		});
 		btnEditar.setContentAreaFilled(false);
 		btnEditar.setBorderPainted(false);
-		btnEditar.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconedit.png")));
+		btnEditar.setIcon(new ImageIcon(frmClientes.class.getResource("/img/boxupdate.png")));
 		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnEditar.setBounds(206, 358, 64, 64);
+		btnEditar.setBounds(126, 347, 64, 64);
 		getContentPane().add(btnEditar);
 
 		JButton btnExcluir = new JButton("");
@@ -226,45 +228,36 @@ public class frmClientes extends JDialog {
 			}
 		});
 		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnExcluir.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconremov.png")));
+		btnExcluir.setIcon(new ImageIcon(frmClientes.class.getResource("/img/boxdel.png")));
 		btnExcluir.setContentAreaFilled(false);
 		btnExcluir.setBorderPainted(false);
-		btnExcluir.setBounds(309, 358, 64, 64);
+		btnExcluir.setBounds(200, 347, 64, 64);
 		getContentPane().add(btnExcluir);
 
-		JButton btnRelario = new JButton("");
+		JButton btnRelario = new JButton("Relatório");
+		btnRelario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.gerarRelatorioCliente();
+			}
+		});
 		btnRelario.setToolTipText("Relatório");
-		btnRelario.setIcon(new ImageIcon(frmClientes.class.getResource("/img/iconbuscar.png")));
-		btnRelario.setBorderPainted(false);
-		btnRelario.setContentAreaFilled(false);
+		btnRelario.setIcon(null);
 		btnRelario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnRelario.setBounds(407, 358, 64, 64);
+		btnRelario.setBounds(274, 347, 89, 32);
 		getContentPane().add(btnRelario);
-		
-		JButton btnLimpar = new JButton("");
+
+		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limparCampos();
-			
+
 			}
 		});
-		btnLimpar.setContentAreaFilled(false);
-		btnLimpar.setBorderPainted(false);
-		btnLimpar.setIcon(new ImageIcon(frmClientes.class.getResource("/img/Clear.png")));
+		btnLimpar.setIcon(null);
 		btnLimpar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLimpar.setToolTipText("Limpar");
-		btnLimpar.setBounds(498, 358, 64, 64);
+		btnLimpar.setBounds(373, 347, 89, 32);
 		getContentPane().add(btnLimpar);
-
-		JLabel lblID = new JLabel("ID");
-		lblID.setBounds(52, 58, 46, 14);
-		getContentPane().add(lblID);
-
-		txtID = new JTextField();
-		txtID.setEnabled(false);
-		txtID.setColumns(10);
-		txtID.setBounds(100, 55, 92, 20);
-		getContentPane().add(txtID);
 
 		JButton btnBuscar = new JButton("Buscar");
 		// =============================
@@ -279,7 +272,7 @@ public class frmClientes extends JDialog {
 					txtNome.requestFocus();
 				} else {
 					// logica principal
-
+					
 					// capturar o nome para busca
 					String nome = txtNome.getText();
 
@@ -293,17 +286,16 @@ public class frmClientes extends JDialog {
 						txtNome.setText(cliente.getNome());
 						txtFone.setText(cliente.getFone());
 						txtEmail.setText(cliente.getEmail());
-						txtSite.setText(cliente.getSite());
-						
-						//desativar o botão adicionar
+
+						// desativar o botão adicionar
 						btnAdd.setEnabled(false);
+						
 					} else {
 						JOptionPane.showMessageDialog(null, "Cliente não cadastrado ");
-						int resposta = JOptionPane.showConfirmDialog(null, "Deseja cadastrar esse cliente?",
-						"Atenção", JOptionPane.YES_OPTION);
-						if(resposta == JOptionPane.YES_OPTION) {
-							limparCampos();
-						txtNome.requestFocus();
+						int resposta = JOptionPane.showConfirmDialog(null, "Deseja cadastrar esse cliente?", "Atenção",
+								JOptionPane.YES_OPTION);
+						if (resposta == JOptionPane.YES_OPTION) {
+							txtNome.requestFocus();
 						}
 					}
 
@@ -316,39 +308,15 @@ public class frmClientes extends JDialog {
 		btnBuscar.setBounds(494, 118, 89, 23);
 		getContentPane().add(btnBuscar);
 
-		JLabel lblSite = new JLabel("Site");
-		lblSite.setBounds(52, 301, 46, 14);
-		getContentPane().add(lblSite);
-
-
-		JButton btnSite = new JButton("Acessar");
-		// acessar link externo ======================
-		btnSite.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String site = txtSite.getText();
-				if (site == null || site.isBlank()) {
-					JOptionPane.showMessageDialog(null, "Nenhum site cadastrado para este cliente");
-					return;
-				}
-				link(site);
-			}
-		});
-		// =========================================
-		btnSite.addMouseListener(new MouseAdapter() {
-
-		});
-		btnSite.setBounds(494, 297, 89, 23);
-		getContentPane().add(btnSite);
+		
 
 		// iniciar centralizado
 		setLocationRelativeTo(null);
 
-		//definir um botão padrão (Associar o enter a este botão)
+		// definir um botão padrão (Associar o enter a este botão)
 		getRootPane().setDefaultButton(btnBuscar);
-		
+
 	}// fim do construtor
-	
-		
 
 	// ==================================
 	// Limpar campos
@@ -359,7 +327,6 @@ public class frmClientes extends JDialog {
 		txtNome.setText(null);
 		txtFone.setText(null);
 		txtEmail.setText(null);
-		txtSite.setText(null);
 		txtNome.requestFocus(); // posicionar o cursor no nome
 		btnAdd.setEnabled(true);
 	}
