@@ -1,35 +1,51 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import java.awt.Cursor;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+//importar o fornecedorcontroller (combo box)
+import controller.FornecedorController;
+//importar o ProdutoController (Crud produtos)
+import controller.ProdutosController;
+//importar os modelos de dados
+import model.Fornecedor;
+import model.Produto;
+import model.Produto;
 
 public class frmProdutos extends JDialog {
 
+	//criar os objetos controller(fornecedores e produtos)
+	FornecedorController controllerFornecedor = new FornecedorController();
+	ProdutosController controllerProduto = new ProdutosController();
+	
+	//criar os objetos model(fornecedor e produto)
+	Fornecedor fornecedor = new Fornecedor();
+	Produto produto = new Produto();
+	
 	private static final long serialVersionUID = 1L;
 	private JTextField txtIDProduto;
 	private JTextField txtBarcode;
 	private JTextField txtProduto;
-	private JTextField textField_2;
+	private JTextField txtIdFornecedor;
 	private JTextField txtPrecoCusto;
 	private JTextField txtPrecoVenda;
 	private JTextField txtQuantidade;
 	private JTextField txtEstoqueMin;
 	private JTextField txtCategoria;
+	private JComboBox cBoxFornecedor;
 
 	/**
 	 * Launch the application.
@@ -113,19 +129,37 @@ public class frmProdutos extends JDialog {
 		lblFornecedor.setBounds(32, 154, 64, 14);
 		getContentPane().add(lblFornecedor);
 		
-		JComboBox cBoxFornecedor = new JComboBox();
+		cBoxFornecedor = new JComboBox();
+		//Evento que seleciona um item da lista (preencher o id do fornecedor)
+		cBoxFornecedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Obter o ítem selecionado do combo box
+				String selecionado = (String) cBoxFornecedor.getSelectedItem();				
+				
+				// se foi selecionado o ítem
+				if (selecionado != null && !selecionado.equals("Selecione...") ) {
+					//separar o id do nome (índice [0] do vetor)
+					String id = selecionado.split(" - ")[0];
+					//setar (preencher) o id do fornecedor
+					txtIdFornecedor.setText(id);
+				} else {
+				//nenhum fornecedor selecionado
+					txtIdFornecedor.setText("");
+				}
+			}
+		});// Fim
 		cBoxFornecedor.setBounds(122, 150, 251, 22);
 		getContentPane().add(cBoxFornecedor);
 		
 		JLabel lblIDFornecedor = new JLabel("ID Fornecedor");
-		lblIDFornecedor.setBounds(422, 154, 77, 14);
+		lblIDFornecedor.setBounds(422, 154, 87, 14);
 		getContentPane().add(lblIDFornecedor);
 		
-		textField_2 = new JTextField();
-		textField_2.setEnabled(false);
-		textField_2.setBounds(519, 151, 86, 20);
-		getContentPane().add(textField_2);
-		textField_2.setColumns(10);
+		txtIdFornecedor = new JTextField();
+		txtIdFornecedor.setEnabled(false);
+		txtIdFornecedor.setBounds(519, 151, 86, 20);
+		getContentPane().add(txtIdFornecedor);
+		txtIdFornecedor.setColumns(10);
 		
 		JLabel lblPrecoCusto = new JLabel("Preço de custo");
 		lblPrecoCusto.setBounds(32, 213, 89, 14);
@@ -164,27 +198,53 @@ public class frmProdutos extends JDialog {
 		txtEstoqueMin.setColumns(10);
 		
 		JButton btnAdicionarProduto = new JButton("");
-		btnAdicionarProduto.setContentAreaFilled(false);
+		btnAdicionarProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					// Transferir os dados da tela para o objeto
+					produto.setNome(txtNome.getText());
+					produto.setFone(txtFone.getText());
+					produto.setEmail(txtEmail.getText());
+					produto.setSite(txtSite.getText());
+			
+					// enviar o objeto para o controller
+					controllerProduto.adicionar(produto);
+					// Mensagem de confirmação
+					JOptionPane.showMessageDialog(null, "Produto adicionado com Sucesso!");
+					// Limpar campos
+//					limparCampos();
+					
+				} catch (Exception e2) {
+					System.out.println(e2);
+				}
+			}
+		});
 		btnAdicionarProduto.setBorderPainted(false);
+		btnAdicionarProduto.setToolTipText("Adicionar");
+		btnAdicionarProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAdicionarProduto.setContentAreaFilled(false);
 		btnAdicionarProduto.setIcon(new ImageIcon(frmProdutos.class.getResource("/img/boxadd.png")));
 		btnAdicionarProduto.setBounds(32, 392, 77, 73);
 		getContentPane().add(btnAdicionarProduto);
 		
 		JButton btnEditarProduto = new JButton("");
-		btnEditarProduto.setBorderPainted(false);
+		btnEditarProduto.setToolTipText("Editar");
+		btnEditarProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEditarProduto.setContentAreaFilled(false);
 		btnEditarProduto.setIcon(new ImageIcon(frmProdutos.class.getResource("/img/boxupdate.png")));
 		btnEditarProduto.setBounds(122, 392, 77, 73);
 		getContentPane().add(btnEditarProduto);
 		
 		JButton btnExcluirProduto = new JButton("");
-		btnExcluirProduto.setBorderPainted(false);
+		btnExcluirProduto.setToolTipText("Excluir");
+		btnExcluirProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExcluirProduto.setContentAreaFilled(false);
 		btnExcluirProduto.setIcon(new ImageIcon(frmProdutos.class.getResource("/img/boxdel.png")));
 		btnExcluirProduto.setBounds(209, 392, 77, 73);
 		getContentPane().add(btnExcluirProduto);
 		
 		JButton btnRelatorioProduto = new JButton("Relatório");
+		btnRelatorioProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRelatorioProduto.setBackground(new Color(255, 255, 255));
 		btnRelatorioProduto.setOpaque(false);
 		btnRelatorioProduto.addActionListener(new ActionListener() {
@@ -210,5 +270,30 @@ public class frmProdutos extends JDialog {
 		
 		setLocationRelativeTo(null);//centralizar a tela
 		
+		// Executar o método para carregar o Id e nome dos fornecedores
+		carregarFornecedores();
+		
 	}//fim do construtor
+	
+	// ==================================================
+	// Preencher o combo box com a lista de fornecedores=
+	//===================================================
+	
+	private void carregarFornecedores() {
+		//limpando o combo box
+		cBoxFornecedor.removeAllItems();
+		
+		//opção padrão
+		cBoxFornecedor.addItem("Selecione...");
+		
+		// executar o método para buscar a lista de fornecedores(array)
+		ArrayList<Fornecedor> lista = controllerFornecedor.listarFornecedores();
+		
+		// Percorrer o vetor e adicionar os Fornecedores ao combobox
+		//Uso do laço foreach (simplificaçãp do laço for
+		for (Fornecedor fornecedor : lista) {
+			//exibir o Id e o nome do fornecedor no combo box
+			cBoxFornecedor.addItem(fornecedor.getIdFornecedor() + " - " + fornecedor.getNome());
+		}
+	}
 }

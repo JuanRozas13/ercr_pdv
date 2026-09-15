@@ -9,13 +9,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfTable;
 import com.lowagie.text.pdf.PdfWriter;
 
 //importação de database
@@ -316,11 +316,65 @@ public class FornecedorController {
 			
 			//abrir o pdf automaticamente no leitor padrão do pdf
 			File arquivo = new File(caminho);
-			Desktop.getDesktop().open(arquivo);;
+			Desktop.getDesktop().open(arquivo);
 			
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-	}
+	} // fim relatório fornecedores
 	
+	//=================================
+	// Listar fornecedores -> produtos=
+	//=================================
+	
+	
+	//Para crirar uma lista é necessário instancia um Array no método e também criar um objeto que será usado no array
+	public ArrayList <Fornecedor> listarFornecedores() {
+		//objeto lista
+		ArrayList<Fornecedor> lista = new ArrayList<>();
+		
+		try {
+			
+			// buscar o id e o nome dos fornecedores
+			String sql = """
+					select idFornecedor, nome
+					from fornecedores
+					order by nome
+					""";
+			
+			// Abrir conexão com o JDBC
+			Connection con = database.conectar();			
+			
+			// Preparar o comando sql[
+			PreparedStatement stmt = con.prepareStatement(sql);
+			
+			// Obter os dados di banco
+			ResultSet rs = stmt.executeQuery();
+			
+			// enquanto existir fornecedores cadastrados
+			while (rs.next()) {
+				// criar o objeto fornecedor
+				Fornecedor fornecedor= new Fornecedor();
+				
+				// Armazenar no objeto os Ids e nomes
+				fornecedor.setIdFornecedor(rs.getInt("idFornecedor"));
+				fornecedor.setNome(rs.getString("nome"));
+				
+				// Adicionar os fornecedores a lista(array)
+				lista.add(fornecedor);
+				
+			}
+			//encerrar os recursos do JDBC
+			rs.close();
+			stmt.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		// apoio a logica e depuração (debug) "observação"
+//		System.out.println(lista);
+		// retornar a lista de fornecedores
+		return lista;
+	}
 }
