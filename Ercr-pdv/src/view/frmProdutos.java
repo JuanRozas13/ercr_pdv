@@ -202,10 +202,10 @@ public class frmProdutos extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					// Transferir os dados da tela para o objeto
-					produto.setNome(txtNome.getText());
-					produto.setFone(txtFone.getText());
-					produto.setEmail(txtEmail.getText());
-					produto.setSite(txtSite.getText());
+					produto.setCodigoBarras(txtBarcode.getText());
+					produto.setDescricao(txtProduto.getText());
+					produto.setCategoria(txtCategoria.getText());
+					produto.setPrecoCusto();
 			
 					// enviar o objeto para o controller
 					controllerProduto.adicionar(produto);
