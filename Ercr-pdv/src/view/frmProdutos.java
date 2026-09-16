@@ -23,7 +23,8 @@ import controller.ProdutosController;
 //importar os modelos de dados
 import model.Fornecedor;
 import model.Produto;
-import model.Produto;
+//importar a classe modelo Validador
+import utils.Validador;
 
 public class frmProdutos extends JDialog {
 
@@ -46,6 +47,7 @@ public class frmProdutos extends JDialog {
 	private JTextField txtEstoqueMin;
 	private JTextField txtCategoria;
 	private JComboBox cBoxFornecedor;
+
 
 	/**
 	 * Launch the application.
@@ -87,6 +89,7 @@ public class frmProdutos extends JDialog {
 		txtBarcode.setBounds(237, 42, 375, 20);
 		getContentPane().add(txtBarcode);
 		txtBarcode.setColumns(10);
+		txtBarcode.setDocument(new Validador(20));
 		
 		JLabel lblBarcode = new JLabel("");
 		lblBarcode.setIcon(new ImageIcon(frmProdutos.class.getResource("/img/barcode.png")));
@@ -103,6 +106,7 @@ public class frmProdutos extends JDialog {
 
 		txtProduto = new JTextField();
 		txtProduto.setColumns(10);
+		txtProduto.setDocument(new Validador(100));
 
 		JButton btnBuscarProduto = new JButton();
 		btnBuscarProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -124,6 +128,7 @@ public class frmProdutos extends JDialog {
 		txtCategoria.setBounds(519, 90, 130, 20);
 		getContentPane().add(txtCategoria);
 		txtCategoria.setColumns(10);
+		txtCategoria.setDocument(new Validador(50));
 		
 		JLabel lblFornecedor = new JLabel("Fornecedor");
 		lblFornecedor.setBounds(32, 154, 64, 14);
@@ -201,11 +206,23 @@ public class frmProdutos extends JDialog {
 		btnAdicionarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					
+					// Converter o valor do JTextField
+					double precoCusto = Double.parseDouble(txtPrecoCusto.getText());
+					double precoVenda = Double.parseDouble(txtPrecoVenda.getText());
+					int quantidade = Integer.parseInt(txtQuantidade.getText());
+					int estoqueMin = Integer.parseInt(txtEstoqueMin.getText());
+					int idFornecedor = Integer.parseInt(txtIdFornecedor.getText());
+
 					// Transferir os dados da tela para o objeto
-					produto.setCodigoBarras(txtBarcode.getText());
+					produto.setCodigoBarras(txtBarcode.getText());	
 					produto.setDescricao(txtProduto.getText());
 					produto.setCategoria(txtCategoria.getText());
-					produto.setPrecoCusto();
+					produto.setPrecoCusto(precoCusto);
+					produto.setPrecoVenda(precoVenda);
+					produto.setQuantidade(quantidade);
+					produto.setEstoqueMin(estoqueMin);
+					produto.setIdFornecedor(idFornecedor);
 			
 					// enviar o objeto para o controller
 					controllerProduto.adicionar(produto);
@@ -219,7 +236,6 @@ public class frmProdutos extends JDialog {
 				}
 			}
 		});
-		btnAdicionarProduto.setBorderPainted(false);
 		btnAdicionarProduto.setToolTipText("Adicionar");
 		btnAdicionarProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdicionarProduto.setContentAreaFilled(false);
