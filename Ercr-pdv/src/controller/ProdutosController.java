@@ -2,9 +2,11 @@ package controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import database.Database;
+import model.Fornecedor;
 import model.Produto;
 //import 
 public class ProdutosController {
@@ -53,5 +55,101 @@ public class ProdutosController {
 			// fechar a coxão (passo 4)
 			stmt.close();
 			con.close();
-	}
+	} // fim crud adicionar cliente
+		
+	
+
+	// ==================================
+	// Buscar cliente (CRUD buscar)======
+	// ==================================
+
+		public Produto buscar(String nome) {
+			try {
+				String sql = """
+						select idProduto, codigoBarras, descricao, categoria, precoCusto,
+						precoVenda, quantidade, estoqueMin, idFornecedor
+						from produtos
+						where descricao like ?
+						""";
+				// Iniciar um objeto fornecedor como nulo
+				Produto produto = null;
+
+				// JDBC (Connection e PreparedStatement)
+				Connection con = database.conectar();
+				PreparedStatement stmt = con.prepareStatement(sql);
+
+				// setar a consulta (% coringa)
+				stmt.setString(1, "%" + nome + "%");
+
+				// JDBC (ResultSet) = "trazer os dados do banco"
+				ResultSet rs = stmt.executeQuery();
+
+				// se existir um fornecedor com o nome pesquisado
+				if (rs.next()) {
+					// setar o model
+					produto = new Produto();
+					produto.setIdProduto(rs.getInt("idProduto"));
+					produto.setCodigoBarras(rs.getString("codigoBarras"));
+					produto.setDescricao(rs.getString("descricao"));
+					produto.setCategoria(rs.getString("categoria"));
+					produto.setPrecoCusto(rs.getDouble("precoCusto"));
+					produto.setPrecoVenda(rs.getDouble("precoVenda"));
+					produto.setQuantidade(rs.getInt("quantidade"));
+					produto.setEstoqueMin(rs.getInt("estoqueMin"));
+					produto.setIdFornecedor(rs.getInt("idFornecedor"));
+				}
+
+				// fechar as conexões
+				rs.close();
+				stmt.close();
+				con.close();
+
+				return produto;
+
+			} catch (Exception e) {
+				System.out.println(e);
+				return null;
+			}
+		}// =========================================
+
+		// ==================================
+		// Editar cliente (CRUD update)======
+		// ==================================
+
+		public void editarProduto(Produto produto) {
+			try {
+				String sql = """
+						 update produtos
+						 set codigoBarras = ?, descricao = ?, categoria = ?, precoCusto = ?,
+						 precoVenda = ?, quantidade = ?, estoqueMin = ?
+						 where idProduto = ?
+						""";
+				//Estabelecer a conexão com o banco
+				Connection con = database.conectar();
+				
+				//Executar a instrução sql
+				PreparedStatement stmt = con.prepareStatement(sql);
+				
+				//Obter os dados do fornecedor (Model)
+				stmt.setString(1, produto.getCodigoBarras());
+				stmt.setString(2, produto.getDescricao());
+				stmt.setString(3, produto.getCategoria());
+				stmt.setDouble(4, produto.getPrecoCusto());
+				stmt.setDouble(5, produto.getPrecoVenda());
+				stmt.setInt(6, produto.getQuantidade());
+				stmt.setInt(7, produto.getEstoqueMin());
+				stmt.setInt(8, produto.getIdProduto());
+				
+				
+				//executa a atualização no banco
+				stmt.executeUpdate();
+				
+				//encerrar as conexões
+				stmt.close();
+				con.close();
+				
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}// =========================================
 }

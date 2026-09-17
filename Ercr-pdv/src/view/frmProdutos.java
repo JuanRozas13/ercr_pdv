@@ -47,6 +47,7 @@ public class frmProdutos extends JDialog {
 	private JTextField txtEstoqueMin;
 	private JTextField txtCategoria;
 	private JComboBox cBoxFornecedor;
+	private JButton btnAdicionarProduto;
 
 
 	/**
@@ -109,6 +110,49 @@ public class frmProdutos extends JDialog {
 		txtProduto.setDocument(new Validador(100));
 
 		JButton btnBuscarProduto = new JButton();
+		// =============================
+		// CRUD Read - Buscar Cliente===
+		// =============================
+		btnBuscarProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// validação
+				if (txtProduto.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Informe o nome do Produto");
+					txtProduto.requestFocus();
+				} else {
+					// capturar o nome para busca
+					String nome = txtProduto.getText();
+
+					// Instanciar o Produto executando a busca através do controller
+					Produto produto = controllerProduto.buscar(nome);
+
+					// se existir um fornecedor cadastrado
+					if (produto != null) {
+						// setar os campos do formulário
+						txtIDProduto.setText(String.valueOf(produto.getIdProduto()));
+						txtBarcode.setText(produto.getCodigoBarras());
+						txtProduto.setText(produto.getDescricao());
+						txtCategoria.setText(produto.getCategoria());
+						txtIdFornecedor.setText(String.valueOf(produto.getIdFornecedor()));
+						txtPrecoCusto.setText(String.valueOf(produto.getPrecoCusto()));
+						txtPrecoVenda.setText(String.valueOf(produto.getPrecoVenda()));
+						txtQuantidade.setText(String.valueOf(produto.getQuantidade()));
+						txtEstoqueMin.setText(String.valueOf(produto.getEstoqueMin()));
+						
+						// esconder botão de adicionar
+//						btnAdicionarProduto.setEnabled(false);
+					} else {
+						JOptionPane.showMessageDialog(null, "Produto não cadastrado");
+						int resposta = JOptionPane.showConfirmDialog(null, "Deseja cadastrar esse Produto?",
+						"Atenção", JOptionPane.YES_OPTION);
+						if(resposta == JOptionPane.YES_OPTION) {
+							txtProduto.requestFocus();
+							
+						}
+					}
+				}
+			}
+		}); // fim crud read
 		btnBuscarProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnBuscarProduto.setIcon(new ImageIcon(frmProdutos.class.getResource("/img/lupa.png")));
 		btnBuscarProduto.setBorderPainted(false);
@@ -117,7 +161,6 @@ public class frmProdutos extends JDialog {
 
 		painelProduto.add(txtProduto, BorderLayout.CENTER);
 		painelProduto.add(btnBuscarProduto, BorderLayout.EAST);
-
 		getContentPane().add(painelProduto);
 		
 		JLabel lblCategoria = new JLabel("Categória");
@@ -174,6 +217,7 @@ public class frmProdutos extends JDialog {
 		txtPrecoCusto.setBounds(122, 210, 130, 20);
 		getContentPane().add(txtPrecoCusto);
 		txtPrecoCusto.setColumns(10);
+		txtPrecoCusto.setDocument(new Validador(10, "decimal"));
 		
 		JLabel lblPrecoVenda = new JLabel("Preço de venda");
 		lblPrecoVenda.setBounds(423, 213, 89, 14);
@@ -183,6 +227,7 @@ public class frmProdutos extends JDialog {
 		txtPrecoVenda.setBounds(519, 210, 130, 20);
 		getContentPane().add(txtPrecoVenda);
 		txtPrecoVenda.setColumns(10);
+		txtPrecoVenda.setDocument(new Validador(10, "decimal"));
 		
 		JLabel lblQuantidade = new JLabel("Quantidade");
 		lblQuantidade.setBounds(32, 279, 70, 14);
@@ -192,6 +237,7 @@ public class frmProdutos extends JDialog {
 		txtQuantidade.setBounds(122, 276, 130, 20);
 		getContentPane().add(txtQuantidade);
 		txtQuantidade.setColumns(10);
+		txtQuantidade.setDocument(new Validador(5, "inteiro"));
 		
 		JLabel lblEstoqueMin = new JLabel("Estoque Min");
 		lblEstoqueMin.setBounds(422, 279, 77, 14);
@@ -208,8 +254,9 @@ public class frmProdutos extends JDialog {
 				try {
 					
 					// Converter o valor do JTextField
-					double precoCusto = Double.parseDouble(txtPrecoCusto.getText());
-					double precoVenda = Double.parseDouble(txtPrecoVenda.getText());
+					//atenção converter a virgurla para ponto
+					double precoCusto = Double.parseDouble(txtPrecoCusto.getText().replace(",", "."));
+					double precoVenda = Double.parseDouble(txtPrecoVenda.getText().replace(",", "."));
 					int quantidade = Integer.parseInt(txtQuantidade.getText());
 					int estoqueMin = Integer.parseInt(txtEstoqueMin.getText());
 					int idFornecedor = Integer.parseInt(txtIdFornecedor.getText());
