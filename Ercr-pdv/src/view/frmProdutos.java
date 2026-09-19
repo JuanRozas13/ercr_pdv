@@ -433,6 +433,8 @@ public class frmProdutos extends JDialog {
 		// Executar o método para carregar o Id e nome dos fornecedores
 		carregarFornecedores();
 
+		//definir um botão padrão (Associar o enter a este botão)
+		getRootPane().setDefaultButton(btnBuscarProduto);
 		
 	}//fim do construtor
 	
