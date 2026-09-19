@@ -22,7 +22,7 @@ public class ProdutosController {
 		// métodos (funções)CRUD
 
 		// ==================================
-		// Adicionar cliente (CRUD create)===
+		// Adicionar Produto (CRUD create)===
 		// ==================================
 
 		public void adicionar(Produto produto) throws SQLException {
@@ -60,7 +60,7 @@ public class ProdutosController {
 	
 
 	// ==================================
-	// Buscar cliente (CRUD buscar)======
+	// Buscar Produto (CRUD buscar)======
 	// ==================================
 
 		public Produto buscar(String nome) {
@@ -113,7 +113,7 @@ public class ProdutosController {
 		}// =========================================
 
 		// ==================================
-		// Editar cliente (CRUD update)======
+		// Editar Produto (CRUD update)======
 		// ==================================
 
 		public void editarProduto(Produto produto) {
@@ -152,4 +152,60 @@ public class ProdutosController {
 				System.out.println(e);
 			}
 		}// =========================================
+		
+		
+		// ==============================================
+		// Buscar Produto pelo barcode(CRUD buscar)======
+		// ==============================================
+		
+		public Produto buscarCodigoBarras(String codigoBarras) {
+			try {
+				String sql = """
+						select idProduto, descricao, categoria, precoCusto, precoVenda, quantidade, estoqueMin, idFornecedor
+						from produtos
+						where codigoBarras = ?
+						""";
+				
+				//iniciar um onjeto como nulo
+				Produto produto = null;
+						
+				// JDBC (Connection e PreparedStatement)
+				Connection con = database.conectar();
+				PreparedStatement stmt = con.prepareStatement(sql);
+				
+				// setar o código (?)
+				stmt.setString(1, codigoBarras);
+				
+				// JDBC (ResultSet) = "trazer os dados do banco"
+				ResultSet rs = stmt.executeQuery();
+				
+				//se existir um produto cadastrado
+				if(rs.next()) {
+					//setar o model
+					produto = new Produto();
+					produto.setIdProduto(rs.getInt("idProduto"));
+					produto.setDescricao(rs.getString("descricao"));
+					produto.setCategoria(rs.getString("categoria"));
+					produto.setPrecoCusto(rs.getDouble("precoCusto"));
+					produto.setPrecoVenda(rs.getDouble("precoVenda"));
+					produto.setQuantidade(rs.getInt("quantidade"));
+					produto.setEstoqueMin(rs.getInt("estoqueMin"));
+					produto.setIdFornecedor(rs.getInt("idFornecedor"));
+				}
+				
+				// fechar as conexões
+				rs.close();
+				stmt.close();
+				con.close();
+				
+				//retornar o objeto produto (contém os atributos)
+				return produto;
+				
+			} catch (Exception e) {
+				System.out.println(e);
+				return null;
+			}
+		}
+		
+		// =========================================
 }

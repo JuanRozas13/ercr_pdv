@@ -25,6 +25,8 @@ import model.Fornecedor;
 import model.Produto;
 //importar a classe modelo Validador
 import utils.Validador;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class frmProdutos extends JDialog {
 
@@ -48,6 +50,7 @@ public class frmProdutos extends JDialog {
 	private JTextField txtCategoria;
 	private JComboBox cBoxFornecedor;
 	private JButton btnAdicionarProduto;
+
 
 
 	/**
@@ -87,6 +90,47 @@ public class frmProdutos extends JDialog {
 		txtIDProduto.setColumns(10);
 		
 		txtBarcode = new JTextField();
+		//=======================================
+		//evento relacionado ao código de barras
+		//crud read
+		//=======================================
+		txtBarcode.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				//se a tecla enter for pressionado
+				if(e.getKeyCode()== KeyEvent.VK_ENTER) {
+					//capturar o código de barras
+					String barCode = txtBarcode.getText();
+					//instânciar o produtoexecutando a busca atraves do controller
+					Produto produto = controllerProduto.buscarCodigoBarras(barCode);
+					
+					//se existir um produto cadastrado
+					if (produto != null) {
+						//setar os campos do formulário
+						txtIDProduto.setText(String.valueOf(produto.getIdProduto()));
+						txtProduto.setText(produto.getDescricao());
+						txtCategoria.setText(produto.getCategoria());
+						txtPrecoCusto.setText(String.valueOf(produto.getPrecoCusto()));
+						txtPrecoVenda.setText(String.valueOf(produto.getPrecoVenda()));
+						txtQuantidade.setText(String.valueOf(produto.getQuantidade()));
+						txtEstoqueMin.setText(String.valueOf(produto.getEstoqueMin()));
+						txtIdFornecedor.setText(String.valueOf(produto.getIdFornecedor()));
+						
+						//desativar o botão adicionar
+						btnAdicionarProduto.setEnabled(false);
+						
+					} else {
+						int resposta = JOptionPane.showConfirmDialog(null, "Produto não cadastrado.\ndeseja cadastrar esse produto?", "Aviso!", JOptionPane.YES_NO_OPTION);
+						if (resposta == JOptionPane.NO_OPTION) {
+							limparCampos();
+							
+						} else {
+							txtProduto.requestFocus();
+						}
+					}
+				}
+			}
+		});//=======================================
 		txtBarcode.setBounds(237, 42, 375, 20);
 		getContentPane().add(txtBarcode);
 		txtBarcode.setColumns(10);
@@ -96,6 +140,8 @@ public class frmProdutos extends JDialog {
 		lblBarcode.setIcon(new ImageIcon(frmProdutos.class.getResource("/img/barcode.png")));
 		lblBarcode.setBounds(632, 28, 64, 45);
 		getContentPane().add(lblBarcode);
+		
+		btnAdicionarProduto = new JButton("");
 		
 		JLabel lblProduto = new JLabel("Produto");
 		lblProduto.setBounds(32, 93, 46, 14);
@@ -126,7 +172,7 @@ public class frmProdutos extends JDialog {
 					// Instanciar o Produto executando a busca através do controller
 					Produto produto = controllerProduto.buscar(nome);
 
-					// se existir um fornecedor cadastrado
+					// se existir um produto cadastrado
 					if (produto != null) {
 						// setar os campos do formulário
 						txtIDProduto.setText(String.valueOf(produto.getIdProduto()));
@@ -139,8 +185,7 @@ public class frmProdutos extends JDialog {
 						txtQuantidade.setText(String.valueOf(produto.getQuantidade()));
 						txtEstoqueMin.setText(String.valueOf(produto.getEstoqueMin()));
 						
-						// esconder botão de adicionar
-//						btnAdicionarProduto.setEnabled(false);
+						btnAdicionarProduto.setEnabled(false);
 					} else {
 						JOptionPane.showMessageDialog(null, "Produto não cadastrado");
 						int resposta = JOptionPane.showConfirmDialog(null, "Deseja cadastrar esse Produto?",
@@ -150,6 +195,7 @@ public class frmProdutos extends JDialog {
 							
 						}
 					}
+					
 				}
 			}
 		}); // fim crud read
@@ -247,8 +293,9 @@ public class frmProdutos extends JDialog {
 		txtEstoqueMin.setBounds(519, 276, 130, 20);
 		getContentPane().add(txtEstoqueMin);
 		txtEstoqueMin.setColumns(10);
+		txtEstoqueMin.setDocument(new Validador(5, "inteiro"));
 		
-		JButton btnAdicionarProduto = new JButton("");
+		
 		btnAdicionarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -276,7 +323,7 @@ public class frmProdutos extends JDialog {
 					// Mensagem de confirmação
 					JOptionPane.showMessageDialog(null, "Produto adicionado com Sucesso!");
 					// Limpar campos
-//					limparCampos();
+					limparCampos();
 					
 				} catch (Exception e2) {
 					System.out.println(e2);
@@ -291,6 +338,56 @@ public class frmProdutos extends JDialog {
 		getContentPane().add(btnAdicionarProduto);
 		
 		JButton btnEditarProduto = new JButton("");
+		// ======================================================
+		// CRUD Update - Editar fornecedor ======================
+		// ======================================================
+		btnEditarProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				// validação de campos obrigatórios
+				if (txtProduto.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Preencha o nome do Produto");
+					txtProduto.requestFocus();
+				} else if (txtCategoria.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Preencha a cagória do Produto");
+					txtCategoria.requestFocus();
+				}else if (txtPrecoCusto.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Preencha o valor de custo do produto");
+					txtPrecoCusto.requestFocus();
+				}else if (txtPrecoVenda.getText().isBlank()) {
+						JOptionPane.showMessageDialog(null, "Preencha o valor de venda do produto");
+						txtPrecoVenda.requestFocus();
+				}else if (txtQuantidade.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Preencha a quantidade inserida do produto");
+					txtQuantidade.requestFocus();
+				} else if (txtEstoqueMin.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Preencha a quantidade Mínima\ninserida do produto");
+					txtEstoqueMin.requestFocus();
+				}
+				else {
+					// lógica principal se os os campos obrigatórios estiverem preenchidos
+					// Transferir os dados da tela para o Model
+					produto.setIdProduto(Integer.parseInt(txtIDProduto.getText()));
+					produto.setCodigoBarras(txtBarcode.getText());
+					produto.setDescricao(txtProduto.getText());
+					produto.setCategoria(txtCategoria.getText());
+					produto.setIdFornecedor(Integer.parseInt(txtIdFornecedor.getText()));
+					produto.setPrecoCusto(Double.parseDouble(txtPrecoCusto.getText()));
+					produto.setPrecoVenda(Double.parseDouble(txtPrecoVenda.getText()));
+					produto.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
+					produto.setEstoqueMin(Integer.parseInt(txtEstoqueMin.getText()));
+
+					// Enviar o objeto para o Controller
+					controllerProduto.editarProduto(produto);
+
+					// Mensagem para o usuário
+					JOptionPane.showMessageDialog(null, "Dados do Produto alterados");
+
+					// limpar campos
+					limparCampos();
+				}
+			}
+		});
 		btnEditarProduto.setToolTipText("Editar");
 		btnEditarProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEditarProduto.setContentAreaFilled(false);
@@ -322,7 +419,7 @@ public class frmProdutos extends JDialog {
 		btnLimpar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
+				limparCampos();
 			}
 		});
 		btnLimpar.setIcon(null);
@@ -335,8 +432,24 @@ public class frmProdutos extends JDialog {
 		
 		// Executar o método para carregar o Id e nome dos fornecedores
 		carregarFornecedores();
+
 		
 	}//fim do construtor
+	
+	// método limpar campo
+	void limparCampos() {
+		txtIDProduto.setText(null);
+		txtBarcode.setText(null);
+		txtProduto.setText(null);
+		txtCategoria.setText(null);
+		cBoxFornecedor.setSelectedItem("Selecione...");
+		txtIdFornecedor.requestFocus(); // posicionar o cursor no nome
+		txtPrecoCusto.setText(null);
+		txtPrecoVenda.setText(null);
+		txtQuantidade.setText(null);
+		txtEstoqueMin.setText(null);
+		btnAdicionarProduto.setEnabled(true);
+	}
 	
 	// ==================================================
 	// Preencher o combo box com a lista de fornecedores=
