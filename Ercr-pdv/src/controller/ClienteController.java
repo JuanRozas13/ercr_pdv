@@ -41,8 +41,10 @@ public class ClienteController {
 	public void adicionar(Cliente cliente) throws SQLException {
 		// comando sql (passo1)
 		String sql = """
-				insert into clientes (nome, fone, email)
-				values(?,?,?)
+				insert into clientes 
+				(nome, cpf, fone, email, endereco, numeroEndereco,
+				complemento, bairro, cidade, uf, cep, referencia)
+				values(?,?,?,?,?,?,?,?,?,?,?,?)
 				""";
 		
 		// abrir coxão com o banco (passo 2)
@@ -52,8 +54,18 @@ public class ClienteController {
 		PreparedStatement stmt = con.prepareStatement(sql);
 		// 1,2,3 = (?,?,?)
 		stmt.setString(1, cliente.getNome());
-		stmt.setString(2, cliente.getFone());
-		stmt.setString(3, cliente.getEmail());
+		stmt.setString(2, cliente.getCpf());
+		stmt.setString(3, cliente.getFone());
+		stmt.setString(4, cliente.getEmail());
+		stmt.setString(5, cliente.getEndereco());
+		stmt.setInt(6, cliente.getNumeroEndereco());
+		stmt.setString(7, cliente.getComplemento());
+		stmt.setString(8, cliente.getBairro());
+		stmt.setString(9, cliente.getCidade());
+		stmt.setString(10, cliente.getUf());
+		stmt.setString(11, cliente.getCep());
+		stmt.setString(12, cliente.getReferencia());
+		
 		stmt.executeUpdate();
 		
 		// fechar a coxão (passo 4)
@@ -70,7 +82,8 @@ public class ClienteController {
 	public Cliente buscar(String nome) {
 		try {
 		String sql = """
-				select idClientes, nome, fone, email
+				select idClientes, nome, cpf, fone, email, endereco, numeroEndereco,
+				complemento, bairro, cidade, uf, cep, referencia
 				from clientes
 				where nome like ?; 
 				""";
@@ -93,8 +106,17 @@ public class ClienteController {
 			cliente = new Cliente();
 			cliente.setIdClientes(rs.getInt("idClientes"));
 			cliente.setNome(rs.getString("nome"));
+			cliente.setCpf(rs.getString("cpf"));
 			cliente.setFone(rs.getString("fone"));
 			cliente.setEmail(rs.getString("email"));
+			cliente.setEndereco(rs.getString("endereco"));
+			cliente.setNumeroEndereco(rs.getInt("numeroEndereco"));
+			cliente.setComplemento(rs.getString("complemento"));
+			cliente.setBairro(rs.getString("bairro"));
+			cliente.setCidade(rs.getString("cidade"));
+			cliente.setUf(rs.getString("uf"));
+			cliente.setCep(rs.getString("cep"));
+			cliente.setReferencia(rs.getString("referencia"));
 		}
 		
 		// fechar as conexões
