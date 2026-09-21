@@ -9,17 +9,15 @@ import java.net.URI;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import utils.Validador;
 import controller.ClienteController;
 import model.Cliente;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JComboBox;
+import utils.Validador;
 
 public class frmClientes extends JDialog {
 
@@ -162,17 +160,19 @@ public class frmClientes extends JDialog {
 		txtCpf.setBounds(33, 123, 240, 25);
 		getContentPane().add(txtCpf);
 		txtCpf.setColumns(10);
+		txtCpf.setDocument(new Validador(14));
 		
 		txtEndereco = new JTextField();
 		txtEndereco.setBounds(33, 245, 409, 25);
 		getContentPane().add(txtEndereco);
 		txtEndereco.setColumns(10);
+		txtEndereco.setDocument(new Validador(100));
 		
 		txtNumeroEndereco = new JTextField();
 		txtNumeroEndereco.setBounds(473, 245, 86, 25);
 		getContentPane().add(txtNumeroEndereco);
 		txtNumeroEndereco.setColumns(10);
-		
+		txtNumeroEndereco.setDocument(new Validador(5, "inteiro"));
 		
 		cBoxComplemento = new JComboBox();
 		cBoxComplemento.setBounds(593, 245, 131, 25);
@@ -182,16 +182,19 @@ public class frmClientes extends JDialog {
 		txtBairro.setBounds(33, 306, 409, 25);
 		getContentPane().add(txtBairro);
 		txtBairro.setColumns(10);
+		txtBairro.setDocument(new Validador(50));
 		
 		txtCidade = new JTextField();
 		txtCidade.setBounds(473, 306, 251, 25);
 		getContentPane().add(txtCidade);
 		txtCidade.setColumns(10);
+		txtCidade.setDocument(new Validador(30));
 		
 		txtCep = new JTextField();
 		txtCep.setBounds(136, 365, 191, 25);
 		getContentPane().add(txtCep);
 		txtCep.setColumns(10);
+		txtCep.setDocument(new Validador(9));
 		
 		cBoxUF = new JComboBox();
 		cBoxUF.setBounds(33, 365, 69, 25);
@@ -201,6 +204,7 @@ public class frmClientes extends JDialog {
 		txtReferencia.setBounds(369, 365, 355, 25);
 		getContentPane().add(txtReferencia);
 		txtReferencia.setColumns(10);
+		txtReferencia.setDocument(new Validador(50));
 
 		btnAdd = new JButton("");
 		btnAdd.setToolTipText("Adicionar");

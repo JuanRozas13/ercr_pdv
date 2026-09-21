@@ -206,7 +206,8 @@ public class ClienteController {
 		try {
 			
 			String sql = """
-					select nome, fone, email
+					select idClientes, nome, cpf, fone, email, endereco, numeroEndereco,
+					complemento, bairro, cidade, uf, cep, referencia
 					from clientes order by nome
 					""" ;
 			
