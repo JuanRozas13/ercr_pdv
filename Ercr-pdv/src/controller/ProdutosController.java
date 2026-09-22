@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import database.Database;
 import model.Fornecedor;
 import model.Produto;
@@ -25,36 +27,54 @@ public class ProdutosController {
 		// Adicionar Produto (CRUD create)===
 		// ==================================
 
-		public void adicionar(Produto produto) throws SQLException {
+		public boolean adicionar(Produto produto) throws SQLException {
 			// comando sql (passo1)
-			String sql = """
-					insert into produtos(
-					idProduto, codigoBarras, descricao,
-					categoria, precoCusto, precoVenda, 
-					quantidade, estoqueMin, idFornecedor)
-					values(?,?,?,?,?,?,?,?,?)
-					""";
-			
-			// abrir coxão com o banco (passo 2)
-			Connection con = database.conectar();
-			
-			// executar o comando sql (passo 3)
-			PreparedStatement stmt = con.prepareStatement(sql);
-			// 1,2,3 = (?,?,?)
-			stmt.setInt(1, produto.getIdProduto());
-			stmt.setString(2, produto.getCodigoBarras());
-			stmt.setString(3, produto.getDescricao());
-			stmt.setString(4, produto.getCategoria());
-			stmt.setDouble(5, produto.getPrecoCusto());
-			stmt.setDouble(6, produto.getPrecoVenda());
-			stmt.setInt(7, produto.getQuantidade());
-			stmt.setInt(8, produto.getEstoqueMin());
-			stmt.setInt(9, produto.getIdFornecedor());
-			stmt.executeUpdate();
-			
-			// fechar a coxão (passo 4)
-			stmt.close();
-			con.close();
+			try {
+				String sql = """
+						insert into produtos(
+						codigoBarras, descricao,
+						categoria, precoCusto, precoVenda, 
+						quantidade, estoqueMin, idFornecedor)
+						values(?,?,?,?,?,?,?,?)
+						""";
+				
+				// abrir coxão com o banco (passo 2)
+				Connection con = database.conectar();
+				
+				// executar o comando sql (passo 3)
+				PreparedStatement stmt = con.prepareStatement(sql);
+				// 1,2,3 = (?,?,?)
+				
+				//stmt.setString(1, produto.getCodigoBarras()); BUG
+				
+				//coreção de BUG se existir um ou mais produtos sem códigos de barras
+				//para evitar a duplicidade (UNIQUE no banco), converter o campo de
+				//texto não preenchido em null
+				
+				if (produto.getCodigoBarras().isBlank()) {
+					stmt.setNull(1, java.sql.Types.VARCHAR);
+				} else {
+					stmt.setString(1, produto.getCodigoBarras());
+				}
+				
+				stmt.setString(2, produto.getDescricao());
+				stmt.setString(3, produto.getCategoria());
+				stmt.setDouble(4, produto.getPrecoCusto());
+				stmt.setDouble(5, produto.getPrecoVenda());
+				stmt.setInt(6, produto.getQuantidade());
+				stmt.setInt(7, produto.getEstoqueMin());
+				stmt.setInt(8, produto.getIdFornecedor());
+				stmt.executeUpdate();
+				
+				// fechar a coxão (passo 4)
+				stmt.close();
+				con.close();
+				
+				return true;
+			} catch (Exception e) {
+				System.out.println(e);
+				return false;
+			}
 	} // fim crud adicionar cliente
 		
 	
@@ -205,7 +225,36 @@ public class ProdutosController {
 				System.out.println(e);
 				return null;
 			}
-		}
+		}// =========================================
 		
-		// =========================================
+		
+		// ======================================
+		// Excluir dados cliente (CRUD delete)===
+		// ======================================
+
+		public void excluirCliente(int idCliente) {
+			try {
+				String sql ="""
+						delete from produtos
+						where idProduto = ?
+						""";
+				
+				//Estaberlecer a conexão com o banco
+				Connection con = database.conectar();
+				
+				//executar a instrução sql
+				PreparedStatement stmt = con.prepareStatement(sql);
+				
+				//setar o id do cliente no (model)
+				stmt.setInt(1, idCliente);
+				
+				//executa a atualização no banco
+				stmt.executeUpdate();
+				//encerrar as conexões
+				stmt.close();
+				con.close();
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
 }

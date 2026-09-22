@@ -141,8 +141,17 @@ public class ClienteController {
 			String sql = """
 					update clientes
 					set nome = ?,
+					cpf = ?,
 					fone = ?,
 					email = ?
+					endereco = ?, 
+					numeroEndereco = ?,
+					complemento = ?, 
+					bairro = ?, 
+					cidade = ?, 
+					uf = ?, 
+					cep = ?, 
+					referencia = ?
 					where idClientes = ?
 					""";
 			
@@ -154,9 +163,18 @@ public class ClienteController {
 			
 			//obter os dados do cliente(model)
 			stmt.setString(1, cliente.getNome());
-			stmt.setString(2, cliente.getFone());
-			stmt.setString(3, cliente.getEmail());
-			stmt.setInt(4, cliente.getIdClientes());
+			stmt.setString(2, cliente.getCpf());
+			stmt.setString(3, cliente.getFone());
+			stmt.setString(4, cliente.getEmail());
+			stmt.setString(5, cliente.getEndereco());
+			stmt.setInt(6, cliente.getNumeroEndereco());
+			stmt.setString(7, cliente.getComplemento());
+			stmt.setString(8, cliente.getBairro());
+			stmt.setString(9, cliente.getCidade());
+			stmt.setString(10, cliente.getUf());
+			stmt.setString(11, cliente.getCep());
+			stmt.setString(12, cliente.getReferencia());
+			stmt.setInt(13, cliente.getIdClientes());
 			
 			//executa a atualização no banco
 			stmt.executeUpdate();
