@@ -149,8 +149,6 @@ public class frmProdutos extends JDialog {
 		lblBarcode.setBounds(632, 28, 64, 45);
 		getContentPane().add(lblBarcode);
 		
-		btnAdicionarProduto = new JButton("");
-		
 		JLabel lblProduto = new JLabel("Produto");
 		lblProduto.setBounds(32, 93, 46, 14);
 		getContentPane().add(lblProduto);
@@ -192,6 +190,13 @@ public class frmProdutos extends JDialog {
 						txtPrecoVenda.setText(String.valueOf(produto.getPrecoVenda()));
 						txtQuantidade.setText(String.valueOf(produto.getQuantidade()));
 						txtEstoqueMin.setText(String.valueOf(produto.getEstoqueMin()));
+						
+						for (int i = 0; i < cBoxFornecedor.getItemCount(); i++) {
+							Object item = cBoxFornecedor.getItemAt(i);
+							if (((String) item).startsWith(produto.getIdFornecedor() + " - ")) {
+								cBoxFornecedor.setSelectedIndex(i);
+							}
+						}
 						
 						btnAdicionarProduto.setEnabled(false);
 					} else {
@@ -302,7 +307,7 @@ public class frmProdutos extends JDialog {
 		txtEstoqueMin.setColumns(10);
 		txtEstoqueMin.setDocument(new Validador(5, "inteiro"));
 		
-		
+		btnAdicionarProduto = new JButton("");
 		btnAdicionarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -442,10 +447,13 @@ public class frmProdutos extends JDialog {
 		btnRelatorioProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRelatorioProduto.setBackground(new Color(255, 255, 255));
 		btnRelatorioProduto.setOpaque(false);
+		// Relatório personalizado de produtos =====================
 		btnRelatorioProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				controllerProduto.gerarRelatorioProdutos();
 			}
-		});
+		});//=======================================================
 		btnRelatorioProduto.setIcon(null);
 		btnRelatorioProduto.setBounds(296, 402, 89, 33);
 		getContentPane().add(btnRelatorioProduto);

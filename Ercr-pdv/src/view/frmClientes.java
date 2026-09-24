@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import controller.ClienteController;
 import model.Cliente;
 import utils.Validador;
+import utils.ValidadorCpf;
 
 public class frmClientes extends JDialog {
 
@@ -145,7 +146,7 @@ public class frmClientes extends JDialog {
 		txtFone.setBounds(424, 123, 208, 25);
 		getContentPane().add(txtFone);
 		// validação do número maxímo de caracacteres
-		txtFone.setDocument(new Validador(20));
+		txtFone.setDocument(new Validador(15, "telefone"));
 
 		txtEmail = new JTextField();
 		txtEmail.setColumns(10);
@@ -221,7 +222,13 @@ public class frmClientes extends JDialog {
 				} else if (txtFone.getText().isBlank()) {
 					JOptionPane.showMessageDialog(null, "Preencha o telefone do cliente");
 					txtFone.requestFocus();
-				} else {
+				}else if (txtCpf.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Preencha o CPF do cliente");
+					txtCpf.requestFocus();
+				} else if (!ValidadorCpf.isValido(txtCpf.getText())) {
+					JOptionPane.showMessageDialog(null, "CPF inválido! Verifique o número digitado.");
+					txtCpf.requestFocus(); 
+				}else {
 					// lógica principla se os campos obrigatorios estiverem preenchidos
 					try {
 						

@@ -18,7 +18,6 @@ public class Cliente {
 	private String uf;
 	private String cep;
 	private String referencia;
-	
 	// gerar getters e setters de forma automática
 	// botão direito -> source -> generate getters e setters
 	public int getIdClientes() {
