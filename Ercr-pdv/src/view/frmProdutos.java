@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -25,8 +27,6 @@ import model.Fornecedor;
 import model.Produto;
 //importar a classe modelo Validador
 import utils.Validador;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class frmProdutos extends JDialog {
 
@@ -116,6 +116,14 @@ public class frmProdutos extends JDialog {
 						txtEstoqueMin.setText(String.valueOf(produto.getEstoqueMin()));
 						txtIdFornecedor.setText(String.valueOf(produto.getIdFornecedor()));
 						
+						//Localizar e selecionar o fornecedor a partir do id do fornecedor e setar jcombo
+						for (int i = 0; i < cBoxFornecedor.getItemCount(); i++) {
+							Object item = cBoxFornecedor.getItemAt(i);
+							if (((String) item).startsWith(produto.getIdFornecedor() + " - ")) {
+								cBoxFornecedor.setSelectedIndex(i);
+							}
+						}
+						
 						//desativar o botão adicionar
 						btnAdicionarProduto.setEnabled(false);
 						
@@ -140,8 +148,6 @@ public class frmProdutos extends JDialog {
 		lblBarcode.setIcon(new ImageIcon(frmProdutos.class.getResource("/img/barcode.png")));
 		lblBarcode.setBounds(632, 28, 64, 45);
 		getContentPane().add(lblBarcode);
-		
-		btnAdicionarProduto = new JButton("");
 		
 		JLabel lblProduto = new JLabel("Produto");
 		lblProduto.setBounds(32, 93, 46, 14);
@@ -185,6 +191,13 @@ public class frmProdutos extends JDialog {
 						txtQuantidade.setText(String.valueOf(produto.getQuantidade()));
 						txtEstoqueMin.setText(String.valueOf(produto.getEstoqueMin()));
 						
+						for (int i = 0; i < cBoxFornecedor.getItemCount(); i++) {
+							Object item = cBoxFornecedor.getItemAt(i);
+							if (((String) item).startsWith(produto.getIdFornecedor() + " - ")) {
+								cBoxFornecedor.setSelectedIndex(i);
+							}
+						}
+						
 						btnAdicionarProduto.setEnabled(false);
 					} else {
 						JOptionPane.showMessageDialog(null, "Produto não cadastrado");
@@ -192,7 +205,6 @@ public class frmProdutos extends JDialog {
 						"Atenção", JOptionPane.YES_OPTION);
 						if(resposta == JOptionPane.YES_OPTION) {
 							txtProduto.requestFocus();
-							
 						}
 					}
 					
@@ -295,7 +307,7 @@ public class frmProdutos extends JDialog {
 		txtEstoqueMin.setColumns(10);
 		txtEstoqueMin.setDocument(new Validador(5, "inteiro"));
 		
-		
+		btnAdicionarProduto = new JButton("");
 		btnAdicionarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -317,13 +329,18 @@ public class frmProdutos extends JDialog {
 					produto.setQuantidade(quantidade);
 					produto.setEstoqueMin(estoqueMin);
 					produto.setIdFornecedor(idFornecedor);
-			
-					// enviar o objeto para o controller
-					controllerProduto.adicionar(produto);
-					// Mensagem de confirmação
-					JOptionPane.showMessageDialog(null, "Produto adicionado com Sucesso!");
-					// Limpar campos
-					limparCampos();
+					
+					
+					// enviar o objeto para o controller (com confirmação)
+					boolean sucess = controllerProduto.adicionar(produto);
+					if (sucess == true) {
+						JOptionPane.showMessageDialog(null, "Produto\nadicionado com sucesso o produto");
+						limparCampos();
+					} else {
+						JOptionPane.showMessageDialog(null, "Não foi possível adicionar o produto\ncódigo de barras duplicado");
+						txtBarcode.setText(null);
+						txtBarcode.requestFocus();
+					}
 					
 				} catch (Exception e2) {
 					System.out.println(e2);
@@ -396,6 +413,29 @@ public class frmProdutos extends JDialog {
 		getContentPane().add(btnEditarProduto);
 		
 		JButton btnExcluirProduto = new JButton("");
+		btnExcluirProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// validação
+				if (txtProduto.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Preencha o nome do produto");
+					txtProduto.requestFocus();
+				} else {
+					// capturar o id do Produto
+					int idProduto = Integer.parseInt(txtIDProduto.getText());
+					// confirmação de exclusão
+					int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente exluir\neste Produto",
+							"Atenção", JOptionPane.YES_OPTION);
+					if (resposta == JOptionPane.YES_OPTION) {
+						// excluir atraves do controller
+						controllerProduto.excluirCliente(idProduto);
+						// limpar campos
+						limparCampos();
+						// mensagem para o usuario
+						JOptionPane.showMessageDialog(null, "Produto excluido com sucesso");
+					}
+				}
+			}
+		});
 		btnExcluirProduto.setToolTipText("Excluir");
 		btnExcluirProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExcluirProduto.setContentAreaFilled(false);
@@ -407,10 +447,13 @@ public class frmProdutos extends JDialog {
 		btnRelatorioProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRelatorioProduto.setBackground(new Color(255, 255, 255));
 		btnRelatorioProduto.setOpaque(false);
+		// Relatório personalizado de produtos =====================
 		btnRelatorioProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				controllerProduto.gerarRelatorioProdutos();
 			}
-		});
+		});//=======================================================
 		btnRelatorioProduto.setIcon(null);
 		btnRelatorioProduto.setBounds(296, 402, 89, 33);
 		getContentPane().add(btnRelatorioProduto);
