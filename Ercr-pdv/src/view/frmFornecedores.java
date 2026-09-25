@@ -73,7 +73,7 @@ public class frmFornecedores extends JDialog {
 		getContentPane().setLayout(null);
 
 		JLabel lblNome = new JLabel("Nome");
-		lblNome.setBounds(52, 93, 46, 14);
+		lblNome.setBounds(52, 85, 46, 14);
 		getContentPane().add(lblNome);
 
 		JLabel lblFone = new JLabel("Fone");
@@ -81,15 +81,15 @@ public class frmFornecedores extends JDialog {
 		getContentPane().add(lblFone);
 
 		JLabel lblEmail = new JLabel("E-mail");
-		lblEmail.setBounds(52, 207, 46, 14);
+		lblEmail.setBounds(52, 225, 46, 14);
 		getContentPane().add(lblEmail);
 
 		JLabel lblSite = new JLabel("Site");
-		lblSite.setBounds(52, 257, 46, 14);
+		lblSite.setBounds(52, 299, 46, 14);
 		getContentPane().add(lblSite);
 
 		txtNome = new JTextField();
-		txtNome.setBounds(108, 86, 352, 25);
+		txtNome.setBounds(52, 99, 352, 25);
 		getContentPane().add(txtNome);
 		txtNome.setColumns(10);
 		// validação do número máximo de caracteres
@@ -108,7 +108,7 @@ public class frmFornecedores extends JDialog {
 				link(site);
 			}
 		});
-		btnAcessar.setBounds(489, 253, 89, 23);
+		btnAcessar.setBounds(443, 315, 89, 23);
 		getContentPane().add(btnAcessar);
 		
 		JButton btnBuscar = new JButton("Buscar");
@@ -154,18 +154,18 @@ public class frmFornecedores extends JDialog {
 				
 			}
 		});// Fim CRUD Read ====================================
-		btnBuscar.setBounds(478, 89, 89, 23);
+		btnBuscar.setBounds(476, 100, 89, 23);
 		getContentPane().add(btnBuscar);
 
 		txtFone = new JTextField();
-		txtFone.setBounds(108, 143, 239, 25);
+		txtFone.setBounds(52, 164, 239, 25);
 		getContentPane().add(txtFone);
 		txtFone.setColumns(10);
 		// validação do número máximo de caracteres
-		txtFone.setDocument(new Validador(20));
+		txtFone.setDocument(new Validador(15, "telefone"));
 
 		txtEmail = new JTextField();
-		txtEmail.setBounds(108, 201, 483, 25);
+		txtEmail.setBounds(52, 238, 483, 25);
 		getContentPane().add(txtEmail);
 		txtEmail.setColumns(10);
 		// validação do número máximo de caracteres
@@ -173,7 +173,7 @@ public class frmFornecedores extends JDialog {
 
 		txtSite = new JTextField();
 		txtSite.setColumns(10);
-		txtSite.setBounds(108, 252, 368, 25);
+		txtSite.setBounds(52, 314, 368, 25);
 		getContentPane().add(txtSite);
 		txtSite.setDocument(new Validador(200));
 
@@ -342,12 +342,12 @@ public class frmFornecedores extends JDialog {
 		getContentPane().add(btnLimpar);
 		
 		JLabel lblID = new JLabel("ID");
-		lblID.setBounds(52, 46, 46, 14);
+		lblID.setBounds(52, 24, 46, 14);
 		getContentPane().add(lblID);
 
 		txtID = new JTextField();
 		txtID.setEnabled(false);
-		txtID.setBounds(108, 43, 86, 20);
+		txtID.setBounds(52, 38, 86, 20);
 		getContentPane().add(txtID);
 		txtID.setColumns(10);
 
