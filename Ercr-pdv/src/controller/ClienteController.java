@@ -143,7 +143,7 @@ public class ClienteController {
 					set nome = ?,
 					cpf = ?,
 					fone = ?,
-					email = ?
+					email = ?,
 					endereco = ?, 
 					numeroEndereco = ?,
 					complemento = ?, 

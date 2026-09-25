@@ -19,6 +19,7 @@ import controller.ClienteController;
 import model.Cliente;
 import utils.Validador;
 import utils.ValidadorCpf;
+import javax.swing.DefaultComboBoxModel;
 
 public class frmClientes extends JDialog {
 
@@ -176,6 +177,7 @@ public class frmClientes extends JDialog {
 		txtNumeroEndereco.setDocument(new Validador(5, "inteiro"));
 		
 		cBoxComplemento = new JComboBox();
+		cBoxComplemento.setModel(new DefaultComboBoxModel(new String[] {"Nenhum", "Apto", "Bloco", "Casa", "Andar", "Fundos"}));
 		cBoxComplemento.setBounds(593, 245, 131, 25);
 		getContentPane().add(cBoxComplemento);
 		
@@ -198,6 +200,7 @@ public class frmClientes extends JDialog {
 		txtCep.setDocument(new Validador(9));
 		
 		cBoxUF = new JComboBox();
+		cBoxUF.setModel(new DefaultComboBoxModel(new String[] {"SP", "AC ", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE ", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"}));
 		cBoxUF.setBounds(33, 365, 69, 25);
 		getContentPane().add(cBoxUF);
 		
@@ -233,6 +236,8 @@ public class frmClientes extends JDialog {
 					try {
 						
 						int NumeroEndereco = Integer.parseInt(txtNumeroEndereco.getText());
+						String complementoSelecionado = (String) cBoxComplemento.getSelectedItem();
+						String ufSelecionado = (String) cBoxUF.getSelectedItem();
 						// CRUD create
 						// transferir os dados da tela para o objeto
 						cliente.setNome(txtNome.getText());
@@ -241,8 +246,10 @@ public class frmClientes extends JDialog {
 						cliente.setEmail(txtEmail.getText());
 						cliente.setEndereco(txtEndereco.getText());
 						cliente.setNumeroEndereco(NumeroEndereco);
+						cliente.setComplemento(complementoSelecionado);
 						cliente.setBairro(txtBairro.getText());
 						cliente.setCidade(txtCidade.getText());
+						cliente.setUf(ufSelecionado);
 						cliente.setCep(txtCep.getText());
 						cliente.setReferencia(txtReferencia.getText());
 						
@@ -279,11 +286,17 @@ public class frmClientes extends JDialog {
 		// ==================================
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				int NumeroEndereco = Integer.parseInt(txtNumeroEndereco.getText());
+				String complementoSelecionado = (String) cBoxComplemento.getSelectedItem();
+				String ufSelecionado = (String) cBoxUF.getSelectedItem();
+				
 				if (txtNome.getText().isBlank()) {
 					JOptionPane.showMessageDialog(null, "Preencha o nome do cliente");
 					txtNome.requestFocus();
-				} else if (txtFone.getText().isBlank()) {
+				}else if (txtCpf.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null,  "Preencha o número de CPF");
+					txtCpf.requestFocus();
+				}else if (txtFone.getText().isBlank()) {
 					JOptionPane.showMessageDialog(null, "Preencha o telefone do cliente");
 					txtFone.requestFocus();
 				} else {
@@ -291,8 +304,17 @@ public class frmClientes extends JDialog {
 					// transferir os dados da tela para o model
 					cliente.setIdClientes(Integer.parseInt(txtID.getText()));
 					cliente.setNome(txtNome.getText());
+					cliente.setCpf(txtCpf.getText());
 					cliente.setFone(txtFone.getText());
 					cliente.setEmail(txtEmail.getText());
+					cliente.setEndereco(txtEndereco.getText());
+					cliente.setNumeroEndereco(NumeroEndereco);
+					cliente.setComplemento(complementoSelecionado);
+					cliente.setBairro(txtBairro.getText());
+					cliente.setCidade(txtCidade.getText());
+					cliente.setUf(ufSelecionado);
+					cliente.setCep(txtCep.getText());
+					cliente.setReferencia(txtReferencia.getText());
 
 					// enviar o objeto pora o controller
 					controller.editarCliente(cliente);
@@ -336,7 +358,7 @@ public class frmClientes extends JDialog {
 						// limpar campos
 						limparCampos();
 						// mensagem para o usuario
-						JOptionPane.showMessageDialog(null, "Fornecedor excluido com sucesso");
+						JOptionPane.showMessageDialog(null, "Cliente excluido com sucesso");
 					}
 				}
 
@@ -460,7 +482,7 @@ public class frmClientes extends JDialog {
 		txtNome.requestFocus(); // posicionar o cursor no nome
 		btnAdd.setEnabled(true);
 	}
-
+	
 	// =================================================
 	// função(método) para abrir um link no navegador===
 	// =================================================
