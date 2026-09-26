@@ -370,11 +370,11 @@ public class ProdutosController {
 					PdfPCell cellQtde;
 					if (quantidade == 0) {
 						cellQtde = new PdfPCell(new Paragraph(quantidade + " ( Zerado ) ", fonteAlertaBranca));
-						cellQtde.setBackgroundColor(corAlertaEstoque);
+						cellQtde.setBackgroundColor(corEstoqueZerado);
 						
 					} else if (quantidade <= estoqueMin) {
 						cellQtde = new PdfPCell(new Paragraph(quantidade + " ( Repor ) ", fonteAlertaEscura));
-						cellQtde.setBackgroundColor(corEstoqueZerado);
+						cellQtde.setBackgroundColor(corAlertaEstoque);
 					}else {
 						cellQtde = new PdfPCell(new Paragraph(String.valueOf(quantidade),fonteNormal));
 					}
@@ -403,4 +403,80 @@ public class ProdutosController {
 				System.out.println(e);
 			}
 		}
+		
+		//======================================
+		//=================Dashboard============
+		//======================================
+		
+		//Card quantidade total de produtos=====
+		
+		public int contarProdutos() {
+			try {
+				// comando sql
+				String sql = """
+						select count(*) as total from produtos
+						""";
+				
+				// Abrir a conexão com o banco
+				Connection con = database.conectar();
+				//Pereparar a conexão
+				PreparedStatement stmt = con.prepareStatement(sql);
+				//executar o comando e obeter o resultado do banco
+				ResultSet rs = stmt.executeQuery();
+				
+				int total = 0;
+				if (rs.next()) {
+					total = rs.getInt("total");
+				}
+				
+				//Encerrar as conexões os recursos jdbc
+				rs.close();
+				stmt.close();
+				con.close();
+				
+				//retornar o total
+				return total;
+			} catch (Exception e) {
+				System.out.println(e);
+				return 0;
+			}
+		}
+		//======================================
+		
+		//Card Produtos com estoque minimo=====
+		
+		public int contarEstoqueAbaixo() {
+			try {
+				// comando sql
+				String sql = """
+						select   count(*) as total 	
+						from produtos
+						where quantidade <= estoqueMin and quantidade != 0
+						""";
+				
+				// Abrir a conexão com o banco
+				Connection con = database.conectar();
+				//Pereparar a conexão
+				PreparedStatement stmt = con.prepareStatement(sql);
+				//executar o comando e obeter o resultado do banco
+				ResultSet rs = stmt.executeQuery();
+				
+				int total = 0;
+				if (rs.next()) {
+					total = rs.getInt("total");
+				}
+				
+				//Encerrar as conexões os recursos jdbc
+				rs.close();
+				stmt.close();
+				con.close();
+				
+				//retornar o total
+				return total;
+			} catch (Exception e) {
+				System.out.println(e);
+				return 0;
+			}
+		}
+		//======================================
 }

@@ -1,29 +1,26 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
+import java.awt.Cursor;
+import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EtchedBorder;
-import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.awt.event.ActionEvent;
-import java.awt.Cursor;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import com.formdev.flatlaf.FlatLightLaf;
+
+import controller.ProdutosController;
 //IMPORTAR A CLASSE DATABASE DO PACOTE DATABASE
 import database.Database;
 
@@ -37,8 +34,16 @@ public class Main extends JFrame {
 
 	// Criação de um objeto para lidar com a conexão
 	Database db = new Database();
+	
+	//Criação de um objeto para acessar o controller e atualizar o dashboard
+	ProdutosController controllerProduto = new ProdutosController();
+	
 	private JLabel lblConect;
 	private JLabel lblMysql;
+	private JLabel lblValuecart1;
+	private JLabel lblValuecart2;
+	
+	
 	
 	/**
 	 * Launch the application.
@@ -140,6 +145,10 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				frmProdutos produto = new frmProdutos();
 				produto.setVisible(true);
+				// atualizar o dashboard depois que a janela produtos for fechada ( no JDialog quando ativamos o (modal true)
+				// o java "espera" o fechamento da janela para encerrar o fechamento
+				atualizarDashboard();
+				
 			}
 		});
 		btnProdutos.setIconTextGap(12);
@@ -268,11 +277,18 @@ public class Main extends JFrame {
 		lblTxtProduto.setBounds(77, 23, 64, 14);
 		panelCard1.add(lblTxtProduto);
 		
-		JLabel lblValuecart1 = new JLabel("4");
+		lblValuecart1 = new JLabel("4");
 		lblValuecart1.setForeground(new Color(43, 101, 243));
 		lblValuecart1.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 30));
 		lblValuecart1.setBounds(77, 43, 32, 32);
 		panelCard1.add(lblValuecart1);
+		
+		JLabel lblCartTotalProduto = new JLabel("Total de Produtos cadastrados");
+		lblCartTotalProduto.setForeground(new Color(43, 101, 243));
+		lblCartTotalProduto.setBackground(new Color(43, 101, 243));
+		lblCartTotalProduto.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblCartTotalProduto.setBounds(20, 86, 179, 21);
+		panelCard1.add(lblCartTotalProduto);
 		
 		JPanel panelCard2 = new JPanel();
 		panelCard2.setBackground(Color.WHITE);
@@ -292,11 +308,23 @@ public class Main extends JFrame {
 		lblTxtLowEstoque.setBounds(77, 23, 86, 14);
 		panelCard2.add(lblTxtLowEstoque);
 		
-		JLabel lblValuecart2 = new JLabel("1");
+		lblValuecart2 = new JLabel("1");
 		lblValuecart2.setForeground(new Color(253, 129, 32));
 		lblValuecart2.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 30));
 		lblValuecart2.setBounds(77, 43, 32, 32);
 		panelCard2.add(lblValuecart2);
+		
+		JLabel lblCartRepor = new JLabel("Produto com Estoque");
+		lblCartRepor.setForeground(new Color(253, 129, 32));
+		lblCartRepor.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblCartRepor.setBounds(20, 86, 134, 14);
+		panelCard2.add(lblCartRepor);
+		
+		JLabel lblCartRepor2 = new JLabel("Abaixo do Minímo");
+		lblCartRepor2.setForeground(new Color(253, 129, 32));
+		lblCartRepor2.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblCartRepor2.setBounds(20, 98, 134, 14);
+		panelCard2.add(lblCartRepor2);
 		
 		JPanel panelCard3 = new JPanel();
 		panelCard3.setBackground(Color.WHITE);
@@ -442,6 +470,8 @@ public class Main extends JFrame {
 			lblConect.setForeground(Color.red);
 		}
 		
+		//atualizar o dashboard
+		atualizarDashboard();
 		
 	} //Fim do construtor
 	
@@ -453,5 +483,16 @@ public class Main extends JFrame {
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		// Alterar o texto de lblData
 		lblData.setText(hoje.format(formato));
+	}
+	
+	//Método para atualizar o dashboard
+	private void atualizarDashboard() {
+		//Card quantidade de produtos
+		int totalProdutos = controllerProduto.contarProdutos();
+		lblValuecart1.setText(String.valueOf(totalProdutos));
+		
+		//Card produtos com estoque baixo
+		int estoqueBaixo = controllerProduto.contarEstoqueAbaixo();
+		lblValuecart2.setText(String.valueOf(estoqueBaixo));
 	}
 } // Fim da classe Main(principal)
