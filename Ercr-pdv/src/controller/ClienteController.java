@@ -13,7 +13,9 @@ import java.time.format.DateTimeFormatter;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
+import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -224,8 +226,8 @@ public class ClienteController {
 		try {
 			
 			String sql = """
-					select idClientes, nome, cpf, fone, email, endereco, numeroEndereco,
-					complemento, bairro, cidade, uf, cep, referencia
+					select nome, cpf, fone, endereco, numeroEndereco,
+					complemento, bairro, cidade, uf, cep
 					from clientes order by nome
 					""" ;
 			
@@ -240,7 +242,7 @@ public class ClienteController {
 			
 			//nome do arquivo
 			// Atenção importar da biblioteca com.lowagie.text
-			Document documento = new Document();
+			Document documento = new Document(PageSize.A4.rotate());
 			
 			// nome do aqrquivo pdf
 			String caminho = "relatorio_clientes.pdf";
@@ -289,29 +291,47 @@ public class ClienteController {
 			//Tabela inicio --------
 			
 			//criar a tabela com 3 colunas
-			PdfPTable tabela = new PdfPTable(3);
+			PdfPTable tabela = new PdfPTable(10);
 			
 			//definir largura das colunas
 			tabela.setWidths(new float[] {
-				2.5f, 2.0f, 3.0f
+				3.0f, 2.2f, 2.2f, 3.8f, 1.3f, 2.2f, 2.8f, 2.3f, 1.2f, 2.2f
 			});
 			
 			// ocupar toda a largura disponivel
 			tabela.setWidthPercentage(100);
 			
-			//cabeçalho da tabela
-			tabela.addCell("Nome");
-			tabela.addCell("Fone");
-			tabela.addCell("E-mail");
+			// fonte do cabeçalho ta tabela cliente
+			java.awt.Color corCabecalho = new java.awt.Color(45, 62, 80);
+			Font fonteCabecalho = new Font(Font.HELVETICA, 9, Font.BOLD, java.awt.Color.WHITE); 
+			String[] colunas = {"Nome", " CPF", "Telefone", "Endereço", "№", "Complemento", "Bairro", "Cidade", "UF", "CEP"};
+			for (String nomeColuna: colunas) {
+				PdfPCell cellHeader = new PdfPCell(new Paragraph(nomeColuna, fonteCabecalho));
+				cellHeader.setBackgroundColor(corCabecalho);
+				cellHeader.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cellHeader.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+				cellHeader.setPadding(5f); //espaçamento interno
+				tabela.addCell(cellHeader);
+			}
+			
+			// fonte dos dados
+			Font fonteNormal = new Font(Font.HELVETICA, 9, Font.NORMAL);
 			
 			//dados do cliente
 			int quantidade = 0; //variavel de apoio
 			
 			//enquanto existir clientes, adiconar a tabela
 			while (rs.next()) {
-				tabela.addCell(rs.getString("nome"));
-				tabela.addCell(rs.getString("fone"));
-				tabela.addCell(rs.getString("email"));
+				tabela.addCell(new Paragraph((rs.getString("nome")),fonteNormal));
+				tabela.addCell(new Paragraph((rs.getString("cpf")),fonteNormal));
+				tabela.addCell(new Paragraph((rs.getString("fone")),fonteNormal));
+				tabela.addCell(new Paragraph((rs.getString("endereco")),fonteNormal));
+				tabela.addCell(new Paragraph((rs.getString("numeroEndereco")),fonteNormal));
+				tabela.addCell(new Paragraph((rs.getString("complemento")),fonteNormal));
+				tabela.addCell(new Paragraph((rs.getString("bairro")),fonteNormal));
+				tabela.addCell(new Paragraph((rs.getString("cidade")),fonteNormal));
+				tabela.addCell(new Paragraph((rs.getString("uf")),fonteNormal));
+				tabela.addCell(new Paragraph((rs.getString("cep")),fonteNormal));
 				//somar a quantidade, atribuindo a variavel
 				quantidade++;
 			}			
@@ -326,7 +346,7 @@ public class ClienteController {
 			//total de clientes
 			Font fonteTotal = new Font(
 				Font.HELVETICA,
-				10,
+				9,
 				Font.BOLD
 			);
 			
