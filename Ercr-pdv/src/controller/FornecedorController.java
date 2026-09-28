@@ -15,6 +15,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -258,27 +259,36 @@ public class FornecedorController {
 			
 			//definir largura das colunas
 			tabela.setWidths(new float[] {
-				2.5f, 2.0f, 3.0f, 4.0f	
+				2.5f, 2.0f, 3.5f, 4.0f	
 			});
 			
 			// ocupar toda a largura disponivel
 			tabela.setWidthPercentage(100);
 			
-			//cabeçalho da tabela
-			tabela.addCell("Nome");
-			tabela.addCell("Fone");
-			tabela.addCell("E-mail");
-			tabela.addCell("Site");
+			java.awt.Color corCabecalho = new java.awt.Color(45, 62, 80);
+			Font fonteCabecalho = new Font(Font.HELVETICA, 9, Font.BOLD, java.awt.Color.WHITE); 
+			String[] colunas = {"Nome", "Telefone", "Email", "Site"};
+			for (String nomeColuna: colunas) {
+				PdfPCell cellHeader = new PdfPCell(new Paragraph(nomeColuna, fonteCabecalho));
+				cellHeader.setBackgroundColor(corCabecalho);
+				cellHeader.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cellHeader.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+				cellHeader.setPadding(5f); //espaçamento interno
+				tabela.addCell(cellHeader);
+			}
 			
 			//dados do fornecedor
 			int quantidade = 0; //variavel de apoio
 			
+			// fonte dos dados
+			Font fonteNormal = new Font(Font.HELVETICA, 9, Font.NORMAL);
+			
 			//enquanto existir fornecedores, adiconar a tabela
 			while (rs.next()) {
-				tabela.addCell(rs.getString("nome"));
-				tabela.addCell(rs.getString("fone"));
-				tabela.addCell(rs.getString("email"));
-				tabela.addCell(rs.getString("site"));
+				tabela.addCell(new Paragraph((rs.getString("nome")), fonteNormal));
+				tabela.addCell(new Paragraph((rs.getString("fone")), fonteNormal));
+				tabela.addCell(new Paragraph((rs.getString("email")), fonteNormal));
+				tabela.addCell(new Paragraph((rs.getString("site")), fonteNormal));
 				//somar a quantidade, atribuindo a variavel
 				quantidade++;
 			}			

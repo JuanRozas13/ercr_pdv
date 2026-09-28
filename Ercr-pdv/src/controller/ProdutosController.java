@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
@@ -43,10 +44,10 @@ public class ProdutosController {
 			try {
 				String sql = """
 						insert into produtos(
-						codigoBarras, descricao,
+						codigoBarras, nomeProduto, descricaoProduto,
 						categoria, precoCusto, precoVenda, 
 						quantidade, estoqueMin, idFornecedor)
-						values(?,?,?,?,?,?,?,?)
+						values(?,?,?,?,?,?,?,?,? )
 						""";
 				
 				// abrir coxão com o banco (passo 2)
@@ -68,13 +69,14 @@ public class ProdutosController {
 					stmt.setString(1, produto.getCodigoBarras());
 				}
 				
-				stmt.setString(2, produto.getDescricao());
-				stmt.setString(3, produto.getCategoria());
-				stmt.setDouble(4, produto.getPrecoCusto());
-				stmt.setDouble(5, produto.getPrecoVenda());
-				stmt.setInt(6, produto.getQuantidade());
-				stmt.setInt(7, produto.getEstoqueMin());
-				stmt.setInt(8, produto.getIdFornecedor());
+				stmt.setString(2, produto.getNomeProduto());
+				stmt.setString(3, produto.getDescricaoProduto());
+				stmt.setString(4, produto.getCategoria());
+				stmt.setDouble(5, produto.getPrecoCusto());
+				stmt.setDouble(6, produto.getPrecoVenda());
+				stmt.setInt(7, produto.getQuantidade());
+				stmt.setInt(8, produto.getEstoqueMin());
+				stmt.setInt(9, produto.getIdFornecedor());
 				stmt.executeUpdate();
 				
 				// fechar a coxão (passo 4)
@@ -97,10 +99,10 @@ public class ProdutosController {
 		public Produto buscar(String nome) {
 			try {
 				String sql = """
-						select idProduto, codigoBarras, descricao, categoria, precoCusto,
+						select idProduto, codigoBarras, nomeProduto, descricaoProduto, categoria, precoCusto,
 						precoVenda, quantidade, estoqueMin, idFornecedor
 						from produtos
-						where descricao like ?
+						where nomeProduto like ?
 						""";
 				// Iniciar um objeto fornecedor como nulo
 				Produto produto = null;
@@ -121,7 +123,8 @@ public class ProdutosController {
 					produto = new Produto();
 					produto.setIdProduto(rs.getInt("idProduto"));
 					produto.setCodigoBarras(rs.getString("codigoBarras"));
-					produto.setDescricao(rs.getString("descricao"));
+					produto.setNomeProduto(rs.getString("nomeProduto"));
+					produto.setDescricaoProduto(rs.getString("descricaoProduto"));
 					produto.setCategoria(rs.getString("categoria"));
 					produto.setPrecoCusto(rs.getDouble("precoCusto"));
 					produto.setPrecoVenda(rs.getDouble("precoVenda"));
@@ -151,7 +154,7 @@ public class ProdutosController {
 			try {
 				String sql = """
 						 update produtos
-						 set codigoBarras = ?, descricao = ?, categoria = ?, precoCusto = ?,
+						 set codigoBarras = ?, nomeProduto = ?, descricaoProduto = ?, categoria = ?, precoCusto = ?,
 						 precoVenda = ?, quantidade = ?, estoqueMin = ?
 						 where idProduto = ?
 						""";
@@ -163,13 +166,14 @@ public class ProdutosController {
 				
 				//Obter os dados do fornecedor (Model)
 				stmt.setString(1, produto.getCodigoBarras());
-				stmt.setString(2, produto.getDescricao());
-				stmt.setString(3, produto.getCategoria());
-				stmt.setDouble(4, produto.getPrecoCusto());
-				stmt.setDouble(5, produto.getPrecoVenda());
-				stmt.setInt(6, produto.getQuantidade());
-				stmt.setInt(7, produto.getEstoqueMin());
-				stmt.setInt(8, produto.getIdProduto());
+				stmt.setString(2, produto.getNomeProduto());
+				stmt.setString(3, produto.getDescricaoProduto());
+				stmt.setString(4, produto.getCategoria());
+				stmt.setDouble(5, produto.getPrecoCusto());
+				stmt.setDouble(6, produto.getPrecoVenda());
+				stmt.setInt(7, produto.getQuantidade());
+				stmt.setInt(8, produto.getEstoqueMin());
+				stmt.setInt(9, produto.getIdProduto());
 				
 				
 				//executa a atualização no banco
@@ -192,7 +196,8 @@ public class ProdutosController {
 		public Produto buscarCodigoBarras(String codigoBarras) {
 			try {
 				String sql = """
-						select idProduto, descricao, categoria, precoCusto, precoVenda, quantidade, estoqueMin, idFornecedor
+						select idProduto, nomeProduto, descricaoProduto, categoria, 
+						precoCusto, precoVenda, quantidade, estoqueMin, idFornecedor
 						from produtos
 						where codigoBarras = ?
 						""";
@@ -215,7 +220,8 @@ public class ProdutosController {
 					//setar o model
 					produto = new Produto();
 					produto.setIdProduto(rs.getInt("idProduto"));
-					produto.setDescricao(rs.getString("descricao"));
+					produto.setNomeProduto(rs.getString("nomeProduto"));
+					produto.setDescricaoProduto(rs.getString("descricaoProduto"));
 					produto.setCategoria(rs.getString("categoria"));
 					produto.setPrecoCusto(rs.getDouble("precoCusto"));
 					produto.setPrecoVenda(rs.getDouble("precoVenda"));
@@ -275,7 +281,8 @@ public class ProdutosController {
 				String sql = """
 					select	
 						p.codigoBarras,
-						p.descricao,
+						p.nomeProduto,
+						p.descricaoProduto,
 					    p.categoria,
 					    f.nome as fornecedor,
 					    p.precoCusto,
@@ -284,7 +291,7 @@ public class ProdutosController {
 					    p.estoqueMin
 					from produtos p 
 					right join fornecedores f on p.idFornecedor = f.idFornecedor
-					order by descricao
+					order by nomeProduto
 					""";
 				
 				//abrir conexão com o banco 
@@ -325,58 +332,73 @@ public class ProdutosController {
 				documento.add(new Paragraph(" "));
 				
 				// tabela ajustada para 8 colunas
-				PdfPTable tabela = new PdfPTable(8);
+				PdfPTable tabela = new PdfPTable(9);
 				
 				// ajustar larguras das colunas 
-				tabela.setWidths(new float[] { 2.2f, 3.5f, 2.3f, 3.0f, 1.8f, 1.8f, 2.0f, 1.8f});
+				tabela.setWidths(new float[] { 2.2f, 3.0f, 3.5f, 2.3f, 2.5f, 1.8f, 1.8f, 2.0f, 1.8f});
 				tabela.setWidthPercentage(100);
 				
+				// cores de background para identificação rápida
+				java.awt.Color corCabecalho = new java.awt.Color(45, 62, 80);
+				java.awt.Color corEstoqueZerado = new java.awt.Color(220, 53, 69);
+				java.awt.Color corAlertaEstoque = new java.awt.Color(255, 193, 7);
+				
+				//estilo de fontes para os dados e alertas
+				Font fonteNormal = new Font(Font.HELVETICA, 9, Font.NORMAL);
+				Font fonteAlertaBranca = new Font(Font.HELVETICA, 9, Font.BOLD, java.awt.Color.WHITE);
+				Font fonteAlertaEscura = new Font(Font.HELVETICA, 9, Font.BOLD, java.awt.Color.BLACK);
+							
 				//cabeçalho personalizado da tabela
 				Font fonteCabecalho = new Font(Font.HELVETICA, 9, Font.BOLD, java.awt.Color.WHITE);
-				String[] colunas = {"Código de barras", "Descrição", "Categoria", "Fornecedor", "Custo (R$)", "Venda (R$)", "Qtd. Estoque", "Estoque Min"};
+				String[] colunas = {"Código de barras", "Nome Produto", "Descrição Produto", "Categoria", "Fornecedor", "Custo (R$)", "Venda (R$)", "Qtd. Estoque", "Estoque Min"};
 				for (String nomeColuna: colunas) {
 					PdfPCell cellHeader = new PdfPCell(new Paragraph(nomeColuna, fonteCabecalho));
-					cellHeader.setBackgroundColor(java.awt.Color.DARK_GRAY);
+					cellHeader.setBackgroundColor(corCabecalho);
 					cellHeader.setHorizontalAlignment(Element.ALIGN_LEFT);
 					cellHeader.setHorizontalAlignment(Element.ALIGN_MIDDLE);
 					cellHeader.setPadding(5f); //espaçamento interno
 					tabela.addCell(cellHeader);
 				}
 				
-				// cores de background para identificação rápida
-				java.awt.Color corEstoqueZerado = new java.awt.Color(220, 53, 69);
-				java.awt.Color corAlertaEstoque = new java.awt.Color(255, 193, 7);
-				
-				
-				//estilo de fontes para os dados e alertas
-				Font fonteNormal = new Font(Font.HELVETICA, 9, Font.NORMAL);
-				Font fonteAlertaBranca = new Font(Font.HELVETICA, 9, Font.BOLD, java.awt.Color.WHITE);
-				Font fonteAlertaEscura = new Font(Font.HELVETICA, 9, Font.BOLD, java.awt.Color.BLACK);
-				
 				// Dados da tabela
 				while (rs.next()) {
+					tabela.addCell(new Paragraph(rs.getString("codigoBarras"), fonteNormal));
+					tabela.addCell(new Paragraph(rs.getString("nomeProduto"), fonteNormal));
+					tabela.addCell(new Paragraph(rs.getString("descricaoProduto"), fonteNormal));
+					tabela.addCell(new Paragraph(rs.getString("categoria"), fonteNormal));
+					tabela.addCell(new Paragraph(rs.getString("fornecedor"), fonteNormal));
+
+					// Capturar dados para formatar valores monetários
+					double precoCusto = rs.getDouble("precoCusto");
+					double precoVenda = rs.getDouble("precoVenda");
+					
+					String custoFormatado = String.format(Locale.forLanguageTag("pt-BR"), "R$ %.2f", precoCusto);
+					String vendaFormatada = String.format(Locale.forLanguageTag("pt-BR"), "R$ %.2f", precoVenda);
+					
+					//String.format("%.2f") converte para String e formata 2 casas decímal
+					tabela.addCell(new Paragraph(custoFormatado, fonteNormal));
+					tabela.addCell(new Paragraph(vendaFormatada, fonteNormal));
+
 					//Capturar dados para personalizar alertas (variaveis de apoio)
 					int quantidade = rs.getInt("quantidade");
 					int estoqueMin = rs.getInt("estoqueMin");
 					
-					tabela.addCell(new Paragraph(rs.getString("codigoBarras"), fonteNormal));
-					tabela.addCell(new Paragraph(rs.getString("descricao"), fonteNormal));
-					tabela.addCell(new Paragraph(rs.getString("categoria"), fonteNormal));
-					tabela.addCell(new Paragraph(rs.getString("fornecedor"), fonteNormal));
-					//String.format("%.2f") converte para String e formata 2 casas decímal
-					tabela.addCell(new Paragraph(String.format("%.2f",rs.getDouble("precoCusto"),fonteNormal)));
-					tabela.addCell(new Paragraph(String.format("%.2f",rs.getDouble("precoVenda"), fonteNormal)));
 					//logica para mudar a formatação da célula se estoque zerado ou menor que estoque 
 					PdfPCell cellQtde;
 					if (quantidade == 0) {
+						
 						cellQtde = new PdfPCell(new Paragraph(quantidade + " ( Zerado ) ", fonteAlertaBranca));
 						cellQtde.setBackgroundColor(corEstoqueZerado);
 						
 					} else if (quantidade <= estoqueMin) {
+						
 						cellQtde = new PdfPCell(new Paragraph(quantidade + " ( Repor ) ", fonteAlertaEscura));
 						cellQtde.setBackgroundColor(corAlertaEstoque);
+						
 					}else {
+						
 						cellQtde = new PdfPCell(new Paragraph(String.valueOf(quantidade),fonteNormal));
+				
 					}
 					
 					cellQtde.setVerticalAlignment(Element.ALIGN_MIDDLE);

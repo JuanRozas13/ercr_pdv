@@ -3,7 +3,8 @@ package model;
 public class Produto {
 	private int idProduto;
 	private String codigoBarras;
-	private String descricao;
+	private String nomeProduto;
+	private String descricaoProduto;
 	private String categoria;
 	private double precoCusto;
 	private double precoVenda;
@@ -23,11 +24,17 @@ public class Produto {
 	public void setCodigoBarras(String codigoBarras) {
 		this.codigoBarras = codigoBarras;
 	}
-	public String getDescricao() {
-		return descricao;
+	public String getNomeProduto() {
+		return nomeProduto;
 	}
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setNomeProduto(String nomeProduto) {
+		this.nomeProduto = nomeProduto;
+	}
+	public String getDescricaoProduto() {
+		return descricaoProduto;
+	}
+	public void setDescricaoProduto(String decricaoProduto) {
+		this.descricaoProduto = decricaoProduto;
 	}
 	public String getCategoria() {
 		return categoria;

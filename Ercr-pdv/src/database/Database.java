@@ -10,7 +10,7 @@ public class Database {
 //	private String url = "jdbc:mysql://localhost:3306/ercrPdv";
 //	private String user = "dba";
 //	private String password = "Mint2836";
-	private String url = "jdbc:mysql://localhost:3306/eudPdv";
+	private String url = "jdbc:mysql://localhost:3306/eudpdv";
 	private String user = "root";
 	private String password = "";
 	

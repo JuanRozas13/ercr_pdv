@@ -50,6 +50,7 @@ public class frmProdutos extends JDialog {
 	private JTextField txtCategoria;
 	private JComboBox cBoxFornecedor;
 	private JButton btnAdicionarProduto;
+	private JTextField txtDescricaoProduto;
 
 
 
@@ -76,16 +77,16 @@ public class frmProdutos extends JDialog {
 		getContentPane().setBackground(new Color(240, 240, 240));
 		getContentPane().setIgnoreRepaint(true);
 		getContentPane().setForeground(Color.BLACK);
-		setBounds(100, 100, 740, 527);
+		setBounds(100, 100, 683, 453);
 		getContentPane().setLayout(null);
 		
 		JLabel lblIDProduto = new JLabel("ID");
-		lblIDProduto.setBounds(32, 45, 22, 14);
+		lblIDProduto.setBounds(32, 28, 22, 14);
 		getContentPane().add(lblIDProduto);
 		
 		txtIDProduto = new JTextField();
 		txtIDProduto.setEnabled(false);
-		txtIDProduto.setBounds(54, 42, 86, 20);
+		txtIDProduto.setBounds(32, 42, 86, 25);
 		getContentPane().add(txtIDProduto);
 		txtIDProduto.setColumns(10);
 		
@@ -108,7 +109,7 @@ public class frmProdutos extends JDialog {
 					if (produto != null) {
 						//setar os campos do formulário
 						txtIDProduto.setText(String.valueOf(produto.getIdProduto()));
-						txtProduto.setText(produto.getDescricao());
+						txtProduto.setText(produto.getNomeProduto());
 						txtCategoria.setText(produto.getCategoria());
 						txtPrecoCusto.setText(String.valueOf(produto.getPrecoCusto()));
 						txtPrecoVenda.setText(String.valueOf(produto.getPrecoVenda()));
@@ -139,14 +140,14 @@ public class frmProdutos extends JDialog {
 				}
 			}
 		});//=======================================
-		txtBarcode.setBounds(237, 42, 375, 20);
+		txtBarcode.setBounds(203, 42, 375, 25);
 		getContentPane().add(txtBarcode);
 		txtBarcode.setColumns(10);
 		txtBarcode.setDocument(new Validador(20));
 		
 		JLabel lblBarcode = new JLabel("");
 		lblBarcode.setIcon(new ImageIcon(frmProdutos.class.getResource("/img/barcode.png")));
-		lblBarcode.setBounds(632, 28, 64, 45);
+		lblBarcode.setBounds(588, 34, 64, 45);
 		getContentPane().add(lblBarcode);
 		
 		JLabel lblProduto = new JLabel("Produto");
@@ -154,7 +155,7 @@ public class frmProdutos extends JDialog {
 		getContentPane().add(lblProduto);
 		
 		JPanel painelProduto = new JPanel();
-		painelProduto.setBounds(122, 90, 251, 20);
+		painelProduto.setBounds(32, 107, 251, 25);
 		painelProduto.setLayout(new BorderLayout());
 
 		txtProduto = new JTextField();
@@ -183,7 +184,8 @@ public class frmProdutos extends JDialog {
 						// setar os campos do formulário
 						txtIDProduto.setText(String.valueOf(produto.getIdProduto()));
 						txtBarcode.setText(produto.getCodigoBarras());
-						txtProduto.setText(produto.getDescricao());
+						txtProduto.setText(produto.getNomeProduto());
+						txtDescricaoProduto.setText(produto.getDescricaoProduto());
 						txtCategoria.setText(produto.getCategoria());
 						txtIdFornecedor.setText(String.valueOf(produto.getIdFornecedor()));
 						txtPrecoCusto.setText(String.valueOf(produto.getPrecoCusto()));
@@ -211,6 +213,16 @@ public class frmProdutos extends JDialog {
 				}
 			}
 		}); // fim crud read
+		
+		JLabel lblDescricaoProduto = new JLabel("Descrição");
+		lblDescricaoProduto.setBounds(390, 93, 64, 14);
+		getContentPane().add(lblDescricaoProduto);
+		
+		txtDescricaoProduto = new JTextField();
+		txtDescricaoProduto.setBounds(389, 107, 251, 25);
+		getContentPane().add(txtDescricaoProduto);
+		txtDescricaoProduto.setColumns(10);
+		
 		btnBuscarProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnBuscarProduto.setIcon(new ImageIcon(frmProdutos.class.getResource("/img/lupa.png")));
 		btnBuscarProduto.setBorderPainted(false);
@@ -222,11 +234,11 @@ public class frmProdutos extends JDialog {
 		getContentPane().add(painelProduto);
 		
 		JLabel lblCategoria = new JLabel("Categória");
-		lblCategoria.setBounds(422, 93, 64, 14);
+		lblCategoria.setBounds(510, 154, 64, 14);
 		getContentPane().add(lblCategoria);
 		
 		txtCategoria = new JTextField();
-		txtCategoria.setBounds(519, 90, 130, 20);
+		txtCategoria.setBounds(510, 168, 130, 25);
 		getContentPane().add(txtCategoria);
 		txtCategoria.setColumns(10);
 		txtCategoria.setDocument(new Validador(50));
@@ -254,55 +266,55 @@ public class frmProdutos extends JDialog {
 				}
 			}
 		});// Fim
-		cBoxFornecedor.setBounds(122, 150, 251, 22);
+		cBoxFornecedor.setBounds(32, 168, 251, 25);
 		getContentPane().add(cBoxFornecedor);
 		
 		JLabel lblIDFornecedor = new JLabel("ID Fornecedor");
-		lblIDFornecedor.setBounds(422, 154, 87, 14);
+		lblIDFornecedor.setBounds(349, 154, 87, 14);
 		getContentPane().add(lblIDFornecedor);
 		
 		txtIdFornecedor = new JTextField();
 		txtIdFornecedor.setEnabled(false);
-		txtIdFornecedor.setBounds(519, 151, 86, 20);
+		txtIdFornecedor.setBounds(349, 169, 86, 25);
 		getContentPane().add(txtIdFornecedor);
 		txtIdFornecedor.setColumns(10);
 		
 		JLabel lblPrecoCusto = new JLabel("Preço de custo");
-		lblPrecoCusto.setBounds(32, 213, 89, 14);
+		lblPrecoCusto.setBounds(32, 219, 89, 14);
 		getContentPane().add(lblPrecoCusto);
 		
 		txtPrecoCusto = new JTextField();
-		txtPrecoCusto.setBounds(122, 210, 130, 20);
+		txtPrecoCusto.setBounds(32, 233, 130, 25);
 		getContentPane().add(txtPrecoCusto);
 		txtPrecoCusto.setColumns(10);
 		txtPrecoCusto.setDocument(new Validador(10, "decimal"));
 		
 		JLabel lblPrecoVenda = new JLabel("Preço de venda");
-		lblPrecoVenda.setBounds(423, 213, 89, 14);
+		lblPrecoVenda.setBounds(208, 219, 89, 14);
 		getContentPane().add(lblPrecoVenda);
 		
 		txtPrecoVenda = new JTextField();
-		txtPrecoVenda.setBounds(519, 210, 130, 20);
+		txtPrecoVenda.setBounds(203, 233, 130, 25);
 		getContentPane().add(txtPrecoVenda);
 		txtPrecoVenda.setColumns(10);
 		txtPrecoVenda.setDocument(new Validador(10, "decimal"));
 		
 		JLabel lblQuantidade = new JLabel("Quantidade");
-		lblQuantidade.setBounds(32, 279, 70, 14);
+		lblQuantidade.setBounds(359, 219, 70, 14);
 		getContentPane().add(lblQuantidade);
 		
 		txtQuantidade = new JTextField();
-		txtQuantidade.setBounds(122, 276, 130, 20);
+		txtQuantidade.setBounds(359, 233, 130, 25);
 		getContentPane().add(txtQuantidade);
 		txtQuantidade.setColumns(10);
 		txtQuantidade.setDocument(new Validador(5, "inteiro"));
 		
 		JLabel lblEstoqueMin = new JLabel("Estoque Min");
-		lblEstoqueMin.setBounds(422, 279, 77, 14);
+		lblEstoqueMin.setBounds(510, 219, 77, 14);
 		getContentPane().add(lblEstoqueMin);
 		
 		txtEstoqueMin = new JTextField();
-		txtEstoqueMin.setBounds(519, 276, 130, 20);
+		txtEstoqueMin.setBounds(510, 233, 130, 25);
 		getContentPane().add(txtEstoqueMin);
 		txtEstoqueMin.setColumns(10);
 		txtEstoqueMin.setDocument(new Validador(5, "inteiro"));
@@ -322,7 +334,8 @@ public class frmProdutos extends JDialog {
 
 					// Transferir os dados da tela para o objeto
 					produto.setCodigoBarras(txtBarcode.getText());	
-					produto.setDescricao(txtProduto.getText());
+					produto.setNomeProduto(txtProduto.getText());
+					produto.setDescricaoProduto(txtDescricaoProduto.getText());
 					produto.setCategoria(txtCategoria.getText());
 					produto.setPrecoCusto(precoCusto);
 					produto.setPrecoVenda(precoVenda);
@@ -351,7 +364,7 @@ public class frmProdutos extends JDialog {
 		btnAdicionarProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdicionarProduto.setContentAreaFilled(false);
 		btnAdicionarProduto.setIcon(new ImageIcon(frmProdutos.class.getResource("/img/boxadd.png")));
-		btnAdicionarProduto.setBounds(32, 392, 77, 73);
+		btnAdicionarProduto.setBounds(32, 314, 77, 73);
 		getContentPane().add(btnAdicionarProduto);
 		
 		JButton btnEditarProduto = new JButton("");
@@ -386,7 +399,8 @@ public class frmProdutos extends JDialog {
 					// Transferir os dados da tela para o Model
 					produto.setIdProduto(Integer.parseInt(txtIDProduto.getText()));
 					produto.setCodigoBarras(txtBarcode.getText());
-					produto.setDescricao(txtProduto.getText());
+					produto.setNomeProduto(txtProduto.getText());
+					produto.setDescricaoProduto(txtDescricaoProduto.getText());
 					produto.setCategoria(txtCategoria.getText());
 					produto.setIdFornecedor(Integer.parseInt(txtIdFornecedor.getText()));
 					produto.setPrecoCusto(Double.parseDouble(txtPrecoCusto.getText()));
@@ -409,7 +423,7 @@ public class frmProdutos extends JDialog {
 		btnEditarProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEditarProduto.setContentAreaFilled(false);
 		btnEditarProduto.setIcon(new ImageIcon(frmProdutos.class.getResource("/img/boxupdate.png")));
-		btnEditarProduto.setBounds(122, 392, 77, 73);
+		btnEditarProduto.setBounds(122, 314, 77, 73);
 		getContentPane().add(btnEditarProduto);
 		
 		JButton btnExcluirProduto = new JButton("");
@@ -440,7 +454,7 @@ public class frmProdutos extends JDialog {
 		btnExcluirProduto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExcluirProduto.setContentAreaFilled(false);
 		btnExcluirProduto.setIcon(new ImageIcon(frmProdutos.class.getResource("/img/boxdel.png")));
-		btnExcluirProduto.setBounds(209, 392, 77, 73);
+		btnExcluirProduto.setBounds(209, 314, 77, 73);
 		getContentPane().add(btnExcluirProduto);
 		
 		JButton btnRelatorioProduto = new JButton("Relatório");
@@ -455,7 +469,7 @@ public class frmProdutos extends JDialog {
 			}
 		});//=======================================================
 		btnRelatorioProduto.setIcon(null);
-		btnRelatorioProduto.setBounds(296, 402, 89, 33);
+		btnRelatorioProduto.setBounds(296, 324, 89, 33);
 		getContentPane().add(btnRelatorioProduto);
 		
 		JButton btnLimpar = new JButton("Limpar");
@@ -467,7 +481,7 @@ public class frmProdutos extends JDialog {
 		});
 		btnLimpar.setIcon(null);
 		btnLimpar.setToolTipText("Limpar campo");
-		btnLimpar.setBounds(395, 402, 89, 32);
+		btnLimpar.setBounds(395, 324, 89, 32);
 		getContentPane().add(btnLimpar);
 	
 		

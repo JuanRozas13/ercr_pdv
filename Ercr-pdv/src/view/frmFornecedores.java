@@ -73,23 +73,23 @@ public class frmFornecedores extends JDialog {
 		getContentPane().setLayout(null);
 
 		JLabel lblNome = new JLabel("Nome");
-		lblNome.setBounds(52, 85, 46, 14);
+		lblNome.setBounds(52, 89, 46, 14);
 		getContentPane().add(lblNome);
 
 		JLabel lblFone = new JLabel("Fone");
-		lblFone.setBounds(52, 150, 46, 14);
+		lblFone.setBounds(52, 153, 46, 14);
 		getContentPane().add(lblFone);
 
 		JLabel lblEmail = new JLabel("E-mail");
-		lblEmail.setBounds(52, 225, 46, 14);
+		lblEmail.setBounds(52, 218, 46, 14);
 		getContentPane().add(lblEmail);
 
 		JLabel lblSite = new JLabel("Site");
-		lblSite.setBounds(52, 299, 46, 14);
+		lblSite.setBounds(52, 283, 46, 14);
 		getContentPane().add(lblSite);
 
 		txtNome = new JTextField();
-		txtNome.setBounds(52, 99, 352, 25);
+		txtNome.setBounds(52, 102, 352, 25);
 		getContentPane().add(txtNome);
 		txtNome.setColumns(10);
 		// validação do número máximo de caracteres
@@ -108,7 +108,7 @@ public class frmFornecedores extends JDialog {
 				link(site);
 			}
 		});
-		btnAcessar.setBounds(443, 315, 89, 23);
+		btnAcessar.setBounds(446, 298, 89, 23);
 		getContentPane().add(btnAcessar);
 		
 		JButton btnBuscar = new JButton("Buscar");
@@ -158,14 +158,14 @@ public class frmFornecedores extends JDialog {
 		getContentPane().add(btnBuscar);
 
 		txtFone = new JTextField();
-		txtFone.setBounds(52, 164, 239, 25);
+		txtFone.setBounds(52, 167, 239, 25);
 		getContentPane().add(txtFone);
 		txtFone.setColumns(10);
 		// validação do número máximo de caracteres
 		txtFone.setDocument(new Validador(15, "telefone"));
 
 		txtEmail = new JTextField();
-		txtEmail.setBounds(52, 238, 483, 25);
+		txtEmail.setBounds(52, 232, 483, 25);
 		getContentPane().add(txtEmail);
 		txtEmail.setColumns(10);
 		// validação do número máximo de caracteres
@@ -173,7 +173,7 @@ public class frmFornecedores extends JDialog {
 
 		txtSite = new JTextField();
 		txtSite.setColumns(10);
-		txtSite.setBounds(52, 314, 368, 25);
+		txtSite.setBounds(52, 297, 368, 25);
 		getContentPane().add(txtSite);
 		txtSite.setDocument(new Validador(200));
 
@@ -220,7 +220,7 @@ public class frmFornecedores extends JDialog {
 		});
 		// Fim - CRUD Create ====================================
 
-		btnAdicionar.setBounds(51, 342, 64, 64);
+		btnAdicionar.setBounds(52, 354, 64, 64);
 		getContentPane().add(btnAdicionar);
 
 		JButton btnEditar = new JButton("");
@@ -268,7 +268,7 @@ public class frmFornecedores extends JDialog {
 		});
 		// ======================================================
 
-		btnEditar.setBounds(125, 342, 64, 64);
+		btnEditar.setBounds(126, 354, 64, 64);
 		getContentPane().add(btnEditar);
 		JButton btnExcluir = new JButton("");
 		btnExcluir.setToolTipText("Excluir");
@@ -310,7 +310,7 @@ public class frmFornecedores extends JDialog {
 		});
 		// ======================================================
 
-		btnExcluir.setBounds(199, 342, 64, 64);
+		btnExcluir.setBounds(200, 354, 64, 64);
 		getContentPane().add(btnExcluir);
 
 		JButton btnRelatorio = new JButton("Relatório");
@@ -325,7 +325,7 @@ public class frmFornecedores extends JDialog {
 		btnRelatorio.setToolTipText("Relatório");
 		btnRelatorio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRelatorio.setIcon(null);
-		btnRelatorio.setBounds(273, 342, 89, 32);
+		btnRelatorio.setBounds(274, 370, 89, 32);
 		getContentPane().add(btnRelatorio);
 
 		JButton btnLimpar = new JButton("Limpar");
@@ -338,7 +338,7 @@ public class frmFornecedores extends JDialog {
 		});
 		btnLimpar.setIcon(null);
 		btnLimpar.setToolTipText("Limpar campo");
-		btnLimpar.setBounds(372, 342, 89, 32);
+		btnLimpar.setBounds(374, 370, 89, 32);
 		getContentPane().add(btnLimpar);
 		
 		JLabel lblID = new JLabel("ID");
@@ -347,7 +347,7 @@ public class frmFornecedores extends JDialog {
 
 		txtID = new JTextField();
 		txtID.setEnabled(false);
-		txtID.setBounds(52, 38, 86, 20);
+		txtID.setBounds(52, 38, 86, 25);
 		getContentPane().add(txtID);
 		txtID.setColumns(10);
 
