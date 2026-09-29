@@ -501,4 +501,27 @@ public class ProdutosController {
 			}
 		}
 		//======================================
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//resolver
+		//Card Produtos com estoque zerados=====
+		public int contarEstoqueZerado() {
+			try {
+				String sql = """
+						select count(*) as total
+						from produtos
+						where quantidade = estoqueMin 
+						""";
+			} catch (Exception e) {
+				System.out.println(e);
+				return 0;
+			}
+		}
 }
