@@ -42,6 +42,7 @@ public class Main extends JFrame {
 	private JLabel lblMysql;
 	private JLabel lblValuecart1;
 	private JLabel lblValuecart2;
+	private JLabel lblValuecart3;
 	
 	
 	
@@ -283,7 +284,7 @@ public class Main extends JFrame {
 		lblValuecart1.setBounds(77, 43, 32, 32);
 		panelCard1.add(lblValuecart1);
 		
-		JLabel lblCartTotalProduto = new JLabel("Total de Produtos cadastrados");
+		JLabel lblCartTotalProduto = new JLabel("Total de produtos cadastrados");
 		lblCartTotalProduto.setForeground(new Color(43, 101, 243));
 		lblCartTotalProduto.setBackground(new Color(43, 101, 243));
 		lblCartTotalProduto.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -317,13 +318,13 @@ public class Main extends JFrame {
 		JLabel lblCartRepor = new JLabel("Produto com Estoque");
 		lblCartRepor.setForeground(new Color(253, 129, 32));
 		lblCartRepor.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCartRepor.setBounds(20, 86, 134, 14);
+		lblCartRepor.setBounds(29, 86, 134, 14);
 		panelCard2.add(lblCartRepor);
 		
 		JLabel lblCartRepor2 = new JLabel("Abaixo do Minímo");
 		lblCartRepor2.setForeground(new Color(253, 129, 32));
 		lblCartRepor2.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCartRepor2.setBounds(20, 98, 134, 14);
+		lblCartRepor2.setBounds(29, 99, 134, 14);
 		panelCard2.add(lblCartRepor2);
 		
 		JPanel panelCard3 = new JPanel();
@@ -344,11 +345,17 @@ public class Main extends JFrame {
 		lblTxtSemEstoque.setBounds(77, 23, 86, 14);
 		panelCard3.add(lblTxtSemEstoque);
 		
-		JLabel lblValuecart3 = new JLabel("1");
+		lblValuecart3 = new JLabel("1");
 		lblValuecart3.setForeground(new Color(243, 59, 58));
 		lblValuecart3.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 30));
 		lblValuecart3.setBounds(77, 43, 32, 32);
 		panelCard3.add(lblValuecart3);
+		
+		JLabel lblCartZerado = new JLabel("Produto sem estoque");
+		lblCartZerado.setForeground(new Color(243, 59, 58));
+		lblCartZerado.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblCartZerado.setBounds(20, 84, 134, 14);
+		panelCard3.add(lblCartZerado);
 		
 		JPanel panelCard4 = new JPanel();
 		panelCard4.setBackground(Color.WHITE);
@@ -494,5 +501,10 @@ public class Main extends JFrame {
 		//Card produtos com estoque baixo
 		int estoqueBaixo = controllerProduto.contarEstoqueAbaixo();
 		lblValuecart2.setText(String.valueOf(estoqueBaixo));
+		
+		//resolver
+		//Card produtos sem estoque
+		int estoqueZerado = controllerProduto.contarEstoqueZerado();
+		lblValuecart3.setText(String.valueOf(estoqueZerado));
 	}
 } // Fim da classe Main(principal)
