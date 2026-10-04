@@ -517,8 +517,29 @@ public class ProdutosController {
 				String sql = """
 						select count(*) as total
 						from produtos
-						where quantidade = estoqueMin 
+						where quantidade = 0 
 						""";
+				
+				// Abrir a conexão com o banco
+				Connection con = database.conectar();
+				//Pereparar a conexão
+				PreparedStatement stmt = con.prepareStatement(sql);
+				//executar o comando e obeter o resultado do banco
+				ResultSet rs = stmt.executeQuery();
+				
+				int total = 0;
+				if (rs.next()) {
+					total = rs.getInt("total");
+				}
+				
+				//Encerrar as conexões os recursos jdbc
+				rs.close();
+				stmt.close();
+				con.close();
+				
+				//retornar total
+				return total;
+					
 			} catch (Exception e) {
 				System.out.println(e);
 				return 0;
